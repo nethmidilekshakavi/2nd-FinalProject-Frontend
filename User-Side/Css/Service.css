@@ -1,0 +1,140 @@
+/* Main Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Section Header Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0px;
+}
+
+.section-heading {
+    font-size: 42px;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 20px;
+}
+
+.section-description {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Services Grid Layout */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Service Card Styles */
+.service-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 40px 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Service Icon Styles */
+.service-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    fill: #FFA000; /* Gold color for icons */
+}
+
+/* Service Title Styles */
+.service-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a237e; /* Deep blue */
+    margin-bottom: 15px;
+}
+
+/* Service Description Styles */
+.service-description {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* Learn More Link Styles */
+.learn-more {
+    display: inline-block;
+    color: #8e24aa; /* Purple */
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    padding-right: 20px;
+    transition: color 0.3s ease;
+}
+
+.learn-more:hover {
+    color: #6a1b9a; /* Darker purple on hover */
+}
+
+.learn-more::after {
+    content: "→";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+.learn-more:hover::after {
+    transform: translate(5px, -50%);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .section-heading {
+        font-size: 32px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        padding: 30px 20px;
+    }
+}
