@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shuttle - Bus Charter Service</title>
+
     <link rel="stylesheet" href="Css/NavBar.css">
     <link rel="stylesheet" href="Css/home.css">
     <link rel="stylesheet" href="Css/aboutUs.css">
+    <link rel="stylesheet" href="Css/Service.css">
 
     <style>
         body{
            overflow-x: hidden;
             overflow-y: scroll;
+            background-color: #f4f6f9;
         }
         html {
             scroll-behavior: smooth;
@@ -349,17 +352,10 @@
             <h1 class="page-title">About Us</h1>
             <p class="page-subtitle">Experience comfort and reliability with our premium bus services</p>
 
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb custom-breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">HOME</a></li>
-                    <li class="breadcrumb-item active">ABOUT US</li>
-                </ol>
-            </nav>
+
         </div>
     </section>
 
-    <!-- Stats Section -->
     <section class="stats-section">
         <div class="container">
             <div class="row">
@@ -480,16 +476,17 @@
         </div>
     </section>
 
-    <div class="container1">
+    <div class="container">
         <div class="hero-section">
             <div class="image-gallery">
-                <img src="image/AboutUs/488ae948c78ad0a68d950504bbbf5726.jpg" alt="Yellow school bus" class="gallery-image">
-                <img src="image/AboutUs/bed95f67a0643a9dcd08b39554c52f0e.jpg" alt="Fleet of buses" class="gallery-image">
-                <img src="image/AboutUs/e85d40866e126d5c5497b9f082213f1c.jpg" alt="Yellow school bus" class="gallery-image">
-                <img src="image/AboutUs/e622bc2215510f67563ab637bae9abee.jpg" alt="Bus window detail" class="gallery-image">
-
+                <img src="image/488ae948c78ad0a68d950504bbbf5726.jpg" alt="Yellow school bus" class="gallery-image">
+                <img src="image/bed95f67a0643a9dcd08b39554c52f0e.jpg" alt="Fleet of buses" class="gallery-image">
+                <img src="image/e622bc2215510f67563ab637bae9abee.jpg" alt="Yellow school bus" class="gallery-image">
+                <img src="image/e85d40866e126d5c5497b9f082213f1c.jpg" alt="Bus window detail" class="gallery-image">
 
             </div>
+
+
 
             <div class="content-section">
                 <div class="vehicle-tabs">
@@ -785,19 +782,10 @@
 </section>
 
 <section id="service">
-
     <section class="hero">
         <div class="container">
             <h1 class="page-title">Our Services</h1>
-            <!-- <p class="page-subtitle">Experience comfort and reliability with our premium bus services</p>-->
-
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb custom-breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">HOME</a></li>
-                    <li class="breadcrumb-item active">SERVICES</li>
-                </ol>
-            </nav>
+            <p class="page-subtitle">Experience comfort and reliability with our premium bus services</p>
         </div>
     </section>
 
@@ -843,16 +831,11 @@
             </div>
         </div>
     </section>
-
 </section>
 
-<section id="test">
 
-    <h1>Test</h1>
 
-</section>
-
-    <script>
+<script>
         document.addEventListener("DOMContentLoaded", function() {
         const sections = document.querySelectorAll("section");
         const navLinks = document.querySelectorAll(".nav-links a");
@@ -880,12 +863,9 @@
         navigate();
     });
 </script>
-
-
-
 <script>
     // JavaScript for enhancing interactivity
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded1', function () {
         // Add click event to all view detail buttons
         const viewButtons = document.querySelectorAll('.view-button');
         viewButtons.forEach(button => {
@@ -908,7 +888,7 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded2', function() {
         // Get all step cards
         const stepCards = document.querySelectorAll('.step-card');
 
@@ -953,6 +933,25 @@
         revealOnScroll();
         window.addEventListener('scroll', revealOnScroll);
     });
+</script>
+<script>
+    function showTab(vehicleType) {
+        // Hide all tab contents
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Deactivate all tabs
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Activate the selected tab and content
+        document.getElementById(`${vehicleType}-content`).classList.add('active');
+        document.querySelector(`.tab:nth-child(${vehicleType === 'bus' ? 1 : vehicleType === 'van' ? 2 : 3})`).classList.add('active');
+    }
 </script>
 </body>
 </html>

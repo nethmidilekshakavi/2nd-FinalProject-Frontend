@@ -3,15 +3,18 @@ body {
     background-color: #f4f6f9;
 }
 
-
-
 /* Hero Section */
 .hero {
     background: #EFB036;
     padding: 100px 0 50px;
     position: relative;
     overflow: hidden;
+    margin-top: 50px;
     height: 250px;
+}
+
+.container1::after {
+ display: none;
 }
 
 .hero::before {
@@ -24,18 +27,19 @@ body {
     background: rgba(255, 255, 255, 0.05);
     transform: skewX(-20deg);
 }
-
 .page-title {
     color: white;
     font-size: 3.5rem;
     font-weight: 700;
     margin-bottom: 20px;
+    margin-right: 100px;
 }
 
 .page-subtitle {
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.2rem;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
+    margin-right: 150px;
 }
 
 /* Custom Breadcrumb */
