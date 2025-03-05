@@ -82,7 +82,7 @@ body{
 #leftimg {
     right: -50%;
     margin-top: 15%; /* Adjust the top margin */
-    top: 130%;
+    top: 120%;
     width: 600px;
     height: 300px;
 }
@@ -97,7 +97,7 @@ body{
 
 #center {
     position: absolute;
-    top: 164%;
+    top: 142%;
     left: 35%;
     transform: translate(-50%, -50%);
     width: 400px; /* Adjust the size as needed */

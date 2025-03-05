@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="Css/NavBar.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        section {
+            display: none;
+            min-height: 100vh;
+            padding: 50px;
+        }
+        section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar-wrapper">
+    <nav class="navbar">
+        <div class="container">
+            <a href="image/Screenshot_2025-03-05_132445-removebg-preview.png" class="logo">
+                <img src="image/Screenshot_2025-03-05_132445-removebg-preview.png" alt="Logo">
+                <span class="logo-text">EZTransit</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#aboutus">About Us</a>
+                <a href="#services">Services</a>
+                <a href="#vehicles">Our Vehicles</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Sections -->
+<section id="home" class="active">
+    <h2>Home</h2>
+    <p>Welcome to EZTransit. Your best transportation service!</p>
+</section>
+
+<section id="aboutus">
+    <h2>About Us</h2>
+    <p>We are a top-tier transport service provider...</p>
+</section>
+
+<section id="services">
+    <h2>Services</h2>
+    <p>We offer taxi, van rentals, and more!</p>
+</section>
+
+<section id="vehicles">
+    <h2>Our Vehicles</h2>
+    <p>Check out our fleet of luxury and budget-friendly vehicles.</p>
+</section>
+
+<section id="blog">
+    <h2>Blog</h2>
+    <p>Read our latest updates and travel tips.</p>
+</section>
+
+<section id="contact">
+    <h2>Contact Us</h2>
+    <p>Reach out for any inquiries.</p>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        function navigate() {
+            const currentHash = window.location.hash || "#home";
+            sections.forEach(section => {
+                if ("#" + section.id === currentHash) {
+                    section.classList.add("active");
+                } else {
+                    section.classList.remove("active");
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute("href") === currentHash) {
+                    link.classList.add("active");
+                } else {
+                    link.classList.remove("active");
+                }
+            });
+        }
+
+        window.addEventListener("hashchange", navigate);
+        navigate();
+    });
+</script>
+
+</body>
+</html>
