@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Booking Admin Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="Css/AdminDashBoard.css">
+    <style>
+        body{
+            overflow-x: hidden;
+            overflow-y: scroll;
+            background-color: #f4f6f9;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        section {
+            display: none;
+
+        }
+        section.active {
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+<div id="dash" class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            VehicleBooking Pro
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#mainForm" class="active">Dashboard</a></li>
+            <li><a href="#vehicleManagement">Vehicles</a></li>
+            <li><a href="#viewBooking">Bookings</a></li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Settings</a></li>
+            <br><br><br><br><br><br><br><br>
+            <a href=""><button id="logOut">Log Out</button></a>
+        </ul>
+    </div>
+
+
+    <!-- Main Content -->
+    <section class="main-content"  id="mainForm">
+        <div class="header">
+            <div class="page-title">Dashboard</div>
+            <div class="user-profile">
+                <div class="user-avatar">A</div>
+                <div>Admin</div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-card-title">Total Vehicles</div>
+                <div class="stat-card-value">48</div>
+                <div class="stat-card-info positive">+15% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Active Bookings</div>
+                <div class="stat-card-value">32</div>
+                <div class="stat-card-info positive">+8% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Total Users</div>
+                <div class="stat-card-value">256</div>
+                <div class="stat-card-info positive">+23% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Revenue</div>
+                <div class="stat-card-value">$12,450</div>
+                <div class="stat-card-info positive">+12% from last month</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-title">Booking Statistics</div>
+                <canvas id="bookingChart" height="250"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Vehicle Type Distribution</div>
+                <canvas id="vehicleChart" height="250"></canvas>
+            </div>
+        </div>
+    </section>
+    <section id="vehicleManagement">
+        <!-- Vehicle Management -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">Vehicle Management</div>
+                <div class="table-actions">
+                    <button class="btn btn-outline" onclick="filterVehicles()">Filter</button>
+                    <button class="btn btn-primary" onclick="showAddVehicleModal()">Add Vehicle</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('all-vehicles')">All Vehicles</div>
+                <div class="tab" onclick="switchTab('cars')">Cars</div>
+                <div class="tab" onclick="switchTab('vans')">Vans</div>
+                <div class="tab" onclick="switchTab('buses')">Buses</div>
+            </div>
+            <div id="all-vehicles" class="tab-content active">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vehicle</th>
+                        <th>Type</th>
+                        <th>Capacity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>VEH-001</td>
+                        <td>Toyota Camry</td>
+                        <td>Car</td>
+                        <td>4</td>
+                        <td><span class="badge badge-success">Available</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(1)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="confirmDelete(1)">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>VEH-002</td>
+                        <td>Mercedes Sprinter</td>
+                        <td>Van</td>
+                        <td>12</td>
+                        <td><span class="badge badge-warning">On Trip</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(2)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="confirmDelete(2)">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>VEH-003</td>
+                        <td>Volvo 9700</td>
+                        <td>Bus</td>
+                        <td>45</td>
+                        <td><span class="badge badge-danger">Maintenance</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(3)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="confirmDelete(3)">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>VEH-004</td>
+                        <td>Honda CR-V</td>
+                        <td>Car</td>
+                        <td>5</td>
+                        <td><span class="badge badge-success">Available</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(4)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="confirmDelete(4)">🗑️</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>VEH-005</td>
+                        <td>Ford Transit</td>
+                        <td>Van</td>
+                        <td>15</td>
+                        <td><span class="badge badge-success">Available</span></td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(5)">✏️</button>
+                            <button class="action-btn delete-btn" onclick="confirmDelete(5)">🗑️</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="cars" class="tab-content">
+                <!-- Car-specific content -->
+            </div>
+            <div id="vans" class="tab-content">
+                <!-- Van-specific content -->
+            </div>
+            <div id="buses" class="tab-content">
+                <!-- Bus-specific content -->
+            </div>
+        </div>
+    </section>
+
+    <section id="viewBooking">
+        <!-- Recent Bookings -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">Recent Bookings</div>
+                <div class="table-actions">
+                    <button class="btn btn-outline" onclick="viewAllBookings()">View All</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>BK-1234</td>
+                    <td>John Smith</td>
+                    <td>Toyota Camry</td>
+                    <td>Mar 7, 2025</td>
+                    <td><span class="badge badge-success">Confirmed</span></td>
+                    <td>
+                        <button class="action-btn" onclick="viewBookingDetails(1234)">👁️</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK-1233</td>
+                    <td>Sarah Johnson</td>
+                    <td>Mercedes Sprinter</td>
+                    <td>Mar 6, 2025</td>
+                    <td><span class="badge badge-primary">In Progress</span></td>
+                    <td>
+                        <button class="action-btn" onclick="viewBookingDetails(1233)">👁️</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK-1232</td>
+                    <td>Michael Brown</td>
+                    <td>Honda CR-V</td>
+                    <td>Mar 5, 2025</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                        <button class="action-btn" onclick="viewBookingDetails(1232)">👁️</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BK-1231</td>
+                    <td>Emily Davis</td>
+                    <td>Volvo 9700</td>
+                    <td>Mar 5, 2025</td>
+                    <td><span class="badge badge-danger">Cancelled</span></td>
+                    <td>
+                        <button class="action-btn" onclick="viewBookingDetails(1231)">👁️</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+
+<!-- Add/Edit Vehicle Modal -->
+<div id="vehicleModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="vehicleModalTitle">Add New Vehicle</div>
+            <button class="close-btn" onclick="closeModal('vehicleModal')">&times;</button>
+        </div>
+        <form id="vehicleForm">
+            <div class="form-group">
+                <label class="form-label">Vehicle Name</label>
+                <input type="text" class="form-control" id="vehicleName" placeholder="Enter vehicle name">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Vehicle Type</label>
+                <select class="form-select" id="vehicleType">
+                    <option value="car">Car</option>
+                    <option value="van">Van</option>
+                    <option value="bus">Bus</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Capacity</label>
+                <input type="number" class="form-control" id="vehicleCapacity" placeholder="Enter capacity">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <select class="form-select" id="vehicleStatus">
+                    <option value="available">Available</option>
+                    <option value="ontrip">On Trip</option>
+                    <option value="maintenance">Maintenance</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('vehicleModal')">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveVehicle()">Save Vehicle</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".sidebar-menu");  // Ensuring you select the <a> elements
+
+        function navigate() {
+            const currentHash = window.location.hash || "#mainForm";
+
+            // Remove 'active' class from all sections and nav links first
+            sections.forEach(section => {
+                section.classList.remove("active");
+            });
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+            });
+
+            // Add 'active' class to the current section and its corresponding nav link
+            sections.forEach(section => {
+                if ("#" + section.id === currentHash) {
+                    section.classList.add("active");
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute("href") === currentHash) {
+                    link.classList.add("active");
+                }
+            });
+        }
+
+        // Listen to changes in the hash and trigger navigation
+        window.addEventListener("hashchange", navigate);
+        navigate();  // Initial call to set active state based on the initial hash
+    });
+
+</script>
+<script>
+    // Charts
+    window.onload = function() {
+        // Booking Statistics Chart
+        const bookingCtx = document.getElementById('bookingChart').getContext('2d');
+        const bookingChart = new Chart(bookingCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Bookings',
+                    data: [65, 59, 80, 81, 56, 55, 72],
+                    backgroundColor: 'rgba(74, 111, 255, 0.2)',
+                    borderColor: 'rgba(74, 111, 255, 1)',
+                    borderWidth: 2,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Vehicle Type Distribution Chart
+        const vehicleCtx = document.getElementById('vehicleChart').getContext('2d');
+        const vehicleChart = new Chart(vehicleCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cars', 'Vans', 'Buses'],
+                datasets: [{
+                    data: [24, 12, 12],
+                    backgroundColor: [
+                        '#4A6FFF',
+                        '#28a745',
+                        '#ffc107'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    };
+
+    // Tab Switching
+    function switchTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Deactivate all tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Activate selected tab and content
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`.tab:nth-child(${Array.from(document.querySelectorAll('.tab')).findIndex(tab => tab.getAttribute('onclick').includes(tabId)) + 1})`).classList.add('active');
+    }
+
+    // Modal Functions
+    function showAddVehicleModal() {
+        document.getElementById('vehicleModalTitle').textContent = 'Add New Vehicle';
+        document.getElementById('vehicleForm').reset();
+        document.getElementById('vehicleModal').classList.add('show');
+    }
+
+    function showEditVehicleModal(id) {
+        document.getElementById('vehicleModalTitle').textContent = 'Edit Vehicle';
+
+        // Populate form with vehicle data (this would come from your database)
+        if (id === 1) {
+            document.getElementById('vehicleName').value = 'Toyota Camry';
+            document.getElementById('vehicleType').value = 'car';
+            document.getElementById('vehicleCapacity').value = '4';
+            document.getElementById('vehicleStatus').value = 'available';
+        }
+
+        document.getElementById('vehicleModal').classList.add('show');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+    }
+
+    function saveVehicle() {
+        // Here you would send data to your backend
+        const vehicleName = document.getElementById('vehicleName').value;
+        const vehicleType = document.getElementById('vehicleType').value;
+        const vehicleCapacity = document.getElementById('vehicleCapacity').value;
+        const vehicleStatus = document.getElementById('vehicleStatus').value;
+
+        console.log('Saving vehicle:', { vehicleName, vehicleType, vehicleCapacity, vehicleStatus });
+
+        // For demo, just close the modal
+        closeModal('vehicleModal');
+
+        // In a real app, you would refresh the table with new data
+        alert('Vehicle saved successfully!');
+    }
+
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this vehicle?')) {
+            // Delete logic would go here
+            console.log('Deleting vehicle ID:', id);
+            alert('Vehicle deleted successfully!');
+        }
+    }
+
+    function filterVehicles() {
+        // Filter functionality would go here
+        alert('Filter functionality would appear here');
+    }
+
+    function viewAllBookings() {
+        // View all bookings functionality
+        alert('Redirecting to all bookings page');
+    }
+
+    function viewBookingDetails(id) {
+        // View booking details
+        alert('Viewing details for booking ID: ' + id);
+    }
+</script>
+</body>
+</html>
