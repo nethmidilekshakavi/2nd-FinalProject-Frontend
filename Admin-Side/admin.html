@@ -22,6 +22,7 @@
         section.active {
             display: block;
         }
+
     </style>
 
 </head>
@@ -120,72 +121,52 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>VEH-001</td>
-                        <td>Toyota Camry</td>
-                        <td>Car</td>
-                        <td>4</td>
-                        <td><span class="badge badge-success">Available</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(1)">✏️</button>
-                            <button class="action-btn delete-btn" onclick="confirmDelete(1)">🗑️</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>VEH-002</td>
-                        <td>Mercedes Sprinter</td>
-                        <td>Van</td>
-                        <td>12</td>
-                        <td><span class="badge badge-warning">On Trip</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(2)">✏️</button>
-                            <button class="action-btn delete-btn" onclick="confirmDelete(2)">🗑️</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>VEH-003</td>
-                        <td>Volvo 9700</td>
-                        <td>Bus</td>
-                        <td>45</td>
-                        <td><span class="badge badge-danger">Maintenance</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(3)">✏️</button>
-                            <button class="action-btn delete-btn" onclick="confirmDelete(3)">🗑️</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>VEH-004</td>
-                        <td>Honda CR-V</td>
-                        <td>Car</td>
-                        <td>5</td>
-                        <td><span class="badge badge-success">Available</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(4)">✏️</button>
-                            <button class="action-btn delete-btn" onclick="confirmDelete(4)">🗑️</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>VEH-005</td>
-                        <td>Ford Transit</td>
-                        <td>Van</td>
-                        <td>15</td>
-                        <td><span class="badge badge-success">Available</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="showEditVehicleModal(5)">✏️</button>
-                            <button class="action-btn delete-btn" onclick="confirmDelete(5)">🗑️</button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
             <div id="cars" class="tab-content">
-                <!-- Car-specific content -->
+
             </div>
             <div id="vans" class="tab-content">
-                <!-- Van-specific content -->
+                <table id="vanTable" class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>registrationNumber</th>
+                        <th>model</th>
+                        <th>plateNumber</th>
+                        <th>capacity</th>
+                        <th>airConditioning</th>
+                        <th>wifi</th>
+                        <th>status</th>
+                        <th>Image</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Bus details will be dynamically inserted here -->
+                    </tbody>
+                </table>
             </div>
             <div id="buses" class="tab-content">
-                <!-- Bus-specific content -->
+                <table id="busTable" class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>registrationNumber</th>
+                        <th>model</th>
+                        <th>plateNumber</th>
+                        <th>capacity</th>
+                        <th>airConditioning</th>
+                        <th>wifi</th>
+                        <th>status</th>
+                        <th>Image</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Bus details will be dynamically inserted here -->
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </section>
@@ -262,42 +243,67 @@
 <div id="vehicleModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <div class="modal-title" id="vehicleModalTitle">Add New Vehicle</div>
+            <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
             <button class="close-btn" onclick="closeModal('vehicleModal')">&times;</button>
         </div>
-        <form id="vehicleForm">
+        <form id="vehicleForm" onsubmit="saveBus(event)">
             <div class="form-group">
-                <label class="form-label">Vehicle Name</label>
-                <input type="text" class="form-control" id="vehicleName" placeholder="Enter vehicle name">
+                <label class="form-label">Bus ID</label>
+                <input type="number" class="form-control" id="busId" placeholder="Enter bus ID" value="2" disabled>
             </div>
             <div class="form-group">
-                <label class="form-label">Vehicle Type</label>
-                <select class="form-select" id="vehicleType">
-                    <option value="car">Car</option>
-                    <option value="van">Van</option>
-                    <option value="bus">Bus</option>
-                </select>
+                <label class="form-label">Registration Number</label>
+                <input type="text" class="form-control" id="registrationNumber" placeholder="Enter registration number" value="B002-Nw2">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Plate Number</label>
+                <input type="text" class="form-control" id="plateNumber" placeholder="Enter plate number" value="R67803">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Model</label>
+                <input type="text" class="form-control" id="model" placeholder="Enter model" value="MVC">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Year</label>
+                <input type="number" class="form-control" id="year" placeholder="Enter year" value="1990">
             </div>
             <div class="form-group">
                 <label class="form-label">Capacity</label>
-                <input type="number" class="form-control" id="vehicleCapacity" placeholder="Enter capacity">
+                <input type="number" class="form-control" id="capacity" placeholder="Enter capacity" value="96">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Air Conditioning</label>
+                <select class="form-select" id="airConditioning">
+                    <option value="YES" selected>YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Wifi</label>
+                <select class="form-select" id="wifi">
+                    <option value="YES">YES</option>
+                    <option value="NO" selected>NO</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="form-label">Status</label>
-                <select class="form-select" id="vehicleStatus">
-                    <option value="available">Available</option>
-                    <option value="ontrip">On Trip</option>
-                    <option value="maintenance">Maintenance</option>
+                <select class="form-select" id="status">
+                    <option value="AVAILABLE" selected>Available</option>
+                    <option value="ON_TRIP">On Trip</option>
+                    <option value="MAINTENANCE">Maintenance</option>
                 </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline" onclick="closeModal('vehicleModal')">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="saveVehicle()">Save Vehicle</button>
+                <button type="submit" class="btn btn-primary">Save Bus</button>
             </div>
         </form>
     </div>
 </div>
 
+
+
+<script src="Js/jquery-3.7.1.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const sections = document.querySelectorAll("section");
@@ -465,5 +471,9 @@
         alert('Viewing details for booking ID: ' + id);
     }
 </script>
+
+<script src="Js/BusController.js"></script>
+<script src="Js/AllVehicles.js"></script>
+<script src="Js/VanController.js"></script>
 </body>
 </html>
