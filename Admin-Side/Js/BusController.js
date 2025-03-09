@@ -1,9 +1,7 @@
 $(document).ready(function () {
     loadBuses();
 
-    let selectBusId = null;
-
-    // Load customers and populate the table
+    // Load buses and populate the table
     function loadBuses() {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses",
@@ -15,8 +13,7 @@ $(document).ready(function () {
                 let tbody = $("#BusTaleBody").empty();
                 data.forEach(bus => {
                     tbody.append(`
-                        
-                     <tr>
+                        <tr>
                             <td>${bus.busId}</td>
                             <td>${bus.registrationNumber}</td>
                             <td>${bus.model}</td>
@@ -24,8 +21,12 @@ $(document).ready(function () {
                             <td>${bus.capacity}</td>
                             <td>${bus.airConditioning}</td>
                             <td>${bus.wifi}</td>
-                            //booking eken check krna one auto update wenna
                             <td><span class="badge badge-success">${bus.status}</span></td>
+                             <td>
+                                <img src="data:image/jpeg;base64,${bus.image}" 
+                                     alt="Crop Image" class="crop-image" 
+                                     style="width: 70px; cursor: pointer;">
+                            </td>
 
                         </tr>
                     `);
@@ -37,78 +38,68 @@ $(document).ready(function () {
         });
     }
 
-    // Handle form submission (Add or Update customer)
+
+    // Form submission handler for adding a bus
     $("#busForm").submit(function (event) {
         event.preventDefault();
+        console.log("Form submitted");
 
-        const bus = {
-            id: $("#vehicleId").val().trim(),
-            name: $("#vehicleName").val().trim(),
-            type: $("#vehicleType").val().trim(),
-            capacity: $("#vehicleCapacity").val().trim(),
-            air: $("#vehicleAirConditioning").val().trim(),
-            wifi: $("#vehicleWifi").val().trim(),
-            status: $("#vehicleStatus").val().trim()
-        };
+        // Create FormData object
+        const bus = new FormData();
 
-        // Validate fields
-        if (!bus.id || !bus.name || !bus.type || !bus.capacity || !bus.air|| !bus.wifi || !bus.status ) {
+        // Match the exact parameter names expected by the controller
+        bus.append('busId', $("#busId").val());
+        bus.append('registration', $("#registrationNumber").val());
+        bus.append('model', $("#model").val());
+        bus.append('plateNumber', $("#plateNumber").val());
+        bus.append('year', $("#year").val());
+        bus.append('capacity', $("#capacity").val());
+        bus.append('air', $("#airConditioning").val());
+        bus.append('wifi', $("#wifi").val());
+        bus.append('status', $("#status").val());
+        bus.append('date', $("#date").val());
+        bus.append('image', $('#image')[0].files[0]);
+
+        // Debug FormData
+        for (let pair of bus.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        // Validate all fields are filled
+        if (!$("#busId").val() || !$("#registrationNumber").val() || !$("#model").val() ||
+            !$("#plateNumber").val() || !$("#year").val() || !$("#capacity").val() ||
+            !$("#airConditioning").val() || !$("#wifi").val() || !$("#status").val() ||
+            !$("#date").val() || !$('#image')[0].files[0]) {
             alert("Please fill in all fields!");
             return;
         }
 
-        if (selectBusId) {
-            // Update Customer
-            $.ajax({
-                url: `http://localhost:8090/api/v2/customer/${selectBusId}`,
-                type: "PUT",
-                contentType: "application/json",
-                data: JSON.stringify(bus),
-                success: function () {
-                    alert("Bus updated successfully!");
-                    resetForm();
-                    loadCustomers();
-                },
-                error: function () {
-                    alert("Error updating bus!");
-                }
-            });
-        } else {
-            // Add Customer
-            $.ajax({
-                url: "http://localhost:8080/api/v1/Buses",
-                type: "POST",
-               /* headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
-                },*/
-                contentType: "application/json",
-                data: JSON.stringify(bus),
-                success: function () {
-                    alert("Bus added successfully!");
-                    resetForm();
-                    loadCustomers();
-                },
-                error: function () {
-                    alert("Error adding customer!");
-                }
-            });
-        }
-    })
+        // Add Bus - POST request
+        $.ajax({
+            url: "http://localhost:8080/api/v1/Buses",
+            type: "POST",
+            data: bus,
+            contentType: false, // Let the browser set the content type with boundary
+            processData: false, // Don't process the data
+            success: function (response) {
+                console.log("Success:", response);
+                alert("Bus added successfully!");
+                loadBuses();
+                $("#busForm")[0].reset(); // Reset form after successful submission
+                closeModal('BusModel'); // Close the modal
+            },
+            error: function (xhr, status, error) {
+                console.error("Error details:", xhr, status, error);
+                console.error("Response:", xhr.responseText);
+                alert("Error adding bus: " + (xhr.responseText || error || status));
+            }
+        });
+    });
 
-        // Populate form when Update button is clicked
-        $(document).on("click", ".update-btn", function () {
-            selectedCustomerId = $(this).data("id");
-            $("#id").val($(this).data("id"));
-            $("#name").val($(this).data("name"));
-            $("#contact").val($(this).data("contact"));
-            $("#email").val($(this).data("email"));
-
-            // Change button text and style
-            $("#customerForm button[type='submit']")
-                .text("Update Customer")
-                .removeClass("btn-primary")
-                .addClass("btn-success");
-        }
-
-    )}
-)
+    // Helper function to close the modal if not already defined
+    if (typeof closeModal !== 'function') {
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        };
+    }
+});

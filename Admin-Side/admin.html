@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle Booking Admin Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="Css/AdminDashBoard.css">
     <style>
         body{
@@ -271,7 +272,7 @@
             <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
             <button class="close-btn" onclick="closeModal('BusModel')">&times;</button>
         </div>
-        <form method="POST" enctype="multipart/form-data" class="form-grid">
+        <form id="busForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="busId">Bus ID</label>
                 <input type="number" id="busId" name="busId" required>
@@ -305,27 +306,33 @@
             <div class="form-group">
                 <label for="airConditioning">Air Conditioning</label>
                 <select id="airConditioning" name="airConditioning" required>
-                    <option value="YES">Yes</option>
-                    <option value="NO">No</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="wifi">Wi-Fi Status</label>
                 <select id="wifi" name="wifi" required>
-                    <option value="AVAILABLE">Available</option>
-                    <option value="NOT_AVAILABLE">Not Available</option>
+                    <option value="AVAILABLE">YES</option>
+                    <option value="NOT_AVAILABLE">NO</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="status">Status</label>
                 <select id="status" name="status" required>
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
+                    <option value="AVAILABLE">AVAILABLE</option>
+                    <option value="NOT_AVAILABLE">NOT_AVAILABLE</option>
+                    <option value="UNDER_MAINTENANCE">UNDER_MAINTENANCE</option>
+                    <option value="BOOKED">BOOKED</option>
                 </select>
             </div>
 
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="datetime-local" id="date" name="date" required>
+            </div>
 
             <div class="form-group">
                 <label for="image">Image</label>
@@ -485,8 +492,6 @@
         </form>
     </div>
 </div>
-
-
 
 <script src="Js/jquery-3.7.1.min.js"></script>
 <script>
