@@ -99,7 +99,6 @@
                 <div class="table-title">Vehicle Management</div>
                 <div class="table-actions">
                     <button class="btn btn-outline" onclick="filterVehicles()">Filter</button>
-                    <button class="btn btn-primary" onclick="showAddVehicleModal()">Add Vehicle</button>
                 </div>
             </div>
             <div class="tabs">
@@ -113,21 +112,45 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Vehicle</th>
-                        <th>Type</th>
-                        <th>Capacity</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <th>registrationNumber</th>
+                        <th>model</th>
+                        <th>plateNumber</th>
+                        <th>capacity</th>
+                        <th>airConditioning</th>
+                        <th>wifi</th>
+                        <th>status</th>
+                        <th>Image</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="">
                     </tbody>
                 </table>
             </div>
             <div id="cars" class="tab-content">
+                <button class="btn btn-primary" onclick="showAddNewCarModal()">Add New Car</button>
+                <br><br>
+                <table id="carTable" class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>registrationNumber</th>
+                        <th>model</th>
+                        <th>plateNumber</th>
+                        <th>capacity</th>
+                        <th>airConditioning</th>
+                        <th>wifi</th>
+                        <th>status</th>
+                        <th>Image</th>
+                    </tr>
+                    </thead>
+                    <tbody id="CarTableBody">
 
+                    </tbody>
+                </table>
             </div>
             <div id="vans" class="tab-content">
+                <button class="btn btn-primary" onclick="showAddNewVanModal()">Add New Van</button>
+                <br><br>
                 <table id="vanTable" class="table">
                     <thead>
                     <tr>
@@ -142,12 +165,14 @@
                         <th>Image</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!-- Bus details will be dynamically inserted here -->
+                    <tbody id="VanTableBody">
+
                     </tbody>
                 </table>
             </div>
             <div id="buses" class="tab-content">
+                <button class="add-btn" onclick="showAddNewBusModal()">Add New Bus</button>
+                <br> <br>
                 <table id="busTable" class="table">
                     <thead>
                     <tr>
@@ -162,7 +187,7 @@
                         <th>Image</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="BusTaleBody">
                     <!-- Bus details will be dynamically inserted here -->
                     </tbody>
                 </table>
@@ -246,56 +271,73 @@
             <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
             <button class="close-btn" onclick="closeModal('vehicleModal')">&times;</button>
         </div>
-        <form id="vehicleForm" onsubmit="saveBus(event)">
+        <form method="POST" enctype="multipart/form-data" class="form-grid">
             <div class="form-group">
-                <label class="form-label">Bus ID</label>
-                <input type="number" class="form-control" id="busId" placeholder="Enter bus ID" value="2" disabled>
+                <label for="busId">Bus ID</label>
+                <input type="number" id="busId" name="busId" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Registration Number</label>
-                <input type="text" class="form-control" id="registrationNumber" placeholder="Enter registration number" value="B002-Nw2">
+                <label for="registrationNumber">Registration Number</label>
+                <input type="text" id="registrationNumber" name="registrationNumber" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Plate Number</label>
-                <input type="text" class="form-control" id="plateNumber" placeholder="Enter plate number" value="R67803">
+                <label for="model">Model</label>
+                <input type="text" id="model" name="model" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Model</label>
-                <input type="text" class="form-control" id="model" placeholder="Enter model" value="MVC">
+                <label for="plateNumber">Plate Number</label>
+                <input type="text" id="plateNumber" name="plateNumber" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Year</label>
-                <input type="number" class="form-control" id="year" placeholder="Enter year" value="1990">
+                <label for="year">Year</label>
+                <input type="number" id="year" name="year" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Capacity</label>
-                <input type="number" class="form-control" id="capacity" placeholder="Enter capacity" value="96">
+                <label for="capacity">Capacity</label>
+                <input type="number" id="capacity" name="capacity" required>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Air Conditioning</label>
-                <select class="form-select" id="airConditioning">
-                    <option value="YES" selected>YES</option>
-                    <option value="NO">NO</option>
+                <label for="airConditioning">Air Conditioning</label>
+                <select id="airConditioning" name="airConditioning" required>
+                    <option value="YES">Yes</option>
+                    <option value="NO">No</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Wifi</label>
-                <select class="form-select" id="wifi">
-                    <option value="YES">YES</option>
-                    <option value="NO" selected>NO</option>
+                <label for="wifi">Wi-Fi Status</label>
+                <select id="wifi" name="wifi" required>
+                    <option value="AVAILABLE">Available</option>
+                    <option value="NOT_AVAILABLE">Not Available</option>
                 </select>
             </div>
+
             <div class="form-group">
-                <label class="form-label">Status</label>
-                <select class="form-select" id="status">
-                    <option value="AVAILABLE" selected>Available</option>
-                    <option value="ON_TRIP">On Trip</option>
-                    <option value="MAINTENANCE">Maintenance</option>
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
                 </select>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline" onclick="closeModal('vehicleModal')">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save Bus</button>
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="datetime-local" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Bus Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit</button>
             </div>
         </form>
     </div>
@@ -342,7 +384,7 @@
 </script>
 <script>
     // Charts
-    window.onload = function() {
+    window.onload = function () {
         // Booking Statistics Chart
         const bookingCtx = document.getElementById('bookingChart').getContext('2d');
         const bookingChart = new Chart(bookingCtx, {
@@ -408,44 +450,54 @@
     }
 
     // Modal Functions
-    function showAddVehicleModal() {
-        document.getElementById('vehicleModalTitle').textContent = 'Add New Vehicle';
+    function showAddNewCarModal() {
+        document.getElementById('vehicleModalTitle').textContent = 'Add New Car';
         document.getElementById('vehicleForm').reset();
         document.getElementById('vehicleModal').classList.add('show');
     }
 
-    function showEditVehicleModal(id) {
-        document.getElementById('vehicleModalTitle').textContent = 'Edit Vehicle';
-
-        // Populate form with vehicle data (this would come from your database)
-        if (id === 1) {
-            document.getElementById('vehicleName').value = 'Toyota Camry';
-            document.getElementById('vehicleType').value = 'car';
-            document.getElementById('vehicleCapacity').value = '4';
-            document.getElementById('vehicleStatus').value = 'available';
-        }
-
+    function showAddNewVanModal() {
+        document.getElementById('vehicleModalTitle').textContent = 'Add New Van';
+        document.getElementById('vehicleForm').reset();
         document.getElementById('vehicleModal').classList.add('show');
     }
 
-    function closeModal(modalId) {
+        // Function to show the Add New Bus modal
+        function showAddNewBusModal() {
+        document.getElementById('vehicleModalTitle').textContent = 'Add New Bus';
+        document.getElementById('vehicleModal').querySelector('form').reset();
+        document.getElementById('vehicleModal').classList.add('show');
+    }
+
+        // Function to close the modal
+        function closeModal(modalId) {
         document.getElementById(modalId).classList.remove('show');
     }
 
-    function saveVehicle() {
-        // Here you would send data to your backend
-        const vehicleName = document.getElementById('vehicleName').value;
-        const vehicleType = document.getElementById('vehicleType').value;
-        const vehicleCapacity = document.getElementById('vehicleCapacity').value;
-        const vehicleStatus = document.getElementById('vehicleStatus').value;
+        // Close modal when clicking outside of it (optional)
+        window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+    }
+    }
 
-        console.log('Saving vehicle:', { vehicleName, vehicleType, vehicleCapacity, vehicleStatus });
 
-        // For demo, just close the modal
-        closeModal('vehicleModal');
+function showEditVehicleModal(id) {
+document.getElementById('vehicleModalTitle').textContent = 'Edit Vehicle';
 
-        // In a real app, you would refresh the table with new data
-        alert('Vehicle saved successfully!');
+// Populate form with vehicle data (this would come from your database)
+if (id === 1) {
+document.getElementById('vehicleName').value = 'Toyota Camry';
+document.getElementById('vehicleType').value = 'car';
+document.getElementById('vehicleCapacity').value = '4';
+document.getElementById('vehicleStatus').value = 'available';
+}
+
+document.getElementById('vehicleModal').classList.add('show');
+}
+
+function closeModal(modalId) {
+document.getElementById(modalId).classList.remove('show');
     }
 
     function confirmDelete(id) {

@@ -12,7 +12,7 @@ $(document).ready(function () {
             },*/
             type: "GET",
             success: function (data) {
-                let tbody = $("#vanTable").empty();
+                let tbody = $("#VanTableBody").empty();
                 data.forEach(van => {
                     tbody.append(`
                         <tr>
@@ -23,7 +23,8 @@ $(document).ready(function () {
                             <td>${van.capacity}</td>
                             <td>${van.airConditioning}</td>
                             <td>${van.wifi}</td>
-                            <td>${van.status}</td>
+                            <td><span class="badge badge-success">${van.status}</span></td>
+
                         </tr>
                     `);
                 });

@@ -12,10 +12,11 @@ $(document).ready(function () {
             },*/
             type: "GET",
             success: function (data) {
-                let tbody = $("#busTable").empty();
+                let tbody = $("#BusTaleBody").empty();
                 data.forEach(bus => {
                     tbody.append(`
-                        <tr>
+                        
+                     <tr>
                             <td>${bus.busId}</td>
                             <td>${bus.registrationNumber}</td>
                             <td>${bus.model}</td>
@@ -23,7 +24,9 @@ $(document).ready(function () {
                             <td>${bus.capacity}</td>
                             <td>${bus.airConditioning}</td>
                             <td>${bus.wifi}</td>
-                            <td>${bus.status}</td>
+                            //booking eken check krna one auto update wenna
+                            <td><span class="badge badge-success">${bus.status}</span></td>
+
                         </tr>
                     `);
                 });
@@ -35,7 +38,7 @@ $(document).ready(function () {
     }
 
     // Handle form submission (Add or Update customer)
-    $("#vehicleForm").submit(function (event) {
+    $("#busForm").submit(function (event) {
         event.preventDefault();
 
         const bus = {
@@ -75,9 +78,9 @@ $(document).ready(function () {
             $.ajax({
                 url: "http://localhost:8080/api/v1/Buses",
                 type: "POST",
-                headers: {
+               /* headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
-                },
+                },*/
                 contentType: "application/json",
                 data: JSON.stringify(bus),
                 success: function () {
@@ -90,6 +93,22 @@ $(document).ready(function () {
                 }
             });
         }
-    }
-)}
+    })
+
+        // Populate form when Update button is clicked
+        $(document).on("click", ".update-btn", function () {
+            selectedCustomerId = $(this).data("id");
+            $("#id").val($(this).data("id"));
+            $("#name").val($(this).data("name"));
+            $("#contact").val($(this).data("contact"));
+            $("#email").val($(this).data("email"));
+
+            // Change button text and style
+            $("#customerForm button[type='submit']")
+                .text("Update Customer")
+                .removeClass("btn-primary")
+                .addClass("btn-success");
+        }
+
+    )}
 )
