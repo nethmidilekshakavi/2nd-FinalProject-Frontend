@@ -21,7 +21,14 @@ $(document).ready(function () {
                             <td>${bus.capacity}</td>
                             <td>${bus.airConditioning}</td>
                             <td>${bus.wifi}</td>
-                            <td><span class="badge badge-success">${bus.status}</span></td>
+                           <td>
+                            <span class="badge ${bus.status == 'AVAILABLE' ? 'badge-success' :
+                            bus.status == 'NOT_AVAILABLE' ? 'badge-warning' :
+                            bus.status == 'UNDER_MAINTENANCE' ? 'badge-primary' :
+                                'badge-danger'}">
+                            ${bus.status}
+                         </span>
+                         </td>
                              <td>
                                 <img src="data:image/jpeg;base64,${bus.image}" 
                                      alt="Crop Image" class="crop-image" 
