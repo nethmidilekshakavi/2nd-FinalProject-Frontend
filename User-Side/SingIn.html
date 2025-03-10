@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking System - Login</title>
+    <!-- Using CDN link for Font Awesome that works without issues -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            height: 100vh;
+        }
+
+        .image-section {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-box {
+            background-color: #333;
+            border-radius: 6px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .login-section {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+        }
+
+        .login-content {
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .login-form {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 40px 12px 45px;
+            border-radius: 8px;
+            background-color: #1f1f1f;
+            color: white;
+            border: 1px solid #333;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #555;
+        }
+
+        .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .login-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+
+        .signup-button:hover {
+            background-color: #218838;
+        }
+
+        .or-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 15px 0;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .or-divider::before,
+        .or-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .or-divider::before {
+            margin-right: .5em;
+        }
+
+        .or-divider::after {
+            margin-left: .5em;
+        }
+
+        .terms {
+            margin-top: 30px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .terms a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .image-section {
+                height: 35vh;
+            }
+
+            .login-section {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="image-section">
+
+        <img src="image/6cc177a140f1b620ccfac16f473b943b-picaai (1).png" alt="Scenic travel destination">
+
+    </div>
+
+    <div class="login-section">
+        <div class="login-content">
+            <h1>Unlock the Journey of Travel Booking</h1>
+
+            <form class="login-form">
+                <div class="input-container">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" class="input-field" placeholder="Username" required>
+                </div>
+
+                <div class="input-container">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="password" class="input-field" placeholder="Password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="login-button">Sign In</button>
+                    <button type="button" class="signup-button">Sign Up</button>
+                </div>
+            </form>
+
+            <div class="or-divider">OR</div>
+
+            <p style="text-align: center; margin-bottom: 15px; color: rgba(255, 255, 255, 0.8);">
+                New to our platform? Create an account to enjoy exclusive benefits and faster bookings!
+            </p>
+
+            <!--<div class="terms">
+                By signing in, you agree to Travel AI's <a href="#">Terms of Service</a>,
+                <a href="#">Privacy Policy</a> and <a href="#">Data Usage Properties</a>.
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script>
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            togglePassword.classList.remove("fa-eye-slash");
+            togglePassword.classList.add("fa-eye");
+        }
+    });
+</script>
+
+</body>
+</html>
