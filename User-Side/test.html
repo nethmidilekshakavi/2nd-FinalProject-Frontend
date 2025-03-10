@@ -3,263 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Management System</title>
+    <title>Travel Booking System - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .page-header {
+        body {
+            background-color: #000;
+            color: white;
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url("https://cdnjs.cloudflare.com/ajax/libs/pexels-api/3.0.1/images/mountains-5424969.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-container {
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .travel-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .travel-icon {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .travel-icon i {
+            font-size: 24px;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #3498db, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .travel-icon span {
+            font-size: 12px;
+            display: block;
+        }
+
+        .input-container {
+            position: relative;
             margin-bottom: 20px;
         }
 
-        .add-btn {
-            background-color: #4CAF50;
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border-radius: 10px;
+            background-color: rgba(50, 50, 50, 0.5);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #3498db;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sign-in-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            background-color: #3498db;
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .add-btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Modal styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal.show {
-            display: block;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: modalFadeIn 0.3s;
-        }
-
-        @keyframes modalFadeIn {
-            from {opacity: 0; transform: translateY(-20px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .close-btn {
-            background: none;
+        .sign-up-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 10px;
+            background-color: #2ecc71;
+            color: white;
             border: none;
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            color: #555;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .close-btn:hover {
-            color: #000;
+        .sign-in-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
         }
 
-        /* Form styling */
-        form {
-            padding: 20px;
+        .sign-up-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .form-group {
-            margin-bottom: 15px;
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+        .divider::before {
+            margin-right: 10px;
         }
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            box-sizing: border-box;
+        .divider::after {
+            margin-left: 10px;
         }
 
-        .button-group {
-            grid-column: 1 / -1;
+        .social-login {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .button-group button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .submit-btn {
-            background-color: #2196F3;
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
             color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .submit-btn:hover {
-            background-color: #0b7dda;
+        .google-btn {
+            background-color: #DB4437;
+        }
+
+        .facebook-btn {
+            background-color: #4267B2;
+        }
+
+        .twitter-btn {
+            background-color: #1DA1F2;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .create-account-text {
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: #2980b9;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<!-- Page header with Add New Bus button -->
-<div class="page-header">
-    <h1>Bus Management System</h1>
-    <button class="add-btn" onclick="showAddNewBusModal()">Add New Bus</button>
-</div>
+<div class="login-container">
+    <div class="logo-container">
+        <div class="logo">TravelEase</div>
+    </div>
 
-<!-- Bus table or other content would go here -->
+    <h1>Unlock the Journey of Travel Booking</h1>
 
-<!-- Modal form for adding/editing buses -->
-<div id="vehicleModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
-            <button class="close-btn" onclick="closeModal('vehicleModal')">&times;</button>
+    <div class="travel-icons">
+        <div class="travel-icon">
+            <i class="fas fa-plane"></i>
+            <span>Flights</span>
         </div>
-        <form method="POST" enctype="multipart/form-data" class="form-grid">
-            <div class="form-group">
-                <label for="busId">Bus ID</label>
-                <input type="number" id="busId" name="busId" required>
-            </div>
+        <div class="travel-icon">
+            <i class="fas fa-bus"></i>
+            <span>Buses</span>
+        </div>
+        <div class="travel-icon">
+            <i class="fas fa-shuttle-van"></i>
+            <span>Vans</span>
+        </div>
+        <div class="travel-icon">
+            <i class="fas fa-hotel"></i>
+            <span>Hotels</span>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label for="registrationNumber">Registration Number</label>
-                <input type="text" id="registrationNumber" name="registrationNumber" required>
-            </div>
+    <form>
+        <div class="input-container">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" class="input-field" placeholder="Username" required>
+        </div>
 
-            <div class="form-group">
-                <label for="model">Model</label>
-                <input type="text" id="model" name="model" required>
-            </div>
+        <div class="input-container">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="password" class="input-field" placeholder="Password" required>
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
 
-            <div class="form-group">
-                <label for="plateNumber">Plate Number</label>
-                <input type="text" id="plateNumber" name="plateNumber" required>
-            </div>
+        <div class="remember-me">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+        </div>
 
-            <div class="form-group">
-                <label for="year">Year</label>
-                <input type="number" id="year" name="year" required>
-            </div>
+        <div class="button-container">
+            <button type="submit" class="sign-in-btn">Sign In</button>
+            <button type="button" class="sign-up-btn">Sign Up</button>
+        </div>
+    </form>
 
-            <div class="form-group">
-                <label for="capacity">Capacity</label>
-                <input type="number" id="capacity" name="capacity" required>
-            </div>
+    <div class="divider">OR</div>
 
-            <div class="form-group">
-                <label for="airConditioning">Air Conditioning</label>
-                <select id="airConditioning" name="airConditioning" required>
-                    <option value="YES">Yes</option>
-                    <option value="NO">No</option>
-                </select>
-            </div>
+    <div class="social-login">
+        <div class="social-btn google-btn">
+            <i class="fab fa-google"></i>
+        </div>
+        <div class="social-btn facebook-btn">
+            <i class="fab fa-facebook-f"></i>
+        </div>
+        <div class="social-btn twitter-btn">
+            <i class="fab fa-twitter"></i>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label for="wifi">Wi-Fi Status</label>
-                <select id="wifi" name="wifi" required>
-                    <option value="AVAILABLE">Available</option>
-                    <option value="NOT_AVAILABLE">Not Available</option>
-                </select>
-            </div>
+    <div class="create-account-text">
+        New to our platform? Create an account to enjoy exclusive benefits and faster bookings!
+    </div>
 
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" name="status" required>
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="datetime-local" id="date" name="date" required>
-            </div>
-
-            <div class="form-group">
-                <label for="image">Bus Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="submit-btn">Submit</button>
-            </div>
-        </form>
+    <div class="forgot-password">
+        <a href="#">Forgot your password?</a>
     </div>
 </div>
 
 <script>
-    // Function to show the Add New Bus modal
-    function showAddNewBusModal() {
-        document.getElementById('vehicleModalTitle').textContent = 'Add New Bus';
-        document.getElementById('vehicleModal').querySelector('form').reset();
-        document.getElementById('vehicleModal').classList.add('show');
-    }
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
 
-    // Function to close the modal
-    function closeModal(modalId) {
-        document.getElementById(modalId).classList.remove('show');
-    }
-
-    // Close modal when clicking outside of it (optional)
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.classList.remove('show');
+    togglePassword.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePassword.classList.remove("fa-eye");
+            togglePassword.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            togglePassword.classList.remove("fa-eye-slash");
+            togglePassword.classList.add("fa-eye");
         }
-    }
+    });
 </script>
 </body>
 </html>

@@ -15,7 +15,7 @@
         }
 
         body {
-            background-color: #0a0a0a;
+            background-color: #000000;
             color: white;
             height: 100vh;
             display: flex;
@@ -84,17 +84,17 @@
         }
 
         .login-content {
-            max-width: 400px;
+            max-width: 1000px;
         }
 
         h1 {
-            font-size: 40px;
-            margin-bottom: 10px;
+            font-size: 30px;
+            margin-bottom: 50px;
             line-height: 1.2;
         }
 
         .login-form {
-            margin-top: 40px;
+            margin-bottom: 10px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -109,6 +109,7 @@
             width: 100%;
             padding: 12px 40px 12px 45px;
             border-radius: 8px;
+            height: 45px;
             background-color: #1f1f1f;
             color: white;
             border: 1px solid #333;
@@ -228,6 +229,99 @@
                 padding: 30px;
             }
         }
+        .logo {
+            width: 150px;
+            height: auto;
+
+        }
+        .travel-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+
+        .travel-icon {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .travel-icon i {
+            font-size: 24px;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #3498db, #1abc9c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .travel-icon span {
+            font-size: 12px;
+            display: block;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #3498db;
+        }
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn {
+            background-color: #DB4437;
+        }
+
+        .facebook-btn {
+            background-color: #4267B2;
+        }
+
+        .twitter-btn {
+            background-color: #1DA1F2;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -240,7 +334,24 @@
 
     <div class="login-section">
         <div class="login-content">
+            <img src="image/Screenshot_2025-03-05_132445-removebg-preview.png" alt="Logo" class="logo">
             <h1>Unlock the Journey of Travel Booking</h1>
+
+            <div class="travel-icons">
+                <div class="travel-icon">
+                    <i class="fas fa-car"></i>
+                    <span>Cars</span>
+                </div>
+                <div class="travel-icon">
+                    <i class="fas fa-bus"></i>
+                    <span>Buses</span>
+                </div>
+                <div class="travel-icon">
+                    <i class="fas fa-shuttle-van"></i>
+                    <span>Vans</span>
+                </div>
+
+            </div>
 
             <form class="login-form">
                 <div class="input-container">
@@ -254,6 +365,11 @@
                     <i class="fas fa-eye toggle-password" id="togglePassword"></i>
                 </div>
 
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
                 <div class="button-container">
                     <button type="submit" class="login-button">Sign In</button>
                     <button type="button" class="signup-button">Sign Up</button>
@@ -262,14 +378,26 @@
 
             <div class="or-divider">OR</div>
 
+            <div class="social-login">
+                <div class="social-btn google-btn">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-btn twitter-btn">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+
             <p style="text-align: center; margin-bottom: 15px; color: rgba(255, 255, 255, 0.8);">
                 New to our platform? Create an account to enjoy exclusive benefits and faster bookings!
             </p>
 
-            <!--<div class="terms">
-                By signing in, you agree to Travel AI's <a href="#">Terms of Service</a>,
-                <a href="#">Privacy Policy</a> and <a href="#">Data Usage Properties</a>.
-            </div>-->
+            <div class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
+
         </div>
     </div>
 </div>
