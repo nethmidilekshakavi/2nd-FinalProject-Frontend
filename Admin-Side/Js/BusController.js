@@ -49,16 +49,26 @@ $(document).ready(function () {
 
         // Match the exact parameter names expected by the controller
         bus.append('busId', $("#busId").val());
-        bus.append('registration', $("#registrationNumber").val());
+        bus.append('air', $("#airConditioning").val());
+        bus.append('capacity', $("#capacity").val());
         bus.append('model', $("#model").val());
         bus.append('plateNumber', $("#plateNumber").val());
-        bus.append('year', $("#year").val());
-        bus.append('capacity', $("#capacity").val());
-        bus.append('air', $("#airConditioning").val());
-        bus.append('wifi', $("#wifi").val());
+        bus.append('registration', $("#registrationNumber").val());
         bus.append('status', $("#status").val());
-        bus.append('date', $("#date").val());
+        bus.append('wifi', $("#wifi").val());
+        bus.append('year', $("#year").val());
         bus.append('image', $('#image')[0].files[0]);
+
+        // Append JSON stringified busData
+        bus.append("busData", JSON.stringify(bus));
+
+        // Append image file
+        const imageFile = $('#image')[0].files[0];
+        if (!imageFile) {
+            alert("Please select an image!");
+            return;
+        }
+        bus.append("image", imageFile);
 
         // Debug FormData
         for (let pair of bus.entries()) {
@@ -69,7 +79,7 @@ $(document).ready(function () {
         if (!$("#busId").val() || !$("#registrationNumber").val() || !$("#model").val() ||
             !$("#plateNumber").val() || !$("#year").val() || !$("#capacity").val() ||
             !$("#airConditioning").val() || !$("#wifi").val() || !$("#status").val() ||
-            !$("#date").val() || !$('#image')[0].files[0]) {
+            !$('#image')[0].files[0]) {
             alert("Please fill in all fields!");
             return;
         }
@@ -79,8 +89,8 @@ $(document).ready(function () {
             url: "http://localhost:8080/api/v1/Buses",
             type: "POST",
             data: bus,
-            contentType: false, // Let the browser set the content type with boundary
-            processData: false, // Don't process the data
+            contentType: false, // Let the browser set content type with boundary
+            processData: false, // Don't process FormData
             success: function (response) {
                 console.log("Success:", response);
                 alert("Bus added successfully!");
