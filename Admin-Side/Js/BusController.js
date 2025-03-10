@@ -1,7 +1,7 @@
 $(document).ready(function () {
     loadBuses();
 
-    // Load buses and populate the table
+    // Load buses
     function loadBuses() {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses",
@@ -22,30 +22,28 @@ $(document).ready(function () {
                             <td>${bus.airConditioning}</td>
                             <td>${bus.wifi}</td>
                            <td>
-                            <span class="badge ${bus.status == 'AVAILABLE' ? 'badge-success' :
-                            bus.status == 'NOT_AVAILABLE' ? 'badge-warning' :
+                             <span class="badge ${bus.status == 'AVAILABLE' ? 'badge-success' :
+                        bus.status == 'NOT_AVAILABLE' ? 'badge-warning' :
                             bus.status == 'UNDER_MAINTENANCE' ? 'badge-primary' :
                                 'badge-danger'}">
-                            ${bus.status}
-                         </span>
-                         </td>
-                             <td>
+                             ${bus.status}
+                          </span>
+                          </td>
+                            <td>
                                 <img src="data:image/jpeg;base64,${bus.image}" 
-                                     alt="Crop Image" class="crop-image" 
-                                     style="width: 70px; cursor: pointer;">
+                                    alt="Bus Image" class="crop-image" 
+                                    style="width: 70px; cursor: pointer;">
                             </td>
                             <td>
-                         <button class="btn btn-update" onclick="updateVan('VAN123')">Update</button>
-        <!-- Delete Button -->
-                        <button class="btn btn-delete" onclick="deleteVan('VAN123')">Delete</button>
-                    </td>
-
+                                <button class="btn btn-update" data-bus-id="${bus.busId}">Update</button>
+                                <button class="btn btn-delete" data-bus-id="${bus.busId}">Delete</button>
+                            </td>
                         </tr>
                     `);
                 });
             },
-            error: function () {
-                alert("Error loading Buses!");
+            error: function (xhr, status, error) {
+                alert("Error loading Buses: " + (xhr.responseText || error || status));
             }
         });
     }
@@ -118,10 +116,146 @@ $(document).ready(function () {
         });
     });
 
-    // Helper function to close the modal if not already defined
-    if (typeof closeModal !== 'function') {
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        };
+    // Helper function to close the modal
+    window.closeModal = function(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    };
+
+    // Helper function to show modal
+    window.showUpdateBusModel = function() {
+        document.getElementById('UpdateBusModel').style.display = 'block';
+    };
+
+    // Update button click handler
+    $(document).on("click", ".btn-update", function () {
+        const busId = $(this).data("bus-id");
+        console.log("Clicked Update Button - Bus ID:", busId);
+        if (busId) {
+            loadBusDataIntoUpdateForm(busId);
+        } else {
+            alert("Bus ID not found!");
+        }
+    });
+
+    // Function to load bus data into update form
+    function loadBusDataIntoUpdateForm(busId) {
+        console.log("Fetching data for Bus ID:", busId);
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/Buses/${busId}`,
+            type: "GET",
+            success: function (busData) {
+                console.log("Fetched Bus Data:", busData);
+
+                if (!busData) {
+                    alert("Bus data not found for ID: " + busId);
+                    return;
+                }
+
+                // Store busId in a hidden field for update operation
+                $("#busIdUpdate").val(busId);
+                $("#registrationNumberUpdate").val(busData.registrationNumber);
+                $("#modelUpdate").val(busData.model);
+                $("#plateNumberUpdate").val(busData.plateNumber);
+                $("#yearUpdate").val(busData.year);
+                $("#capacityUpdate").val(busData.capacity);
+
+                // Correct way to handle checkboxes
+                $("#airConditioningUpdate").val(busData.airConditioning);
+                $("#wifiUpdate").val(busData.wifi);
+
+                // If 'statusUpdate' is a dropdown, set value
+                $("#statusUpdate").val(busData.status);
+
+                // Show the update modal
+                $("#UpdateBusModel").show();
+
+                console.log("Form populated successfully.");
+            },
+            error: function (xhr, status, error) {
+                alert("Error loading bus details: " + (xhr.responseText || error || status));
+            }
+        });
+    }
+
+    // Form submission handler for updating a bus
+    $("#UpdateBusForm").submit(function(event) {
+        event.preventDefault();
+        console.log("Update form submitted");
+
+        const busId = $("#busIdUpdate").val();
+
+        if (!busId) {
+            alert("Bus ID is missing!");
+            return;
+        }
+
+        // Create FormData object
+        const bus = new FormData();
+
+        // Append updated bus details
+        bus.append('air', $("#airConditioningUpdate").val());
+        bus.append('capacity', $("#capacityUpdate").val());
+        bus.append('model', $("#modelUpdate").val());
+        bus.append('plateNumber', $("#plateNumberUpdate").val());
+        bus.append('registration', $("#registrationNumberUpdate").val());
+        bus.append('status', $("#statusUpdate").val());
+        bus.append('wifi', $("#wifiUpdate").val())
+        bus.append('year', $("#yearUpdate").val());
+        bus.append('image',$('#imageUpdate')[0].files[0]);
+
+
+
+        // Validate all fields are filled
+        if (!$("#registrationNumberUpdate").val() || !$("#modelUpdate").val() ||
+            !$("#plateNumberUpdate").val() || !$("#yearUpdate").val() || !$("#capacityUpdate").val() ||
+            $("#statusUpdate").val() === "") {
+            alert("Please fill in all fields!");
+            return;
+        }
+
+        // Update Bus - PUT request
+        $.ajax({
+            url: `http://localhost:8080/api/v1/Buses/${busId}`,
+            type: "PUT",
+            data: bus,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log("Success:", response);
+                alert("Bus updated successfully!");
+                loadBuses();
+                $("#UpdateBusForm")[0].reset();
+                closeModal('UpdateBusModel');
+            },
+            error: function(xhr, status, error) {
+                console.error("Error details:", xhr, status, error);
+                console.error("Response:", xhr.responseText);
+                alert("Error updating bus: " + (xhr.responseText || error || status));
+            }
+        });
+    });
+
+    // Delete button click handler
+    $(document).on("click", ".btn-delete", function () {
+        const busId = $(this).data("bus-id");
+        if (confirm("Are you sure you want to delete this bus?")) {
+            deleteBus(busId);
+        }
+    });
+
+    // Function to delete a bus
+    function deleteBus(busId) {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/Buses/${busId}`,
+            type: "DELETE",
+            success: function () {
+                alert("Bus deleted successfully!");
+                loadBuses();
+            },
+            error: function (xhr, status, error) {
+                alert("Error deleting bus: " + (xhr.responseText || error || status));
+            }
+        });
     }
 });
