@@ -34,13 +34,18 @@ $(document).ready(function () {
                                      alt="Crop Image" class="crop-image" 
                                      style="width: 70px; cursor: pointer;">
                             </td>
+                            <td>
+                         <button class="btn btn-update" onclick="updateVan('VAN123')">Update</button>
+        <!-- Delete Button -->
+                        <button class="btn btn-delete" onclick="deleteVan('VAN123')">Delete</button>
+                    </td>
 
                         </tr>
                     `);
                 });
             },
             error: function () {
-                alert("Error loading vans!");
+                alert("Error loading Buses!");
             }
         });
     }

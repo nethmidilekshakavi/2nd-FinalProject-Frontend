@@ -1,7 +1,7 @@
 $(document).ready(function () {
     loadVans();
 
-    let selectBusId = null;
+    let selectVanId = null;
 
     // Load customers and populate the table
     function loadVans() {
@@ -23,7 +23,19 @@ $(document).ready(function () {
                             <td>${van.capacity}</td>
                             <td>${van.airConditioning}</td>
                             <td>${van.wifi}</td>
-                            <td><span class="badge badge-success">${van.status}</span></td>
+                             <td>
+                            <span class="badge ${van.status == 'AVAILABLE' ? 'badge-success' :
+                        van.status == 'NOT_AVAILABLE' ? 'badge-warning' :
+                            van.status == 'UNDER_MAINTENANCE' ? 'badge-primary' :
+                                'badge-danger'}">
+                            ${van.status}
+                         </span>
+                         </td>
+                           <td>
+                                <img src="data:image/jpeg;base64,${van.image}" 
+                                     alt="Crop Image" class="crop-image" 
+                                     style="width: 70px; cursor: pointer;">
+                            </td>
 
                         </tr>
                     `);
