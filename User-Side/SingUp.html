@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Travel Booking - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="Css/SingUp.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+        <div class="logo-container">
+            <img src="image/Screenshot_2025-03-05_132445-removebg-preview.png" alt="Logo" class="logo">
+        </div>
+
+        <div class="welcome-text">
+            <h1>Discover Extraordinary Travel Experiences</h1>
+            <p>Join our exclusive community of travelers and unlock premium vehicle booking services tailored to your unique preferences.</p>
+        </div>
+
+        <div class="luxury-indicators">
+            <div class="luxury-item float">
+                <div class="luxury-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="luxury-text">Luxury Fleet</div>
+            </div>
+
+            <div class="luxury-item float float-delay-1">
+                <div class="luxury-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="luxury-text">Certified Drivers</div>
+            </div>
+
+            <div class="luxury-item float float-delay-2">
+                <div class="luxury-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="luxury-text">Global Coverage</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="signup-header">
+            <h2>Create Your Account</h2>
+            <p>Your journey to exceptional travel begins here</p>
+        </div>
+
+        <form>
+            <div class="form-row">
+                <div class="form-floating">
+                    <input type="text" id="firstName" placeholder=" " required>
+                    <label for="firstName">First Name</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" id="lastName" placeholder=" " required>
+                    <label for="lastName">Last Name</label>
+                </div>
+            </div>
+
+            <div class="form-floating">
+                <input type="email" id="email" placeholder=" " required>
+                <label for="email">Email Address</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="tel" id="phone" placeholder=" " required>
+                <label for="phone">Phone Number</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="text" id="address" placeholder=" " required>
+                <label for="address">Address</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" id="username" placeholder=" " required>
+                <label for="username">User Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" id="password" placeholder=" " required>
+                <label for="password">Password</label>
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" id="confirmPassword" placeholder=" " required>
+                <label for="confirmPassword">Confirm Password</label>
+                <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+            </div>
+
+            <label for="isAdmin">
+                <input type="checkbox" id="isAdmin" name="isAdmin" onclick="toggleCompanyPassword()">
+                Admin
+            </label>
+
+            <section id="companyLock" style="display: none;">
+                <label for="companyPW">Enter Company Password:</label>
+                <input type="password" id="companyPW" name="companyPW">
+            </section>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    I agree to the <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and consent to receiving promotional emails about special offers and updates.
+                </label>
+            </div>
+
+            <button type="submit" class="signup-button">Create My Account</button>
+
+            <div class="divider">or sign up with</div>
+
+            <div class="social-signup">
+                <div class="social-btn google-btn">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-btn twitter-btn">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="SingIn.html">Sign in</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    togglePassword.addEventListener('click', function() {
+        togglePasswordVisibility(password, togglePassword);
+    });
+
+    toggleConfirmPassword.addEventListener('click', function() {
+        togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
+    });
+
+    function togglePasswordVisibility(input, icon) {
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Vehicle option selection
+    const vehicleOptions = document.querySelectorAll('.vehicle-option');
+
+    vehicleOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+
+    // Add floating animation to elements with class 'float'
+    document.querySelectorAll('.float').forEach(element => {
+        element.style.animationDelay = `${Math.random() * 2}s`;
+    });
+</script>
+<script>
+    // scripts.js
+    function toggleCompanyPassword() {
+        var isAdminCheckbox = document.getElementById('isAdmin');
+        var companyLockSection = document.getElementById('companyLock');
+        companyLockSection.style.display = isAdminCheckbox.checked ? 'block' : 'none';
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        var isAdminCheckbox = document.getElementById('isAdmin');
+        var companyPassword = document.getElementById('companyPW').value.trim();
+
+        if (isAdminCheckbox.checked && companyPassword === '') {
+            alert('Please enter the company password to register as an admin.');
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+
+</script>
+</body>
+</html>

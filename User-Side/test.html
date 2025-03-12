@@ -3,357 +3,838 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Booking System - Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Premium Travel Booking - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #ffc107;
+            --primary-dark: #FF5252;
+            --secondary: #4ECDC4;
+            --dark: #292F36;
+            --light: #F7FFF7;
+            --gold: #ffc107;
+            --gradient-primary: linear-gradient(135deg, #ffc107, #FF8E8E);
+            --gradient-secondary: linear-gradient(135deg, #4ECDC4, #26A69A);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-strong: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         body {
-            background-color: #000;
-            color: white;
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            overflow: hidden;
-            background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url("https://cdnjs.cloudflare.com/ajax/libs/pexels-api/3.0.1/images/mountains-5424969.jpg");
+            align-items: center;
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
+            padding: 20px;
         }
 
-        .login-container {
-            width: 90%;
-            max-width: 450px;
-            padding: 30px;
-            border-radius: 15px;
-            background-color: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            min-height: 400px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: var(--shadow-strong);
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 300px;
+            height: 300px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .left-panel {
+            width: 55%;
+            position: relative;
+            overflow: hidden;
+            background: url('image/573784c604fe0ebb823a19b8132757be.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 80px 60px;
+            z-index: 1;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+            z-index: -1;
         }
 
         .logo-container {
-            text-align: center;
-            margin-bottom: 25px;
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            display: flex;
+            align-items: center;
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            height: 60px;
+            width: auto;
         }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 25px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .travel-icons {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 25px;
-        }
-
-        .travel-icon {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .travel-icon i {
-            font-size: 24px;
-            margin-bottom: 5px;
-            background: linear-gradient(45deg, #3498db, #1abc9c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .travel-icon span {
-            font-size: 12px;
-            display: block;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border-radius: 10px;
-            background-color: rgba(50, 50, 50, 0.5);
+        .welcome-text {
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        .welcome-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-text p {
             font-size: 16px;
-            outline: none;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .luxury-indicators {
+            display: flex;
+            margin-top: 40px;
+            gap: 30px;
+        }
+
+        .luxury-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        .luxury-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
 
-        .input-field:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        .luxury-icon:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
         }
 
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
+        .luxury-icon i {
+            font-size: 24px;
+            color: var(--gold);
         }
 
-        .toggle-password {
+        .luxury-text {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .right-panel {
+            width: 45%;
+            padding: 60px;
+            background: white;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .signup-header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .signup-header::after {
+            content: '';
             position: absolute;
-            right: 15px;
+            bottom: -15px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .signup-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .signup-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-floating {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-floating input,
+        .form-floating select {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .form-floating label {
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 15px;
+            padding: 0 5px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-floating input:focus ~ label,
+        .form-floating input:not(:placeholder-shown) ~ label,
+        .form-floating select:focus ~ label,
+        .form-floating select:not(:placeholder-shown) ~ label {
+            top: 0;
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-floating input:focus,
+        .form-floating select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+            outline: none;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-floating .toggle-password {
+            position: absolute;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
+            color: #888;
             cursor: pointer;
+            z-index: 10;
+            transition: color 0.3s ease;
         }
 
-        .remember-me {
+        .form-floating .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .travel-preferences {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .preference-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 16px;
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
         }
 
-        .remember-me input {
-            margin-right: 8px;
-            accent-color: #3498db;
+        .preference-title i {
+            margin-right: 10px;
+            color: var(--primary);
         }
 
-        .button-container {
+        .vehicle-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .vehicle-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .sign-in-btn {
-            flex: 1;
-            padding: 14px;
-            border-radius: 10px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
+            align-items: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .sign-up-btn {
-            flex: 1;
-            padding: 14px;
-            border-radius: 10px;
-            background-color: #2ecc71;
+        .vehicle-option::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .vehicle-option:hover::before {
+            width: 100%;
+        }
+
+        .vehicle-option.active {
+            border-color: var(--primary);
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .vehicle-option:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .vehicle-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 107, 107, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .active .vehicle-icon {
+            background: var(--primary);
+        }
+
+        .vehicle-icon i {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .active .vehicle-icon i {
+            color: white;
+        }
+
+        .vehicle-text {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .vehicle-subtext {
+            font-size: 12px;
+            color: #888;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 25px 0;
+        }
+
+        .terms-checkbox input {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            margin-top: 3px;
+            accent-color: var(--primary);
+        }
+
+        .terms-checkbox label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .terms-checkbox a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .terms-checkbox a:hover {
+            color: #FF9A00;
+            text-decoration: underline;
+        }
+
+        .signup-button {
+            background: var(--gradient-primary);
             color: white;
             border: none;
-            font-size: 16px;
+            padding: 16px;
+            border-radius: 12px;
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .sign-in-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+        .signup-button::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
         }
 
-        .sign-up-btn:hover {
-            background-color: #27ae60;
-            transform: translateY(-2px);
+        .signup-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .signup-button:hover::after {
+            left: 100%;
         }
 
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 20px 0;
-            color: rgba(255, 255, 255, 0.5);
+            margin: 25px 0;
+            color: #888;
         }
 
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .divider::before {
-            margin-right: 10px;
+            margin-right: 15px;
         }
 
         .divider::after {
-            margin-left: 10px;
+            margin-left: 15px;
         }
 
-        .social-login {
+        .social-signup {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .social-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid #e0e0e0;
             font-size: 18px;
-            color: white;
-            cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .google-btn {
-            background-color: #DB4437;
-        }
-
-        .facebook-btn {
-            background-color: #4267B2;
-        }
-
-        .twitter-btn {
-            background-color: #1DA1F2;
+            cursor: pointer;
         }
 
         .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
         }
 
-        .create-account-text {
+        .google-btn {
+            color: #DB4437;
+        }
+
+        .facebook-btn {
+            color: #4267B2;
+        }
+
+        .twitter-btn {
+            color: #1DA1F2;
+        }
+
+        .login-link {
             text-align: center;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
-            line-height: 1.5;
+            color: #666;
         }
 
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
-            color: #3498db;
+        .login-link a {
+            color: var(--primary);
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
+            font-weight: 600;
+            transition: color 0.3s ease;
         }
 
-        .forgot-password a:hover {
-            color: #2980b9;
-            text-decoration: underline;
+        .login-link a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Animation classes */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .float-delay-1 {
+            animation-delay: 1s;
+        }
+
+        .float-delay-2 {
+            animation-delay: 2s;
+        }
+
+        /* Badge */
+        .premium-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .premium-badge i {
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+                max-width: 600px;
+            }
+
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+
+            .left-panel {
+                height: 300px;
+                padding: 40px;
+            }
+
+            .welcome-text h1 {
+                font-size: 36px;
+            }
+
+            .luxury-indicators {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .vehicle-options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .right-panel {
+                padding: 40px 30px;
+            }
+
+            .welcome-text h1 {
+                font-size: 28px;
+            }
+
+            .left-panel {
+                padding: 30px;
+            }
+
+            .logo-container {
+                top: 30px;
+                left: 30px;
+            }
+
+            .logo {
+                height: 40px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <div class="logo-container">
-        <div class="logo">TravelEase</div>
-    </div>
-
-    <h1>Unlock the Journey of Travel Booking</h1>
-
-    <div class="travel-icons">
-        <div class="travel-icon">
-            <i class="fas fa-plane"></i>
-            <span>Flights</span>
-        </div>
-        <div class="travel-icon">
-            <i class="fas fa-bus"></i>
-            <span>Buses</span>
-        </div>
-        <div class="travel-icon">
-            <i class="fas fa-shuttle-van"></i>
-            <span>Vans</span>
-        </div>
-        <div class="travel-icon">
-            <i class="fas fa-hotel"></i>
-            <span>Hotels</span>
-        </div>
-    </div>
-
-    <form>
-        <div class="input-container">
-            <i class="fas fa-user input-icon"></i>
-            <input type="text" class="input-field" placeholder="Username" required>
+<div class="container">
+    <div class="left-panel">
+        <div class="logo-container">
+            <img src="image/Screenshot_2025-03-05_132445-removebg-preview.png" alt="Logo" class="logo">
         </div>
 
-        <div class="input-container">
-            <i class="fas fa-lock input-icon"></i>
-            <input type="password" id="password" class="input-field" placeholder="Password" required>
-            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+       <!-- <div class="premium-badge">
+            <i class="fas fa-crown"></i>
+            <span>Premium Experience</span>
+        </div>-->
+
+        <div class="welcome-text">
+            <h1>Discover Extraordinary Travel Experiences</h1>
+            <p>Join our exclusive community of travelers and unlock premium vehicle booking services tailored to your unique preferences.</p>
         </div>
 
-        <div class="remember-me">
-            <input type="checkbox" id="remember">
-            <label for="remember">Remember me</label>
-        </div>
+        <div class="luxury-indicators">
+            <div class="luxury-item float">
+                <div class="luxury-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="luxury-text">Luxury Fleet</div>
+            </div>
 
-        <div class="button-container">
-            <button type="submit" class="sign-in-btn">Sign In</button>
-            <button type="button" class="sign-up-btn">Sign Up</button>
-        </div>
-    </form>
+            <div class="luxury-item float float-delay-1">
+                <div class="luxury-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="luxury-text">Certified Drivers</div>
+            </div>
 
-    <div class="divider">OR</div>
-
-    <div class="social-login">
-        <div class="social-btn google-btn">
-            <i class="fab fa-google"></i>
-        </div>
-        <div class="social-btn facebook-btn">
-            <i class="fab fa-facebook-f"></i>
-        </div>
-        <div class="social-btn twitter-btn">
-            <i class="fab fa-twitter"></i>
+            <div class="luxury-item float float-delay-2">
+                <div class="luxury-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="luxury-text">Global Coverage</div>
+            </div>
         </div>
     </div>
 
-    <div class="create-account-text">
-        New to our platform? Create an account to enjoy exclusive benefits and faster bookings!
-    </div>
+    <div class="right-panel">
+        <div class="signup-header">
+            <h2>Create Your Account</h2>
+            <p>Your journey to exceptional travel begins here</p>
+        </div>
 
-    <div class="forgot-password">
-        <a href="#">Forgot your password?</a>
+        <form>
+            <div class="form-row">
+                <div class="form-floating">
+                    <input type="text" id="firstName" placeholder=" " required>
+                    <label for="firstName">First Name</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="text" id="lastName" placeholder=" " required>
+                    <label for="lastName">Last Name</label>
+                </div>
+            </div>
+
+            <div class="form-floating">
+                <input type="email" id="email" placeholder=" " required>
+                <label for="email">Email Address</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="tel" id="phone" placeholder=" " required>
+                <label for="phone">Phone Number</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="text" id="address" placeholder=" " required>
+                <label for="address">Address</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" id="password" placeholder=" " required>
+                <label for="password">Password</label>
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" id="confirmPassword" placeholder=" " required>
+                <label for="confirmPassword">Confirm Password</label>
+                <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
+            </div>
+
+            <label for="isAdmin">
+                <input type="checkbox" id="isAdmin" name="isAdmin" onclick="toggleCompanyPassword()">
+                Admin
+            </label>
+
+            <section id="companyLock" style="display: none;">
+                <label for="companyPW">Enter Company Password:</label>
+                <input type="password" id="companyPW" name="companyPW">
+            </section>
+
+            <div class="terms-checkbox">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">
+                    I agree to the <a href="#">Terms of Service</a>, <a href="#">Privacy Policy</a>, and consent to receiving promotional emails about special offers and updates.
+                </label>
+            </div>
+
+            <button type="submit" class="signup-button">Create My Account</button>
+
+            <div class="divider">or sign up with</div>
+
+            <div class="social-signup">
+                <div class="social-btn google-btn">
+                    <i class="fab fa-google"></i>
+                </div>
+                <div class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-btn twitter-btn">
+                    <i class="fab fa-twitter"></i>
+                </div>
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="SingIn.html">Sign in</a>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
-    const passwordInput = document.getElementById("password");
-    const togglePassword = document.getElementById("togglePassword");
+    // Toggle password visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
 
-    togglePassword.addEventListener("click", function () {
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            togglePassword.classList.remove("fa-eye");
-            togglePassword.classList.add("fa-eye-slash");
+    togglePassword.addEventListener('click', function() {
+        togglePasswordVisibility(password, togglePassword);
+    });
+
+    toggleConfirmPassword.addEventListener('click', function() {
+        togglePasswordVisibility(confirmPassword, toggleConfirmPassword);
+    });
+
+    function togglePasswordVisibility(input, icon) {
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
         } else {
-            passwordInput.type = "password";
-            togglePassword.classList.remove("fa-eye-slash");
-            togglePassword.classList.add("fa-eye");
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Vehicle option selection
+    const vehicleOptions = document.querySelectorAll('.vehicle-option');
+
+    vehicleOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
+    });
+
+    // Add floating animation to elements with class 'float'
+    document.querySelectorAll('.float').forEach(element => {
+        element.style.animationDelay = `${Math.random() * 2}s`;
+    });
+</script>
+<script>
+    // scripts.js
+    function toggleCompanyPassword() {
+        var isAdminCheckbox = document.getElementById('isAdmin');
+        var companyLockSection = document.getElementById('companyLock');
+        companyLockSection.style.display = isAdminCheckbox.checked ? 'block' : 'none';
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        var isAdminCheckbox = document.getElementById('isAdmin');
+        var companyPassword = document.getElementById('companyPW').value.trim();
+
+        if (isAdminCheckbox.checked && companyPassword === '') {
+            alert('Please enter the company password to register as an admin.');
+            event.preventDefault(); // Prevent form submission
         }
     });
+
 </script>
 </body>
 </html>
