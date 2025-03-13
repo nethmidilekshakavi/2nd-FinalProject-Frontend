@@ -134,14 +134,15 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>registrationNumber</th>
+                        <th>registrationNo</th>
                         <th>model</th>
-                        <th>plateNumber</th>
+                        <th>plateNo</th>
                         <th>capacity</th>
                         <th>airConditioning</th>
                         <th>wifi</th>
                         <th>status</th>
                         <th>Image</th>
+                        <th>Options</th>
                     </tr>
                     </thead>
                     <tbody id="CarTableBody">
@@ -156,9 +157,9 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>registrationNumber</th>
+                        <th>registrationNo</th>
                         <th>model</th>
-                        <th>plateNumber</th>
+                        <th>plateNo</th>
                         <th>capacity</th>
                         <th>airConditioning</th>
                         <th>wifi</th>
@@ -394,7 +395,7 @@
 
             <div class="form-group">
                 <label for="wifi">Wi-Fi Status</label>
-                <select id="wifiv" name="wifiv" required>
+                <select id="wific" name="wific" required>
                     <option value="YES">YES</option>
                     <option value="NO">NO</option>
                 </select>
@@ -427,7 +428,7 @@
             <div class="modal-title" id="vehicleModalTitle2">Add/Edit Van</div>
             <button class="close-btn" onclick="closeModal('CarMode')">&times;</button>
         </div>
-        <form method="POST" enctype="multipart/form-data" class="form-grid">
+        <form id="carForm" method="POST" enctype="multipart/form-data" class="form-grid">
             <div class="form-group">
                 <label for="busId">Car ID</label>
                 <input type="number" id="carId" name="busId" required>
@@ -461,31 +462,33 @@
             <div class="form-group">
                 <label for="airConditioning">Air Conditioning</label>
                 <select id="airConditioningc" name="airConditioning" required>
-                    <option value="YES">Yes</option>
-                    <option value="NO">No</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="wifi">Wi-Fi Status</label>
                 <select id="wifc" name="wifi" required>
-                    <option value="AVAILABLE">Available</option>
-                    <option value="NOT_AVAILABLE">Not Available</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="status">Status</label>
-                <select id="statuc" name="status" required>
-                    <option value="ACTIVE">Active</option>
-                    <option value="INACTIVE">Inactive</option>
+                <select id="statusc" name="statusc" required>
+                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
+                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
+                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
+                    <option value="BOOKED" class="badge-danger">BOOKED</option>
                 </select>
             </div>
 
 
             <div class="form-group">
                 <label for="image">Image</label>
-                <input type="file" id="imagc" name="image" accept="image/*" required>
+                <input type="file" id="imagec" name="image" accept="image/*" required>
             </div>
 
             <div class="button-group">
@@ -571,7 +574,6 @@
         </form>
     </div>
 </div>
-
 <div id="UpdateVanModel" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -638,6 +640,80 @@
             <div class="form-group">
                 <label for="imageUpdatev">Image</label>
                 <input type="file" id="imageUpdatev" name="image" accept="image/*">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="UpdateCarModel" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="vehicleModalTitleUpdatec">Edit Car Details</div>
+            <button class="close-btn" onclick="closeModal('UpdateCarModel')">&times;</button>
+        </div>
+        <form id="UpdateCarForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="vanIdUpdate">Car ID</label>
+                <input type="number" id="carIdUpdate" name="carId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registrationNumberUpdatec">Registration Number</label>
+                <input type="text" id="registrationNumberUpdatec" name="registrationNumber">
+            </div>
+
+            <div class="form-group">
+                <label for="modelUpdatec">Model</label>
+                <input type="text" id="modelUpdatec" name="model">
+            </div>
+
+            <div class="form-group">
+                <label for="plateNumberUpdatec">Plate Number</label>
+                <input type="text" id="plateNumberUpdatec" name="plateNumber">
+            </div>
+
+            <div class="form-group">
+                <label for="yearUpdatec">Year</label>
+                <input type="number" id="yearUpdatec" name="year">
+            </div>
+
+            <div class="form-group">
+                <label for="capacityUpdatec">Capacity</label>
+                <input type="number" id="capacityUpdatec" name="capacity">
+            </div>
+
+            <div class="form-group">
+                <label for="airConditioningUpdatec">Air Conditioning</label>
+                <select id="airConditioningUpdatec" name="airConditioning">
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="wifiUpdatec">Wi-Fi Status</label>
+                <select id="wifiUpdatec" name="wifi">
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="statusUpdatec">Status</label>
+                <select id="statusUpdatec" name="status">
+                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
+                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
+                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
+                    <option value="BOOKED" class="badge-danger">BOOKED</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imageUpdatev">Image</label>
+                <input type="file" id="imageUpdatec" name="image" accept="image/*">
             </div>
 
             <div class="button-group">
@@ -842,5 +918,6 @@ document.getElementById('vehicleModal').classList.add('show');
 
 <script src="Js/BusController.js"></script>
 <script src="Js/VanController.js"></script>
+<script src="Js/CarController.js"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@ $(document).ready(function () {
                             </td>
                             <td>
                                 <img src="data:image/jpeg;base64,${van.image}" alt="Van Image" class="crop-image"
-                                     style="width: 70px; cursor: pointer;">
+                                     style="width: 50px; cursor: pointer;">
                             </td>
                              <td>
                                 <button class="btn btn-update" data-van-id="${van.vanId}">Update</button>
@@ -91,7 +91,7 @@ $(document).ready(function () {
                 alert("Van added successfully");
                 loadVans();
                 $("#vanForm")[0].reset();
-                closeModal('VanModal');
+                closeModal('VanMode');
             },
             error: function (xhr, status, error) {
                 alert("Error adding van: " + (xhr.responseText || error || status));
