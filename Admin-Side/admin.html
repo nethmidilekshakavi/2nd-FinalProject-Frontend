@@ -164,6 +164,7 @@
                         <th>wifi</th>
                         <th>status</th>
                         <th>Image</th>
+                        <th>Options</th>
                     </tr>
                     </thead>
                     <tbody id="VanTableBody">
@@ -316,7 +317,7 @@
                 <label for="wifi">Wi-Fi Status</label>
                 <select id="wifi" name="wifi" required>
                     <option value="YES">YES</option>
-                    <option value="No">NO</option>
+                    <option value="NO">NO</option>
                 </select>
             </div>
 
@@ -352,48 +353,48 @@
             <div class="modal-title" id="vehicleModalTitle1">Add/Edit Van</div>
             <button class="close-btn" onclick="closeModal('VanMode')">&times;</button>
         </div>
-        <form method="POST" enctype="multipart/form-data" class="form-grid">
+        <form id="vanForm" method="POST" enctype="multipart/form-data" class="form-grid">
             <div class="form-group">
-                <label for="busId">Van ID</label>
-                <input type="number" id="vanId" name="busId" required>
+                <label for="vanId">Van ID</label>
+                <input type="number" id="vanId" name="vanId" required>
             </div>
 
             <div class="form-group">
                 <label for="registrationNumber">Registration Number</label>
-                <input type="text" id="registrationNumberv" name="registrationNumber" required>
+                <input type="text" id="registrationNumberv" name="registrationNumberv" required>
             </div>
 
             <div class="form-group">
                 <label for="model">Model</label>
-                <input type="text" id="modelv" name="model" required>
+                <input type="text" id="modelv" name="modelv" required>
             </div>
 
             <div class="form-group">
                 <label for="plateNumber">Plate Number</label>
-                <input type="text" id="plateNumberv" name="plateNumber" required>
+                <input type="text" id="plateNumberv" name="plateNumberv" required>
             </div>
 
             <div class="form-group">
                 <label for="year">Year</label>
-                <input type="number" id="yearv" name="year" required>
+                <input type="number" id="yearv" name="yearv" required>
             </div>
 
             <div class="form-group">
                 <label for="capacity">Capacity</label>
-                <input type="number" id="capacityv" name="capacity" required>
+                <input type="number" id="capacityv" name="capacityv" required>
             </div>
 
             <div class="form-group">
                 <label for="airConditioning">Air Conditioning</label>
-                <select id="airConditioningv" name="airConditioning" required>
-                    <option value="YES">Yes</option>
-                    <option value="NO">No</option>
+                <select id="airConditioningv" name="airConditioningv" required>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="wifi">Wi-Fi Status</label>
-                <select id="wifiv" name="wifi" required>
+                <select id="wifiv" name="wifiv" required>
                     <option value="YES">YES</option>
                     <option value="NO">NO</option>
                 </select>
@@ -401,7 +402,7 @@
 
             <div class="form-group">
                 <label for="status">Status</label>
-                <select id="statusV" name="status" required>
+                <select id="statusv" name="statusv" required>
                     <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
                     <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
                     <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
@@ -411,7 +412,7 @@
 
             <div class="form-group">
                 <label for="image">Image</label>
-                <input type="file" id="imagev" name="image" accept="image/*" required>
+                <input type="file" id="imagev" name="imagev" accept="image/*" required>
             </div>
 
             <div class="button-group">
@@ -565,6 +566,86 @@
             <div class="form-group">
                 <label for="image">Image</label>
                 <input type="file" id="imageUpdate" name="image" accept="image/*" >
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="UpdateVanModel" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="vehicleModalTitleUpdatev">Edit Bus Details</div>
+            <button class="close-btn" onclick="closeModal('UpdateVanModel')">&times;</button>
+        </div>
+        <form id="UpdateVanForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="busId">Van ID</label>
+                <input type="number" id="vanIdUpdate" name="busId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registrationNumber">Registration Number</label>
+                <input type="text" id="registrationNumberUpdatev" name="registrationNumber" >
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" id="modelUpdatev" name="model" >
+            </div>
+
+            <div class="form-group">
+                <label for="plateNumber">Plate Number</label>
+                <input type="text" id="plateNumberUpdatev" name="plateNumber" >
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input type="number" id="yearUpdatev" name="year" >
+            </div>
+
+            <div class="form-group">
+                <label for="capacity">Capacity</label>
+                <input type="number" id="capacityUpdatev" name="capacity">
+            </div>
+
+            <div class="form-group">
+                <label for="airConditioning">Air Conditioning</label>
+                <select id="airConditioningUpdatev" name="airConditioning" >
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="wifi">Wi-Fi Status</label>
+                <select id="wifiUpdatev" name="wifi" >
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="statusUpdatev" name="status" >
+                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
+                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
+                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
+                    <option value="BOOKED" class="badge-danger">BOOKED</option>
+                </select>
+            </div>
+
+            <!--   <div class="form-group">
+                   <label for="date">Date</label>
+                   <input type="datetime-local" id="date" name="date" required>
+               </div>-->
+
+            <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" id="imageUpdatev" name="image" accept="image/*" >
             </div>
 
             <div class="button-group">
@@ -767,7 +848,6 @@ document.getElementById('vehicleModal').classList.add('show');
 </script>
 
 <script src="Js/BusController.js"></script>
-<script src="Js/AllVehicles.js"></script>
 <script src="Js/VanController.js"></script>
 </body>
 </html>
