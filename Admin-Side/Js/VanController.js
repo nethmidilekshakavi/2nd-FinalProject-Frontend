@@ -1,6 +1,5 @@
 $(document).ready(function () {
     loadVans();
-    let selectVanId = null;
 
     function loadVans() {
         $.ajax({
@@ -46,7 +45,6 @@ $(document).ready(function () {
 
     $("#vanForm").submit(function (event) {
         event.preventDefault();
-        console.log("Form submitted");
 
         let van = new FormData();
 
@@ -60,21 +58,25 @@ $(document).ready(function () {
         van.append('wifi', $("#wifiv").val());
         van.append('year', $("#yearv").val());
 
-        let imageFile = $('#imagev')[0].files[0];
+        // Append JSON stringified busData
+        van.append("vanData", JSON.stringify(van));
+
+        // Append image file
+        const imageFile = $('#imagev')[0].files[0];
         if (!imageFile) {
             alert("Please select an image!");
             return;
         }
-        van.append('image', imageFile);
+        van.append("image", imageFile);
 
+        // Debug FormData
         for (let pair of van.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
 
         if (!$("#vanId").val() || !$("#registrationNumberv").val() || !$("#modelv").val() ||
             !$("#plateNumberv").val() || !$("#yearv").val() || !$("#capacityv").val() ||
-            !$("#airConditioningv").val() || !$("#wifiv").val() || !$("#statusv").val() ||
-            !$('#imagev')[0].files[0]) {
+            !$("#airConditioningv").val() || !$("#wifiv").val() || !$("#statusv").val()) {
             alert("Please fill in all fields!");
             return;
         }
@@ -85,76 +87,117 @@ $(document).ready(function () {
             data: van,
             contentType: false,
             processData: false,
-            success: function (response) {
-                console.log(response);
+            success: function () {
                 alert("Van added successfully");
                 loadVans();
                 $("#vanForm")[0].reset();
-                closeModal('VanModal');  // Ensure this matches your modal's actual ID
+                closeModal('VanModal');
             },
             error: function (xhr, status, error) {
-                console.error("Error details:", xhr, status, error);
-                console.error("Response:", xhr.responseText);
                 alert("Error adding van: " + (xhr.responseText || error || status));
             }
         });
     });
 
     window.closeModal = function (modalId) {
-        $("#" + modalId).hide();
+        document.getElementById(modalId).style.display = 'none';
     };
 
-    window.showAddNewBusModal = function (){
-        document.getElementById('UpdateVanForm').style.display = 'block';
-    };
-
-    $(document).on("click" , ".btn-update", function (){
-
+    $(document).on("click", ".btn-update", function () {
         const vanId = $(this).data("van-id");
-        console.log("Clicked Update Button - van ID" , vanId);
-        if (vanId){
-            load
+        if (vanId) {
+            loadVanDataIntoUpdateForm(vanId);
         }
-    })
+    });
 
     function loadVanDataIntoUpdateForm(vanId) {
-        console.log("Fetching data for Bus ID:", busId);
-
         $.ajax({
-            url: `http://localhost:8080/api/v1/Buses/${busId}`,
+            url: `http://localhost:8080/api/v1/Vans/${vanId}`,
             type: "GET",
-            success: function (busData) {
-                console.log("Fetched Bus Data:", busData);
-
-                if (!busData) {
-                    alert("Bus data not found for ID: " + busId);
+            success: function (vanData) {
+                if (!vanData) {
+                    alert("Van data not found for ID: " + vanId);
                     return;
                 }
 
-                // Store busId in a hidden field for update operation
-                $("#busIdUpdate").val(busId);
-                $("#registrationNumberUpdate").val(busData.registrationNumber);
-                $("#modelUpdate").val(busData.model);
-                $("#plateNumberUpdate").val(busData.plateNumber);
-                $("#yearUpdate").val(busData.year);
-                $("#capacityUpdate").val(busData.capacity);
+                $("#vanIdUpdate").val(vanId);
+                $("#registrationNumberUpdatev").val(vanData.registrationNumber);
+                $("#modelUpdatev").val(vanData.model);
+                $("#plateNumberUpdatev").val(vanData.plateNumber);
+                $("#yearUpdatev").val(vanData.year);
+                $("#capacityUpdatev").val(vanData.capacity);
+                $("#airConditioningUpdatev").val(vanData.airConditioning);
+                $("#wifiUpdatev").val(vanData.wifi);
+                $("#statusUpdatev").val(vanData.status);
 
-                // Correct way to handle checkboxes
-                $("#airConditioningUpdate").val(busData.airConditioning);
-                $("#wifiUpdate").val(busData.wifi);
-
-                // If 'statusUpdate' is a dropdown, set value
-                $("#statusUpdate").val(busData.status);
-
-                // Show the update modal
-                $("#UpdateBusModel").show();
-
-                console.log("Form populated successfully.");
+                $("#UpdateVanModel").show();
             },
             error: function (xhr, status, error) {
-                alert("Error loading bus details: " + (xhr.responseText || error || status));
+                alert("Error loading van details: " + (xhr.responseText || error || status));
             }
         });
     }
 
+    $("#UpdateVanForm").submit(function(event) {
+        event.preventDefault();
+
+        const vanId = $("#vanIdUpdate").val();
+        if (!vanId) {
+            alert("Van ID is missing");
+            return;
+        }
+
+        const van = new FormData();
+        van.append('air', $("#airConditioningUpdatev").val());
+        van.append('capacity', $("#capacityUpdatev").val());
+        van.append('model', $("#modelUpdatev").val());
+        van.append('plateNumber', $("#plateNumberUpdatev").val());
+        van.append('registration', $("#registrationNumberUpdatev").val());
+        van.append('status', $("#statusUpdatev").val());
+        van.append('wifi', $("#wifiUpdatev").val());
+        van.append('year', $("#yearUpdatev").val());
+
+        let imageFile = $('#imageUpdatev')[0].files[0];
+        if (imageFile) {
+            van.append('image', imageFile);
+        }
+
+        $.ajax({
+            url: `http://localhost:8080/api/v1/Vans/${vanId}`,
+            type: "PUT",
+            data: van,
+            contentType: false,
+            processData: false,
+            success: function () {
+                alert("Van updated successfully");
+                loadVans();
+                $("#UpdateVanForm")[0].reset();
+                closeModal('UpdateVanModel');
+            },
+            error: function (xhr, status, error) {
+                alert("Error updating van: " + (xhr.responseText || error || status));
+            }
+        });
+    });
+
+    $(document).on("click", ".btn-delete", function () {
+        const vanId = $(this).data("van-id");
+        if (confirm("Are you sure you want to delete this van?")) {
+            deleteVan(vanId);
+        }
+    });
+
+    function deleteVan(vanId) {
+        $.ajax({
+            url: `http://localhost:8080/api/v1/Vans/${vanId}`,
+            type: "DELETE",
+            success: function () {
+                alert("Van deleted successfully!");
+                loadVans();
+            },
+            error: function (xhr, status, error) {
+                alert("Error deleting van: " + (xhr.responseText || error || status));
+            }
+        });
+    }
 });

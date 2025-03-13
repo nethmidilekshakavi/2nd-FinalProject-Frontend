@@ -57,6 +57,8 @@ $(document).ready(function () {
         // Create FormData object
         const bus = new FormData();
 
+        console.log(bus)
+
         // Match the exact parameter names expected by the controller
         bus.append('busId', $("#busId").val());
         bus.append('air', $("#airConditioning").val());
@@ -132,8 +134,6 @@ $(document).ready(function () {
         console.log("Clicked Update Button - Bus ID:", busId);
         if (busId) {
             loadBusDataIntoUpdateForm(busId);
-        } else {
-            alert("Bus ID not found!");
         }
     });
 
