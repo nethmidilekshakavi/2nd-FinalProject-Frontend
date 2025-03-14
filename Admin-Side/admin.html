@@ -37,6 +37,7 @@
         <ul class="sidebar-menu">
             <li><a href="#mainForm" class="active">Dashboard</a></li>
             <li><a href="#vehicleManagement">Vehicles</a></li>
+            <li><a href="#DriversManagement">Drivers</a></li>
             <li><a href="#viewBooking">Bookings</a></li>
             <li><a href="#">Users</a></li>
             <li><a href="#">Reports</a></li>
@@ -199,6 +200,86 @@
             </div>
         </div>
     </section>
+
+    <section id="DriversManagement">
+        <!-- Vehicle Management -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">Drivers Management</div>
+                <div class="table-actions">
+                   <!-- <button class="btn btn-outline" onclick="filterVehicles()">Filter</button>-->
+                </div>
+                <button class="add-btn" onclick="showAddNewDriverModal()">Add New Driver</button>
+            </div>
+
+            <br>
+            <div id="all-Drivers" class="tab-content active">
+                <table id="allDrivers">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>model</th>
+                        <th>licenseNo</th>
+                        <th>phoneNo</th>
+                        <th>licenseExpiry</th>
+                        <th>VehicleType</th>
+                        <th>isAvailable</th>
+                        <th>ProPic</th>
+                        <th>Option</th>
+                    </tr>
+                    </thead>
+                    <tbody id="DriversTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section id="addDriverForm" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="DriverModelTitle">Add/Edit Driver</div>
+                <button class="close-btn" onclick="closeModal('addDriverForm')">&times;</button>
+            </div>
+            <form id="driverForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter driver's name" required>
+                </div>
+                <div class="form-group">
+                    <label for="licenseNumber">License Number:</label>
+                    <input type="text" id="licenseNumber" name="licenseNumber" placeholder="Enter license number" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number">
+                </div>
+                <div class="form-group">
+                    <label for="licenseExpiry">License Expiry Date:</label>
+                    <input type="date" id="licenseExpiry" name="licenseExpiry" required>
+                </div>
+                <div class="form-group">
+                    <label for="vehicleType">Vehicle Type:</label>
+                    <select id="vehicleType" name="vehicleType" required>
+                        <option value="BUS">Bus</option>
+                        <option value="VAN">Van</option>
+                        <option value="CAR">Car</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="isAvailable">Availability:</label>
+                    <select id="isAvailable" name="isAvailable">
+                        <option value="true">Available</option>
+                        <option value="false">Unavailable</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Add Driver</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
 
     <section id="viewBooking">
         <!-- Recent Bookings -->
@@ -873,7 +954,12 @@
     }
 
 
-
+    //Driver Section=========================================================================
+    function showAddNewDriverModal() {
+        document.getElementById('DriverModelTitle').textContent = 'Add New Driver';
+        document.getElementById('addDriverForm').querySelector('form').reset();
+        document.getElementById('addDriverForm').classList.add('show');
+    }
 
 
     function showEditVehicleModal(id) {
