@@ -103,8 +103,14 @@ $(document).ready(function () {
         document.getElementById(modalId).style.display = 'none';
     };
 
+    // Helper function to show modal
+    window.showUpdateVanModel = function() {
+        document.getElementById('UpdateVanModel').style.display = 'block';
+    };
+
     $(document).on("click", ".btn-update", function () {
         const vanId = $(this).data("van-id");
+        console.log("Clicked Update Button - Van ID:", vanId);
         if (vanId) {
             loadVanDataIntoUpdateForm(vanId);
         }
@@ -142,6 +148,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         const vanId = $("#vanIdUpdate").val();
+        console.log(vanId)
         if (!vanId) {
             alert("Van ID is missing");
             return;
