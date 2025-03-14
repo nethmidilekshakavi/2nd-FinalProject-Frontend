@@ -109,7 +109,7 @@
                 <div class="tab" onclick="switchTab('buses')">Buses</div>
             </div>
             <div id="all-vehicles" class="tab-content active">
-                <table>
+                <table id="allVehicleTable">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -123,7 +123,7 @@
                         <th>Image</th>
                     </tr>
                     </thead>
-                    <tbody id="">
+                    <tbody id="AllVehicleBody">
                     </tbody>
                 </table>
             </div>
@@ -919,5 +919,6 @@ document.getElementById('vehicleModal').classList.add('show');
 <script src="Js/BusController.js"></script>
 <script src="Js/VanController.js"></script>
 <script src="Js/CarController.js"></script>
+<script src="Js/AllVehicles.js"></script>
 </body>
 </html>
