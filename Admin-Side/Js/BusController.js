@@ -35,8 +35,9 @@ $(document).ready(function () {
                                     style="width: 70px; cursor: pointer;">
                             </td>
                             <td>
-                                <button class="btn btn-update" data-bus-id="${bus.busId}">Update</button>
-                                <button class="btn btn-delete" data-bus-id="${bus.busId}">Delete</button>
+                               <button class="btn btn-update" data-bus-id="${bus.busId}">Update</button>
+                              <button class="btn btn-delete" data-bus-id="${bus.busId}">Delete</button>
+
                             </td>
                         </tr>
                     `);
@@ -236,15 +237,21 @@ $(document).ready(function () {
         });
     });
 
+
     // Delete button click handler
     $(document).on("click", ".btn-delete", function () {
         const busId = $(this).data("bus-id");
+
+        if (!busId) {
+            alert("Bus ID not found!");
+            return;
+        }
+
         if (confirm("Are you sure you want to delete this bus?")) {
             deleteBus(busId);
         }
     });
 
-    // Function to delete a bus
     function deleteBus(busId) {
         $.ajax({
             url: `http://localhost:8080/api/v1/Buses/${busId}`,
@@ -254,8 +261,11 @@ $(document).ready(function () {
                 loadBuses();
             },
             error: function (xhr, status, error) {
-                alert("Error deleting bus: " + (xhr.responseText || error || status));
+                const errorMessage = xhr.responseText || error || status;
+                alert(`Error deleting bus: ${errorMessage}`);
             }
         });
     }
+
+
 });

@@ -34,6 +34,7 @@ $(document).ready(function () {
                              <td>
                                 <button class="btn btn-update" data-car-id="${car.carId}">Update</button>
                                 <button class="btn btn-delete" data-car-id="${car.carId}">Delete</button>
+
                             </td>
                         </tr>
                     `);
@@ -175,7 +176,7 @@ $(document).ready(function () {
             success: function () {
                 alert("Car updated successfully");
                 loadCars();
-                $("#UpdateCarModel")[0].reset();
+                $("#UpdateCarForm")[0].reset();
                 closeModal('UpdateCarModel');
             },
             error: function (xhr, status, error) {
@@ -184,9 +185,14 @@ $(document).ready(function () {
         });
     });
 
-
     $(document).on("click", ".btn-delete", function () {
-        const carId = $(this).data("car-id");
+        const carId = $(this).data("car-id"); // Retrieve car ID
+
+        if (!carId) {
+            alert("Car ID not found!");
+            return;
+        }
+
         if (confirm("Are you sure you want to delete this car?")) {
             deleteCar(carId);
         }
@@ -198,12 +204,14 @@ $(document).ready(function () {
             type: "DELETE",
             success: function () {
                 alert("Car deleted successfully!");
-                loadCars();
+                loadCars(); // Refresh the table after deletion
             },
             error: function (xhr, status, error) {
-                alert("Error deleting van: " + (xhr.responseText || error || status));
+                const errorMessage = xhr.responseText || error || status;
+                alert(`Error deleting car: ${errorMessage}`);
             }
         });
     }
+
 
 })

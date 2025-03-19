@@ -188,7 +188,7 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".btn-delete", function () {
-        const vanId = $(this).data("van-id");
+        const vanId = $(this).attr("van-id");
         if (confirm("Are you sure you want to delete this van?")) {
             deleteVan(vanId);
         }
