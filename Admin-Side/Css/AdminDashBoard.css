@@ -684,7 +684,7 @@ th:first-child {
 
 /* Vehicle Card */
 .vehicle-card {
-    width: 300px;
+    width: 250px;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -761,26 +761,7 @@ th:first-child {
     font-weight: bold;
 }
 
-.btn-update {
-    background-color: #2196F3;
-    color: white;
-}
 
-.btn-delete {
-    background-color: #F44336;
-    color: white;
-}
-
-/* Add Button */
-.add-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
 
 /* Modal Styles */
 .modal {
@@ -831,16 +812,38 @@ th:first-child {
     border-radius: 4px;
 }
 
-.submit-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end; /* Push buttons to the right */
+    gap: 10px; /* Add spacing between buttons */
+    margin-top: 10px; /* Add some space from the elements above */
 }
 
+.btn {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 18px; /* Icon size or button size */
+    padding: 5px;
+    transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+.btn-update {
+    color: #007BFF; /* Blue for edit */
+}
+
+.btn-update:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-delete {
+    color: #DC3545; /* Red for delete */
+}
+
+.btn-delete:hover {
+    color: #a71d2a; /* Darker red on hover */
+}
 
 
 

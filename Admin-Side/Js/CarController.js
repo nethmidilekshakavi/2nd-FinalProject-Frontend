@@ -45,13 +45,20 @@ $(document).ready(function () {
                         <p><strong>Registration:</strong> ${car.registrationNumber}</p>
                         <p><strong>Plate Number:</strong> ${car.plateNumber}</p>
                         <p><strong>Capacity:</strong> ${car.capacity} seats</p>
-                        <p><strong>AC:</strong> ${car.airConditioning ? "Available" : "Not Available"}</p>
-                        <p><strong>WiFi:</strong> ${car.wifi ? "Available" : "Not Available"}</p>
+                        <p><strong>AC:</strong> ${car.airConditioning}</p>
+                        <p><strong>WiFi:</strong> ${car.wifi}</p>
                     </div>
-                    <div class="card-actions">
-                        <button class="btn btn-update" data-car-id="${car.carId}">Update</button>
-                        <button class="btn btn-delete" data-car-id="${car.carId}">Delete</button>
-                    </div>
+ <div class="card-actions">
+    <button class="btn btn-update" data-car-id="${car.carId}">
+        <i class="fas fa-edit"></i> <!-- Edit icon -->
+    </button>
+    <button class="btn btn-delete" data-car-id="${car.carId}">
+        <i class="fas fa-trash"></i> <!-- Delete icon -->
+    </button>
+</div>
+
+</div>
+
                 </div>
             </div>
         `;
@@ -124,27 +131,34 @@ $(document).ready(function () {
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('insuranceNames')
-            .then(response => response.json())
-            .then(data => {
-                const select = document.getElementById("insurancec");
-                select.innerHTML = ""; // Clear existing options
-                data.forEach(option => {
-                    let opt = document.createElement("option");
-                    opt.value = option;
-                    opt.textContent = option.replace("_", " "); // Format text
-                    select.appendChild(opt);
+    function loadInsuranceNames() {
+        $.ajax({
+            url: "http://localhost:8080/api/i1/insurance/insuranceNames", // API endpoint
+            type: "GET", // HTTP method
+            success: function (data) {
+                const container = $("#insurancec").empty();
+
+                // Check if data is available
+                if (data.length === 0) {
+                    container.append('<option value="">No insurance available</option>');
+                    return;
+                }
+
+                // Loop through the data and add options to the dropdown
+                data.forEach((insurance) => {
+                    container.append(`<option value="${insurance.name}">${insurance.name}</option>`);
                 });
-            })
-            .catch(error => console.error('Error loading insurance options:', error));
-    });
+            },
+            error: function (xhr, status, error) {
+                alert(`Error loading insurance names: ${xhr.responseText || error || status}`);
+            }
+        });
+    }
 
-    $(document).on("click", ".btn-update", function () {
-        const carId = $(this).data("car-id");
-        loadCarDataIntoUpdateForm(carId);
-    });
 
+    $(document).ready(function () {
+        loadInsuranceNames(); //
+    });
 
     function loadCarDataIntoUpdateForm(carId) {
         $.ajax({
