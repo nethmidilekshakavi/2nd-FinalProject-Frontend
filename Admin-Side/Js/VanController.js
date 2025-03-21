@@ -198,24 +198,4 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on("click", ".btn-delete", function () {
-        const vanId = $(this).attr("van-id");
-        if (confirm("Are you sure you want to delete this van?")) {
-            deleteVan(vanId);
-        }
-    });
-
-    function deleteVan(vanId) {
-        $.ajax({
-            url: `http://localhost:8080/api/v1/Vans/${vanId}`,
-            type: "DELETE",
-            success: function () {
-                alert("Van deleted successfully!");
-                loadVans();
-            },
-            error: function (xhr, status, error) {
-                alert("Error deleting van: " + (xhr.responseText || error || status));
-            }
-        });
-    }
 });

@@ -187,25 +187,5 @@ $(document).ready(function () {
     })
 
 
-    $(document).on("click", ".btn-delete", function () {
-        const driverId = $(this).data("driver-id");
-        if (confirm("Are you sure you want to delete this driver?")) {
-            deleteDriver(driverId);
-        }
-    });
-
-    function deleteDriver(driverId) {
-        $.ajax({
-            url: `http://localhost:8080/api/d1/drivers/${driverId}`,
-            type: "DELETE",
-            success: function () {
-                alert("Driver deleted successfully!");
-                loadDrivers();
-            },
-            error: function (xhr, status, error) {
-                alert("Error deleting driver: " + (xhr.responseText || error || status));
-            }
-        });
-    }
 
 });
