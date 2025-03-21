@@ -205,3 +205,4 @@ window.onclick = function(event) {
     // View booking details
     alert('Viewing details for booking ID: ' + id);
 }
+
