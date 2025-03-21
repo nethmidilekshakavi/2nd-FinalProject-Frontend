@@ -138,21 +138,17 @@ window.onclick = function(event) {
     }
 }
 
-
-
-
     function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('show');
 }
 
 
     // Function to show the Add New Van modal=================================================
-    function showUpdateBusModel() {
-    document.getElementById('vehicleModalTitleUpdate').textContent = 'Update Bus';
-    document.getElementById('UpdateBusModel').querySelector('form').reset();
-    document.getElementById('UpdateBusModel').classList.add('show');
+function showUpdateCarModal() {
+    document.getElementById('vehicleModalTitleUpdateCar').textContent = 'Update Car';
+    document.getElementById('UpdateCarModel').querySelector('form').reset();
+    document.getElementById('UpdateCarModel').classList.add('show');
 }
-
 
     //Driver Section=========================================================================
     function showAddNewDriverModal() {
@@ -168,41 +164,11 @@ window.onclick = function(event) {
 }
 
 
-    function showEditVehicleModal(id) {
-    document.getElementById('vehicleModalTitle').textContent = 'Edit Vehicle';
-
-// Populate form with vehicle data (this would come from your database)
-    if (id === 1) {
-    document.getElementById('vehicleName').value = 'Toyota Camry';
-    document.getElementById('vehicleType').value = 'car';
-    document.getElementById('vehicleCapacity').value = '4';
-    document.getElementById('vehicleStatus').value = 'available';
-}
-
-    document.getElementById('vehicleModal').classList.add('show');
-}
 
 
-    function confirmDelete(id) {
-    if (confirm('Are you sure you want to delete this vehicle?')) {
-    // Delete logic would go here
-    console.log('Deleting vehicle ID:', id);
-    alert('Vehicle deleted successfully!');
-}
-}
+
 
     function filterVehicles() {
-    // Filter functionality would go here
-    alert('Filter functionality would appear here');
-}
-
-    function viewAllBookings() {
-    // View all bookings functionality
-    alert('Redirecting to all bookings page');
-}
-
-    function viewBookingDetails(id) {
-    // View booking details
-    alert('Viewing details for booking ID: ' + id);
-}
-
+        // Filter functionality would go here
+        alert('Filter functionality would appear here');
+    }

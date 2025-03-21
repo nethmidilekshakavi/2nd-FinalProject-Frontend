@@ -751,8 +751,7 @@
 </div>
 <div id="UpdateCarModel" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('UpdateCarModel')">&times;</span>
-            <h2>Update Car</h2>
+            <div class="modal-title" id="vehicleModalTitleUpdateCar">Edit Car Model</div>
             <form id="UpdateCarForm">
                 <input type="hidden" id="carIdUpdate">
                 <div class="form-group">
@@ -795,6 +794,10 @@
                         <option value="AVAILABLE">Available</option>
                         <option value="NOT_AVAILABLE">Not Available</option>
                         <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select id="insurancencupdate">
                     </select>
                 </div>
                 <div class="form-group">

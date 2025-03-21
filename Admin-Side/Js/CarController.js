@@ -2,6 +2,7 @@ $(document).ready(function () {
     loadCars();
     loadInsuranceNames();
 
+    //get All cars
     function loadCars() {
         $.ajax({
             url: "http://localhost:8080/api/c1/cars",
@@ -25,6 +26,7 @@ $(document).ready(function () {
         });
     }
 
+    //create card
     function createCarCard(car) {
         return `
             <div class="vehicle-card" data-car-id="${car.carId}">
@@ -42,7 +44,7 @@ $(document).ready(function () {
                         <p><strong>WiFi:</strong> ${car.wifi || "Not Available"}</p>
                     </div>
                     <div class="card-actions">
-                        <button class="btn btn-update" data-car-id="${car.carId}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-update" data-car-id="${car.carId}" onclick="showUpdateCarModal()"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-delete" data-car-id="${car.carId}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -50,6 +52,7 @@ $(document).ready(function () {
         `;
     }
 
+    //statues features
     function getBadgeClass(status) {
         const badgeClasses = {
             "AVAILABLE": "status-available",
@@ -59,6 +62,7 @@ $(document).ready(function () {
         return badgeClasses[status] || "status-unknown";
     }
 
+    //add car
     $("#carForm").submit(function (event) {
         event.preventDefault();
 
@@ -99,6 +103,48 @@ $(document).ready(function () {
         });
     });
 
+    //Update Car
+    $("#UpdateCarForm").submit(function (event) {
+        event.preventDefault();
+
+        let car = new FormData();
+        car.append('carId', $("#carIdUpdate").val());
+        car.append('air', $("#airConditioningUpdatec").val());
+        car.append('capacity', $("#capacityUpdatec").val());
+        car.append('model', $("#modelUpdatec").val());
+        car.append('plateNumber', $("#plateNumberUpdatec").val());
+        car.append('registration', $("#registrationNumberUpdatec").val());
+        car.append('status', $("#statusUpdatec").val());
+        car.append('wifi', $("#wifiUpdatec").val());
+        car.append('year', $("#yearUpdatec").val());
+        car.append('insuranceName', $("#insurancencupdate").val());
+
+        const imageFile = $('#imagec')[0].files[0];
+        if (!imageFile) {
+            alert("Please select an image!");
+            return;
+        }
+        car.append("image", imageFile);
+
+        $.ajax({
+            url: "http://localhost:8080/api/c1/cars",
+            type: "POST",
+            data: car,
+            contentType: false,
+            processData: false,
+            success: function (newCar) {
+                alert("Car added successfully");
+                loadCars();
+                $("#carForm")[0].reset();
+                closeModal('CarMode');
+            },
+            error: function (xhr, status, error) {
+                alert("Error adding car: " + (xhr.responseText || error || status));
+            }
+        });
+    });
+
+    //Load Insurance Names
     function loadInsuranceNames() {
         $.ajax({
             url: "http://localhost:8080/api/i1/insurance/insuranceNames",
@@ -106,10 +152,16 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 const container = $("#insurancenc").empty();
+                const container1 = $("#insurancencupdate").empty();
                 container.append('<option value="">Select an Insurance</option>');
+                container1.append('<option value="">Select an Insurance</option>');
 
                 if (!data || data.length === 0) {
                     container.append('<option value="">No insurance available</option>');
+                    return;
+                }
+                if (!data || data.length === 0) {
+                    container1.append('<option value="">No insurance available</option>');
                     return;
                 }
 
@@ -118,14 +170,21 @@ $(document).ready(function () {
                     const name = ins.provider || ins.providerName || ins;
                     container.append(`<option value="${id}">${name}</option>`);
                 });
+                data.forEach(insu => {
+                    const id = insu.id || insu.insuranceId || insu;
+                    const name = insu.provider || insu.providerName || insu;
+                    container1.append(`<option value="${id}">${name}</option>`);
+                });
             },
             error: function (xhr) {
                 console.error("Error loading insurance names:", xhr.responseText);
                 $("#insurancenc").append('<option value="">Error loading data</option>');
+                $("#insurancencupdate").append('<option value="">Error loading data</option>');
             }
         });
     }
 
+    //delete cars
     $(document).on("click", ".btn-delete", function () {
         const carId = $(this).data("car-id");
         if (confirm("Are you sure you want to delete this car?")) {
@@ -147,5 +206,10 @@ $(document).ready(function () {
         $(`#${modalId}`).modal('hide'); // Bootstrap modal hide
     }
 
+    //colos model
     window.closeModal = closeModal;
+
 });
+
+
+
