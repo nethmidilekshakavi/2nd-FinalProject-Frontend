@@ -6,34 +6,33 @@ $(document).ready(function () {
             url: "http://localhost:8080/api/v1/Vans",
             type: "GET",
             success: function (data) {
-                let tbody = $("#VanTableBody").empty();
+                let tbody = $("#vanCardContainer").empty();
                 data.forEach(van => {
                     tbody.append(`
-                        <tr>
-                            <td>${van.vanId}</td>
-                            <td>${van.registrationNumber}</td>
-                            <td>${van.model}</td>
-                            <td>${van.plateNumber}</td>
-                            <td>${van.capacity}</td>
-                            <td>${van.airConditioning}</td>
-                            <td>${van.wifi}</td>
-                            <td>
-                                <span class="badge ${van.status === 'AVAILABLE' ? 'badge-success' :
-                        van.status === 'NOT_AVAILABLE' ? 'badge-warning' :
-                            van.status === 'UNDER_MAINTENANCE' ? 'badge-primary' :
-                                'badge-danger'}">
+                              <div class="vehicle-card" data-bus-id="${van.vanId}">
+                            <div class="vehicle-image">
+                                <img src="data:image/jpeg;base64,${van.image}" alt="Van Image">
+                            </div>
+                            <div class="vehicle-details">
+                                <h3>${van.model}</h3>
+                                <div class="status-badge ${getBadgeClass(van.status)}">
                                     ${van.status}
-                                </span>
-                            </td>
-                            <td>
-                                <img src="data:image/jpeg;base64,${van.image}" alt="Van Image" class="crop-image"
-                                     style="width: 50px; cursor: pointer;">
-                            </td>
-                             <td>
-                                <button class="btn btn-update" data-van-id="${van.vanId}">Update</button>
-                                <button class="btn btn-delete" data-van-id="${van.vanId}">Delete</button>
-                            </td>
-                        </tr>
+                                </div>
+                                <div class="vehicle-info">
+                                
+                                    <p><strong>Registration:</strong> ${van.registrationNumber}</p>
+                                    <p><strong>Plate Number:</strong> ${van.plateNumber}</p>
+                                    <p><strong>Capacity:</strong> ${van.capacity} seats</p>
+                                   <p><strong>AC:</strong> ${van.airConditioning ? van.airConditioning : "Not Available"} </p>
+                                    <p><strong>WiFi:</strong> ${van.wifi ? van.wifi : "Not Available"} </p>
+    
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn btn-update" data-van-id="${van.vanId}">Update</button>
+                                    <button class="btn btn-delete" data-van-id="${van.vanId}">Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     `);
                 });
             },
@@ -43,6 +42,18 @@ $(document).ready(function () {
         });
     }
 
+    function getBadgeClass(status) {
+        switch(status) {
+            case 'AVAILABLE':
+                return 'status-available';
+            case 'NOT_AVAILABLE':
+                return 'status-unavailable';
+            case 'UNDER_MAINTENANCE':
+                return 'status-maintenance';
+            default:
+                return 'status-unknown';
+        }
+    }
     $("#vanForm").submit(function (event) {
         event.preventDefault();
 

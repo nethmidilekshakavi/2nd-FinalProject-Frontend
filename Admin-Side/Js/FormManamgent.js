@@ -125,15 +125,26 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 }
 
-    // Function to show the Add New Van modal=================================================
-    function showAddNewCarModal() {
+
+function showAddNewCarModal() {
     document.getElementById('vehicleModalTitle2').textContent = 'Add New Car';
     document.getElementById('CarMode').querySelector('form').reset();
     document.getElementById('CarMode').classList.add('show');
 }
+
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+    }
+}
+
+
+
+
     function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('show');
 }
+
 
     // Function to show the Add New Van modal=================================================
     function showUpdateBusModel() {

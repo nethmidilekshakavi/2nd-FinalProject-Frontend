@@ -1,217 +1,217 @@
-
 $(document).ready(function () {
+    // Load cars when the page is ready
 
-    loadCars()
 
-    function loadCars() {
-        $.ajax({
-            url: "http://localhost:8080/api/c1/cars",
-            type: "GET",
-            success: function (data) {
-                let tbody = $("#CarTableBody").empty();
-                data.forEach(car => {
-                    tbody.append(`
-                        <tr>
-                            <td>${car.carId}</td>
-                            <td>${car.registrationNumber}</td>
-                            <td>${car.model}</td>
-                            <td>${car.plateNumber}</td>
-                            <td>${car.capacity}</td>
-                            <td>${car.airConditioning}</td>
-                            <td>${car.wifi}</td>
-                            <td>
-                                <span class="badge ${car.status === 'AVAILABLE' ? 'badge-success' :
-                        car.status === 'NOT_AVAILABLE' ? 'badge-warning' :
-                            car.status === 'UNDER_MAINTENANCE' ? 'badge-primary' :
-                                'badge-danger'}">
-                                    ${car.status}
-                                </span>
-                            </td>
-                            <td>
-                                <img src="data:image/jpeg;base64,${car.image}" alt="Van Image" class="crop-image"
-                                     style="width: 50px; cursor: pointer;">
-                            </td>
-                             <td>
-                                <button class="btn btn-update" data-car-id="${car.carId}">Update</button>
-                                <button class="btn btn-delete" data-car-id="${car.carId}">Delete</button>
+    $(document).ready(function () {
+        loadCars();
 
-                            </td>
-                        </tr>
-                    `);
-                });
-            },
-            error: function () {
-                alert("Error loading vans!");
+        function loadCars() {
+            $.ajax({
+                url: "http://localhost:8080/api/c1/cars",
+                type: "GET", // HTTP method
+                success: function (data) {
+                    const container = $("#carCardContainer").empty();
+
+
+                    if (data.length === 0) {
+                        container.append(`<p>No cars available.</p>`);
+                        return;
+                    }
+
+
+                    data.forEach(car => {
+                        const carCard = createCarCard(car);
+                        container.append(carCard); // Append the generated card
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(`Error loading cars: ${xhr.responseText || error || status}`);
+                }
+            });
+        }
+
+        function createCarCard(car) {
+            return `
+            <div class="vehicle-card" data-car-id="${car.carId}">
+                <div class="vehicle-image">
+                    <img src="data:image/jpeg;base64,${car.image}" alt="Car Image">
+                </div>
+                <div class="vehicle-details">
+                    <h3>${car.model}</h3>
+                    <div class="status-badge ${getBadgeClass(car.status)}">
+                        ${car.status}
+                    </div>
+                    <div class="vehicle-info">
+                        <p><strong>Registration:</strong> ${car.registrationNumber}</p>
+                        <p><strong>Plate Number:</strong> ${car.plateNumber}</p>
+                        <p><strong>Capacity:</strong> ${car.capacity} seats</p>
+                        <p><strong>AC:</strong> ${car.airConditioning ? "Available" : "Not Available"}</p>
+                        <p><strong>WiFi:</strong> ${car.wifi ? "Available" : "Not Available"}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-update" data-car-id="${car.carId}">Update</button>
+                        <button class="btn btn-delete" data-car-id="${car.carId}">Delete</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        function getBadgeClass(status) {
+            switch (status) {
+                case 'AVAILABLE': return 'status-available';
+                case 'NOT_AVAILABLE': return 'status-unavailable';
+                case 'UNDER_MAINTENANCE': return 'status-maintenance';
+                default: return 'status-unknown';
             }
-        });
+        }
+    });
 
+    function getBadgeClass(status) {
+        const badgeClasses = {
+            "AVAILABLE": "status-available",
+            "NOT_AVAILABLE": "status-unavailable",
+            "UNDER_MAINTENANCE": "status-maintenance"
+        };
+        return badgeClasses[status] || "status-unknown";
+    }
+
+    function createCarCard(car) {
+        return `
+        <div class="vehicle-card" data-bus-id="${car.carId}">
+            <div class="vehicle-image">
+                <img src="data:image/jpeg;base64,${car.image}" alt="Bus Image">
+            </div>
+            <div class="vehicle-details">
+                <h3>${car.model}</h3>
+                <div class="status-badge ${getBadgeClass(car.status)}">${car.status}</div>
+                <div class="vehicle-info">
+                    <p><strong>Registration:</strong> ${car.registrationNumber}</p>
+                    <p><strong>Plate Number:</strong> ${car.plateNumber}</p>
+                    <p><strong>Capacity:</strong> ${car.capacity} seats</p>
+                    <p><strong>AC:</strong> ${car.airConditioning || "Not Available"}</p>
+                    <p><strong>WiFi:</strong> ${car.wifi || "Not Available"}</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn btn-update" data-car-id="${car.carId}">Update</button>
+                    <button class="btn btn-delete" data-car-id="${car.carId}">Delete</button>
+                </div>
+            </div>
+        </div>
+        `;
     }
 
     $("#carForm").submit(function (event) {
         event.preventDefault();
-
-        let car = new FormData();
-
-        car.append('carId', $("#carId").val());
-        car.append('air', $("#airConditioningc").val());
-        car.append('capacity', $("#capacityc").val());
-        car.append('model', $("#modelc").val());
-        car.append('plateNumber', $("#plateNumberc").val());
-        car.append('registration', $("#registrationNumberc").val());
-        car.append('status', $("#statusc").val());
-        car.append('wifi', $("#wific").val());
-        car.append('year', $("#yearc").val());
-
-
-        car.append("carData", JSON.stringify(car));
-
-        // Append image file
-        const imageFile = $('#imagec')[0].files[0];
-        if (!imageFile) {
-            alert("Please select an image!");
-            return;
-        }
-        car.append("image", imageFile);
-
-        // Debug FormData
-        for (let pair of car.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
-
-        if (!$("#carId").val() || !$("#registrationNumberc").val() || !$("#modelc").val() ||
-            !$("#plateNumberc").val() || !$("#yearc").val() || !$("#capacityc").val() ||
-            !$("#airConditioningc").val() || !$("#wifc").val() || !$("#statusc").val()) {
-            alert("Please fill in all fields!");
-            return;
-        }
+        const car = new FormData(this);
 
         $.ajax({
-            url: "http://localhost:8080/api/c1/cars",
+            url: "http://localhost:8080/api/v1/Cars",
             type: "POST",
             data: car,
             contentType: false,
             processData: false,
-            success: function () {
-                alert("Car added successfully");
-                loadCars();
+            success: function (newCar) {
+                alert("Car added successfully!");
+
+                $("#carCardContainer").prepend(createCarCard(newCar));
                 $("#carForm")[0].reset();
-                closeModal('CarMode');
+                closeModal("CarModel");
             },
-            error: function (xhr, status, error) {
-                alert("Error adding van: " + (xhr.responseText || error || status));
+            error: function (xhr) {
+                alert(`Error adding car: ${xhr.responseText || "An error occurred."}`);
             }
         });
     });
 
-    window.closeModal = function (modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    };
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('insuranceNames')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById("insurancec");
+                select.innerHTML = ""; // Clear existing options
+                data.forEach(option => {
+                    let opt = document.createElement("option");
+                    opt.value = option;
+                    opt.textContent = option.replace("_", " "); // Format text
+                    select.appendChild(opt);
+                });
+            })
+            .catch(error => console.error('Error loading insurance options:', error));
+    });
 
     $(document).on("click", ".btn-update", function () {
         const carId = $(this).data("car-id");
-        if (carId) {
-            loadVanDataIntoUpdateForm(carId);
-        }
+        loadCarDataIntoUpdateForm(carId);
     });
 
-    function loadVanDataIntoUpdateForm(carId) {
+
+    function loadCarDataIntoUpdateForm(carId) {
         $.ajax({
-            url: `http://localhost:8080/api/c1/cars/${carId}`,
+            url: `http://localhost:8080/api/v1/Cars/${carId}`,
             type: "GET",
             success: function (carData) {
-                if (!carData) {
-                    alert("Car data not found for ID: " + carId);
-                    return;
-                }
+                $("#UpdateCarForm")[0].reset(); // Clear form first
 
-                $("#carIdUpdate").val(carId);
-                $("#registrationNumberUpdatec").val(carData.registrationNumber);
-                $("#modelUpdatec").val(carData.model);
-                $("#plateNumberUpdatec").val(carData.plateNumber);
-                $("#yearUpdatec").val(carData.year);
-                $("#capacityUpdatec").val(carData.capacity);
-                $("#airConditioningUpdatec").val(carData.airConditioning);
-                $("#wifiUpdatec").val(carData.wifi);
-                $("#statusUpdatec").val(carData.status);
+                // Populate the update form fields with car data
+                for (const [key, value] of Object.entries(carData)) {
+                    if (key === "image") continue; // Skip image field, handle it separately if needed
+                    $(`#${key}Update`).val(value);
+                }
 
                 $("#UpdateCarModel").show();
             },
-            error: function (xhr, status, error) {
-                alert("Error loading car details: " + (xhr.responseText || error || status));
+            error: function (xhr) {
+                alert(`Error loading car details: ${xhr.responseText}`);
             }
         });
     }
 
-
-    $("#UpdateCarModel").submit(function(event) {
+    // Handle the form submission for updating a car
+    $("#UpdateCarForm").submit(function (event) {
         event.preventDefault();
-
         const carId = $("#carIdUpdate").val();
-        if (!carId) {
-            alert("Van ID is missing");
-            return;
-        }
-
-        const car = new FormData();
-        car.append('air', $("#airConditioningUpdatec").val());
-        car.append('capacity', $("#capacityUpdatec").val());
-        car.append('model', $("#modelUpdatec").val());
-        car.append('plateNumber', $("#plateNumberUpdatec").val());
-        car.append('registration', $("#registrationNumberUpdatec").val());
-        car.append('status', $("#statusUpdatec").val());
-        car.append('wifi', $("#wifiUpdatec").val());
-        car.append('year', $("#yearUpdatec").val());
-
-        let imageFile = $('#imageUpdatec')[0].files[0];
-        if (imageFile) {
-            car.append('image', imageFile);
-        }
+        const car = new FormData(this);
 
         $.ajax({
-            url: `http://localhost:8080/api/c1/cars/${carId}`,
+            url: `http://localhost:8080/api/v1/Cars/${carId}`,
             type: "PUT",
             data: car,
             contentType: false,
             processData: false,
             success: function () {
-                alert("Car updated successfully");
-                loadCars();
+                alert("Car updated successfully!");
+                loadCars(); // Reload all cars
                 $("#UpdateCarForm")[0].reset();
                 closeModal('UpdateCarModel');
             },
-            error: function (xhr, status, error) {
-                alert("Error updating car: " + (xhr.responseText || error || status));
+            error: function (xhr) {
+                alert(`Error updating car: ${xhr.responseText}`);
             }
         });
     });
 
     $(document).on("click", ".btn-delete", function () {
-        const carId = $(this).data("car-id"); // Retrieve car ID
-
-        if (!carId) {
-            alert("Car ID not found!");
-            return;
-        }
-
+        const carId = $(this).data("car-id");
         if (confirm("Are you sure you want to delete this car?")) {
-            deleteCar(carId);
+            $.ajax({
+                url: `http://localhost:8080/api/v1/Cars/${carId}`,
+                type: "DELETE",
+                success: function () {
+                    alert("Car deleted successfully!");
+                    loadCars(); // Reload all cars
+                },
+                error: function (xhr) {
+                    alert(`Error deleting car: ${xhr.responseText}`);
+                }
+            });
         }
     });
 
-    function deleteCar(carId) {
-        $.ajax({
-            url: `http://localhost:8080/api/c1/cars/${carId}`,
-            type: "DELETE",
-            success: function () {
-                alert("Car deleted successfully!");
-                loadCars(); // Refresh the table after deletion
-            },
-            error: function (xhr, status, error) {
-                const errorMessage = xhr.responseText || error || status;
-                alert(`Error deleting car: ${errorMessage}`);
-            }
-        });
+    function closeModal(modalId) {
+        $(`#${modalId}`).hide();
     }
 
-
-})
+    // Make closeModal available globally for use in HTML onclick attributes
+    window.closeModal = closeModal;
+});

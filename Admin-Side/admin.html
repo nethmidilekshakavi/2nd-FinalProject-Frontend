@@ -10,20 +10,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
-
     <link rel="stylesheet" href="Css/AdminDashBoard.css">
     <style>
+
         body{
             overflow-x: hidden;
             overflow-y: scroll;
             background-color: #f4f6f9;
         }
-        html {
+        html{
             scroll-behavior: smooth;
         }
         section {
             display: none;
-
         }
         section.active {
             display: block;
@@ -52,7 +51,6 @@
             <a href=""><button id="logOut">Log Out</button></a>
         </ul>
     </div>
-
 
     <!-- Main Content -->
     <section class="main-content"  id="mainForm">
@@ -110,104 +108,36 @@
                 </div>
             </div>
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('all-vehicles')">All Vehicles</div>
-                <div class="tab" onclick="switchTab('cars')">Cars</div>
+                <div class="tab active" onclick="switchTab('cars')">Cars</div>
                 <div class="tab" onclick="switchTab('vans')">Vans</div>
                 <div class="tab" onclick="switchTab('buses')">Buses</div>
-            </div>
-            <div id="all-vehicles" class="tab-content active">
-                <table id="allVehicleTable">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>registrationNo</th>
-                        <th>model</th>
-                        <th>plateNo</th>
-                        <th>capacity</th>
-                        <th>airConditioning</th>
-                        <th>wifi</th>
-                        <th>status</th>
-                        <th>Image</th>
-                        <th>Insurance</th>
-                    </tr>
-                    </thead>
-                    <tbody id="AllVehicleBody">
-                    </tbody>
-                </table>
             </div>
             <div id="cars" class="tab-content">
                 <button class="add-btn" onclick="showAddNewCarModal()">Add New Car</button>
                 <br><br>
-                <table id="carTable" class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>registrationNo</th>
-                        <th>model</th>
-                        <th>plateNo</th>
-                        <th>capacity</th>
-                        <th>airConditioning</th>
-                        <th>wifi</th>
-                        <th>status</th>
-                        <th>Image</th>
-                        <th>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody id="CarTableBody">
+                <div id="carCardContainer" class="card-container">
 
-                    </tbody>
-                </table>
+                </div>
             </div>
             <div id="vans" class="tab-content">
                 <button class="add-btn" onclick="showAddNewVanModal()">Add New Van</button>
                 <br><br>
-                <table id="vanTable" class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>registrationNo</th>
-                        <th>model</th>
-                        <th>plateNo</th>
-                        <th>capacity</th>
-                        <th>airConditioning</th>
-                        <th>wifi</th>
-                        <th>status</th>
-                        <th>Image</th>
-                        <th>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody id="VanTableBody">
-
-                    </tbody>
-                </table>
+                <div id="vanCardContainer" class="card-container">
+                    <!-- Van cards will be dynamically inserted here -->
+                </div>
             </div>
             <div id="buses" class="tab-content">
                 <button class="add-btn" onclick="showAddNewBusModal()">Add New Bus</button>
-                <br> <br>
-                <table id="busTable" class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>RegisterNo</th>
-                        <th>model</th>
-                        <th>plateNo</th>
-                        <th>capacity</th>
-                        <th>airConditioning</th>
-                        <th>wifi</th>
-                        <th>status</th>
-                        <th>Image</th>
-                        <th>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody id="BusTaleBody">
-                    <!-- Bus details will be dynamically inserted here -->
-                    </tbody>
-                </table>
-
+                <br><br>
+                <div id="busCardContainer" class="card-container">
+                    <!-- Bus cards will be dynamically inserted here -->
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Include modals for cars, vans, and buses -->
+    <!-- Car modals should be placed here -->
     <section id="DriversManagement">
         <!-- Vehicle Management -->
         <div class="table-container">
@@ -454,89 +384,74 @@
             </table>
         </div>
     </section>
-</div>
 
 
-<!-- Add/Edit Vehicle Modal -->
+
+
 <div id="BusModel" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
-            <button class="close-btn" onclick="closeModal('BusModel')">&times;</button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="vehicleModalTitle">Add/Edit Bus</div>
+                <button class="close-btn" onclick="closeModal('BusModel')">&times;</button>
+            </div>
+            <form id="busForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="busId">Bus ID</label>
+                    <input type="number" id="busId" name="busId" required>
+                </div>
+                <div class="form-group">
+                    <label for="registrationNumber">Registration Number</label>
+                    <input type="text" id="registrationNumber" name="registrationNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <input type="text" id="model" name="model" required>
+                </div>
+                <div class="form-group">
+                    <label for="plateNumber">Plate Number</label>
+                    <input type="text" id="plateNumber" name="plateNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="number" id="year" name="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacity">Capacity</label>
+                    <input type="number" id="capacity" name="capacity" required>
+                </div>
+                <div class="form-group">
+                    <label for="airConditioning">Air Conditioning</label>
+                    <select id="airConditioning" name="airConditioning" required>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wifi">Wi-Fi Status</label>
+                    <select id="wifi" name="wifi" required>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
+                        <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
+                        <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
+                        <option value="BOOKED" class="badge-danger">BOOKED</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
         </div>
-        <form id="busForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="busId">Bus ID</label>
-                <input type="number" id="busId" name="busId" required>
-            </div>
-
-            <div class="form-group">
-                <label for="registrationNumber">Registration Number</label>
-                <input type="text" id="registrationNumber" name="registrationNumber" required>
-            </div>
-
-            <div class="form-group">
-                <label for="model">Model</label>
-                <input type="text" id="model" name="model" required>
-            </div>
-
-            <div class="form-group">
-                <label for="plateNumber">Plate Number</label>
-                <input type="text" id="plateNumber" name="plateNumber" required>
-            </div>
-
-            <div class="form-group">
-                <label for="year">Year</label>
-                <input type="number" id="year" name="year" required>
-            </div>
-
-            <div class="form-group">
-                <label for="capacity">Capacity</label>
-                <input type="number" id="capacity" name="capacity" required>
-            </div>
-
-            <div class="form-group">
-                <label for="airConditioning">Air Conditioning</label>
-                <select id="airConditioning" name="airConditioning" required>
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="wifi">Wi-Fi Status</label>
-                <select id="wifi" name="wifi" required>
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="status" name="status" required>
-                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
-                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
-                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
-                    <option value="BOOKED" class="badge-danger">BOOKED</option>
-                </select>
-            </div>
-
-         <!--   <div class="form-group">
-                <label for="date">Date</label>
-                <input type="datetime-local" id="date" name="date" required>
-            </div>-->
-
-            <div class="form-group">
-                <label for="image">Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="submit-btn">Submit</button>
-            </div>
-        </form>
     </div>
-</div>
 <div id="VanMode" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -584,7 +499,7 @@
 
             <div class="form-group">
                 <label for="wifi">Wi-Fi Status</label>
-                <select id="wific" name="wific" required>
+                <select id="wifiv" name="wific" required>
                     <option value="YES">YES</option>
                     <option value="NO">NO</option>
                 </select>
@@ -612,80 +527,75 @@
     </div>
 </div>
 <div id="CarMode" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title" id="vehicleModalTitle2">Add/Edit Van</div>
-            <button class="close-btn" onclick="closeModal('CarMode')">&times;</button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="vehicleModalTitle2">Add/Edit Car</div>
+                <button class="close-btn" onclick="closeModal('CarMode')"></button>
+            </div>
+            <form id="carForm" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="carId">Car ID:</label>
+                    <input type="text" id="carId" name="carId" required>
+                </div>
+                <div class="form-group">
+                    <label for="registrationNumberc">Registration Number:</label>
+                    <input type="text" id="registrationNumberc" name="registrationNumberc" required>
+                </div>
+                <div class="form-group">
+                    <label for="modelc">Model:</label>
+                    <input type="text" id="modelc" name="modelc" required>
+                </div>
+                <div class="form-group">
+                    <label for="plateNumberc">Plate Number:</label>
+                    <input type="text" id="plateNumberc" name="plateNumberc" required>
+                </div>
+                <div class="form-group">
+                    <label for="yearc">Year:</label>
+                    <input type="number" id="yearc" name="yearc" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacityc">Capacity:</label>
+                    <input type="number" id="capacityc" name="capacityc" required>
+                </div>
+                <div class="form-group">
+                    <label for="airConditioningc">Air Conditioning:</label>
+                    <select id="airConditioningc" name="airConditioningc" required>
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wific">Wi-Fi:</label>
+                    <select id="wific" name="wific" required>
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="statusc">Status:</label>
+                    <select id="statusc" name="statusc" required>
+                        <option value="AVAILABLE">Available</option>
+                        <option value="NOT_AVAILABLE">Not Available</option>
+                        <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+                        <option value="BOOKED">Booked</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="insurancec">Insurance:</label>
+                    <select id="insurancec" name="insurancec" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="imagec">Image:</label>
+                    <input type="file" id="imagec" name="imagec" accept="image/*" required>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
         </div>
-        <form id="carForm" method="POST" enctype="multipart/form-data" class="form-grid">
-            <div class="form-group">
-                <label for="busId">Car ID</label>
-                <input type="number" id="carId" name="busId" required>
-            </div>
-
-            <div class="form-group">
-                <label for="registrationNumber">Registration Number</label>
-                <input type="text" id="registrationNumberc" name="registrationNumber" required>
-            </div>
-
-            <div class="form-group">
-                <label for="model">Model</label>
-                <input type="text" id="modelc" name="model" required>
-            </div>
-
-            <div class="form-group">
-                <label for="plateNumber">Plate Number</label>
-                <input type="text" id="plateNumberc" name="plateNumber" required>
-            </div>
-
-            <div class="form-group">
-                <label for="year">Year</label>
-                <input type="number" id="yearc" name="year" required>
-            </div>
-
-            <div class="form-group">
-                <label for="capacity">Capacity</label>
-                <input type="number" id="capacityc" name="capacity" required>
-            </div>
-
-            <div class="form-group">
-                <label for="airConditioning">Air Conditioning</label>
-                <select id="airConditioningc" name="airConditioning" required>
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="wifi">Wi-Fi Status</label>
-                <select id="wifc" name="wifi" required>
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select id="statusc" name="statusc" required>
-                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
-                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
-                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
-                    <option value="BOOKED" class="badge-danger">BOOKED</option>
-                </select>
-            </div>
-
-
-            <div class="form-group">
-                <label for="image">Image</label>
-                <input type="file" id="imagec" name="image" accept="image/*" required>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="submit-btn">Submit</button>
-            </div>
-        </form>
     </div>
-</div>
+
+
 
 <div id="UpdateBusModel" class="modal">
     <div class="modal-content">
@@ -838,79 +748,61 @@
     </div>
 </div>
 <div id="UpdateCarModel" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title" id="vehicleModalTitleUpdatec">Edit Car Details</div>
-            <button class="close-btn" onclick="closeModal('UpdateCarModel')">&times;</button>
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('UpdateCarModel')">&times;</span>
+            <h2>Update Car</h2>
+            <form id="UpdateCarForm">
+                <input type="hidden" id="carIdUpdate">
+                <div class="form-group">
+                    <label for="registrationNumberUpdatec">Registration Number:</label>
+                    <input type="text" id="registrationNumberUpdatec" name="registrationNumberUpdatec" required>
+                </div>
+                <div class="form-group">
+                    <label for="modelUpdatec">Model:</label>
+                    <input type="text" id="modelUpdatec" name="modelUpdatec" required>
+                </div>
+                <div class="form-group">
+                    <label for="plateNumberUpdatec">Plate Number:</label>
+                    <input type="text" id="plateNumberUpdatec" name="plateNumberUpdatec" required>
+                </div>
+                <div class="form-group">
+                    <label for="yearUpdatec">Year:</label>
+                    <input type="number" id="yearUpdatec" name="yearUpdatec" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacityUpdatec">Capacity:</label>
+                    <input type="number" id="capacityUpdatec" name="capacityUpdatec" required>
+                </div>
+                <div class="form-group">
+                    <label for="airConditioningUpdatec">Air Conditioning:</label>
+                    <select id="airConditioningUpdatec" name="airConditioningUpdatec" required>
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wifiUpdatec">WiFi:</label>
+                    <select id="wifiUpdatec" name="wifiUpdatec" required>
+                        <option value="true">Available</option>
+                        <option value="false">Not Available</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="statusUpdatec">Status:</label>
+                    <select id="statusUpdatec" name="statusUpdatec" required>
+                        <option value="AVAILABLE">Available</option>
+                        <option value="NOT_AVAILABLE">Not Available</option>
+                        <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="imageUpdatec">Image (optional):</label>
+                    <input type="file" id="imageUpdatec" name="imageUpdatec" accept="image/*">
+                </div>
+                <button type="submit" class="submit-btn">Update Car</button>
+            </form>
         </div>
-        <form id="UpdateCarForm" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="vanIdUpdate">Car ID</label>
-                <input type="number" id="carIdUpdate" name="carId" required>
-            </div>
-
-            <div class="form-group">
-                <label for="registrationNumberUpdatec">Registration Number</label>
-                <input type="text" id="registrationNumberUpdatec" name="registrationNumber">
-            </div>
-
-            <div class="form-group">
-                <label for="modelUpdatec">Model</label>
-                <input type="text" id="modelUpdatec" name="model">
-            </div>
-
-            <div class="form-group">
-                <label for="plateNumberUpdatec">Plate Number</label>
-                <input type="text" id="plateNumberUpdatec" name="plateNumber">
-            </div>
-
-            <div class="form-group">
-                <label for="yearUpdatec">Year</label>
-                <input type="number" id="yearUpdatec" name="year">
-            </div>
-
-            <div class="form-group">
-                <label for="capacityUpdatec">Capacity</label>
-                <input type="number" id="capacityUpdatec" name="capacity">
-            </div>
-
-            <div class="form-group">
-                <label for="airConditioningUpdatec">Air Conditioning</label>
-                <select id="airConditioningUpdatec" name="airConditioning">
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="wifiUpdatec">Wi-Fi Status</label>
-                <select id="wifiUpdatec" name="wifi">
-                    <option value="YES">YES</option>
-                    <option value="NO">NO</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="statusUpdatec">Status</label>
-                <select id="statusUpdatec" name="status">
-                    <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
-                    <option value="NOT_AVAILABLE" class="badge-warning">NOT_AVAILABLE</option>
-                    <option value="UNDER_MAINTENANCE" class="badge-primary">UNDER_MAINTENANCE</option>
-                    <option value="BOOKED" class="badge-danger">BOOKED</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="imageUpdatev">Image</label>
-                <input type="file" id="imageUpdatec" name="image" accept="image/*">
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="submit-btn">Submit</button>
-            </div>
-        </form>
     </div>
-</div>
 
 
 <script src="Js/jquery-3.7.1.min.js"></script>
@@ -923,5 +815,8 @@
 <script src="Js/BusBooking.js"></script>
 <script src="Js/FormManamgent.js"></script>
 <script src="Js/UserController.js"></script>
+
+
+</div>
 </body>
 </html>

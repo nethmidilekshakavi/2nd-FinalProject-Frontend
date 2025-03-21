@@ -21,7 +21,7 @@ $(document).ready(function () {
                             <td>
                                 <img src="data:image/jpeg;base64,${allDrivers.image}" 
                                     alt="Vehicle Image" class="crop-image" 
-                                    style="width: 70px; cursor: pointer;">
+                                    style="width: 50px; cursor: pointer;">
                             </td>
                              <td>
                                 <button class="btn btn-update"  data-driver-id="${allDrivers.id}">Update</button>

@@ -30,7 +30,7 @@ $(document).ready(function () {
                             <td>
                                 <img src="data:image/jpeg;base64,${user.image}" 
                                      alt="User Image" class="crop-image" 
-                                     style="width: 70px; cursor: pointer;">
+                                     style="width: 50px; cursor: pointer;">
                             </td>
                             <td>
                             <button class="btn btn-delete" data-bus-id="${user.busId}" style="background: none; border: none;">
