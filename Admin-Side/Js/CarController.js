@@ -94,7 +94,7 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: 'Car added successfully', // Provide a success message here
+                    text: 'Car added successfully',
                     confirmButtonText: 'OK'
                 });
                 loadCars();
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 closeModal('CarMode');
             },
             error: function (xhr, status, error) {
-                // Use the error response from the server or a fallback message
+
                 const errorMessage = xhr.responseText || error || status;
                 Swal.fire({
                     icon: 'error',
@@ -138,7 +138,7 @@ $(document).ready(function () {
         car.append("image", imageFile);
 
         $.ajax({
-            url: "http://localhost:8080/api/c1/cars/" + $("#carIdUpdate").val(), // ✅ Correct URL format
+            url: "http://localhost:8080/api/c1/cars/" + $("#carIdUpdate").val(),
             type: "PUT",
             data: car,
             contentType: false,
@@ -147,7 +147,7 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: 'Car Updated successfully', // Provide a success message here
+                    text: 'Car Updated successfully',
                     confirmButtonText: 'OK'
                 });
                 loadCars();
@@ -155,7 +155,7 @@ $(document).ready(function () {
                 closeModal('UpdateCarModel');
             },
             error: function (xhr, status, error) {
-                // Use the error response from the server or a fallback message
+
                 const errorMessage = xhr.responseText || error || status;
                 Swal.fire({
                     icon: 'error',
@@ -254,7 +254,7 @@ $(document).ready(function () {
     $(document).on("click", ".btn-delete", function () {
         const carId = $(this).data("car-id");
 
-        // Confirm before deleting
+
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -264,7 +264,7 @@ $(document).ready(function () {
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If confirmed, proceed with deletion
+
                 $.ajax({
                     url: `http://localhost:8080/api/c1/cars/${carId}`,
                     type: "DELETE",
@@ -272,17 +272,17 @@ $(document).ready(function () {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success!',
-                            text: 'Car deleted successfully', // Success message
+                            text: 'Car deleted successfully',
                             confirmButtonText: 'OK'
                         });
-                        loadCars(); // Reload car list after deletion
+                        loadCars(); //
                     },
                     error: function (xhr, status, error) {
                         const errorMessage = xhr.responseText || error || status;
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
-                            text: 'Error deleting car: ' + errorMessage, // Error message
+                            text: 'Error deleting car: ' + errorMessage,
                             confirmButtonText: 'OK'
                         });
                     }
@@ -293,10 +293,9 @@ $(document).ready(function () {
 
 
     function closeModal(modalId) {
-        $(`#${modalId}`).modal('hide'); // Bootstrap modal hide
+        $(`#${modalId}`).modal('hide');
     }
 
-// Example: Close modal when clicking the close button
     $(".close-modal-btn").click(function () {
         closeModal("CarModal");
     });
