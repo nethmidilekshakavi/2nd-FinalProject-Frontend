@@ -218,7 +218,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 const container = $("#insurancenc").empty();
-                const container1 = $("#insurancencupdate").empty();
+                const container1 = $("#in").empty();
                 container.append('<option value="">Select an Insurance</option>');
                 container1.append('<option value="">Select an Insurance</option>');
 
