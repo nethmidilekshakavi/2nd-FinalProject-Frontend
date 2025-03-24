@@ -43,8 +43,8 @@ $(document).ready(function () {
                         <p><strong>WiFi:</strong> ${car.wifi || "Not Available"}</p>
                     </div>
                     <div class="card-actions">
-                        <button class="btn btn-update" data-car-id="${car.carId}"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-delete" data-car-id="${car.carId}"><i class="fas fa-trash"></i></button>
+                        <button style="color: #0b7dda" class="btn btn-update-car" data-car-id="${car.carId}"><i class="fas fa-edit"></i></button>
+                        <button style="color: red" class="btn btn-delete-car" data-car-id="${car.carId}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -168,12 +168,12 @@ $(document).ready(function () {
     });
 
 
-    $(document).on("click", ".btn-update", function(e) {
+    $(document).on("click", ".btn-update-car", function (e) {
         e.preventDefault();
         const carId = $(this).data("car-id");
+        console.log("Car ID:", carId);
         fetchCarDetails(carId);
     });
-
 
     function fetchCarDetails(carId) {
         $.ajax({
@@ -251,7 +251,7 @@ $(document).ready(function () {
     }
 
     //delete cars
-    $(document).on("click", ".btn-delete", function () {
+    $(document).on("click", ".btn-delete-car", function () {
         const carId = $(this).data("car-id");
 
 

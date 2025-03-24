@@ -16,8 +16,8 @@ $(document).ready(function () {
                 }
 
                 data.forEach(car => {
-                    const carCard = createVanCard(car);
-                    container.append(carCard);
+                    const vanCard = createVanCard(car);
+                    container.append(vanCard);
                 });
             },
             error: function (xhr, status, error) {
@@ -25,7 +25,6 @@ $(document).ready(function () {
             }
         });
     }
-
 
     function createVanCard(van) {
         return `
@@ -44,8 +43,8 @@ $(document).ready(function () {
                         <p><strong>WiFi:</strong> ${van.wifi || "Not Available"}</p>
                     </div>
                     <div class="card-actions">
-                        <button class="btn btn-update" data-van-id="${van.carId}"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-delete" data-van-id="${van.carId}"><i class="fas fa-trash"></i></button>
+                        <button style="color: #0b7dda" class="btn btn-update-van" data-van-id="${van.vanId}"><i class="fas fa-edit"></i></button>
+                        <button style="color: red" class="btn btn-delete-van" data-van-id="${van.vanId}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -122,7 +121,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 const container = $("#insurancenv").empty();
-                const container1 = $("#insurancencupdate").empty();
+                const container1 = $("#insurancencupdatev").empty();
                 container.append('<option value="">Select an Insurance</option>');
                 container1.append('<option value="">Select an Insurance</option>');
 
@@ -149,10 +148,101 @@ $(document).ready(function () {
             error: function (xhr) {
                 console.error("Error loading insurance names:", xhr.responseText);
                 $("#insurancenv").append('<option value="">Error loading data</option>');
-                $("#insurancencupdate").append('<option value="">Error loading data</option>');
+                $("#insurancencupdatev").append('<option value="">Error loading data</option>');
             }
         });
     }
 
+    $("#UpdateVanModel").submit(function (event) {
+        event.preventDefault();
+
+        let van = new FormData();
+        van.append('air', $("#airConditioningUpdatev").val());
+        van.append('capacity', $("#capacityUpdatev").val());
+        van.append('model', $("#modelUpdatev").val());
+        van.append('plateNumber', $("#plateNumberUpdatev").val());
+        van.append('registration', $("#registrationNumberUpdatev").val());
+        van.append('status', $("#statusUpdatev").val());
+        van.append('wifi', $("#wifiUpdatev").val());
+        van.append('year', $("#yearUpdatev").val());
+        van.append('insuranceName', $("#insurancencupdatev").val());
+
+        const imageFile = $('#imageUpdatev')[0].files[0];
+        if (!imageFile) {
+            alert("Please select an image!");
+            return;
+        }
+        van.append("image", imageFile);
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/Vans/" + $("#vanIdUpdate").val(),
+            type: "PUT",
+            data: van,
+            contentType: false,
+            processData: false,
+            success: function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Van updated successfully',
+                    confirmButtonText: 'OK'
+                });
+                loadVans();
+                $("#UpdateVanForm")[0].reset();
+                closeModal('UpdateVanModel');
+            },
+            error: function (xhr, status, error) {
+                const errorMessage = xhr.responseText || error || status;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error updating van: ' + errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+
+// For vans
+    $(document).on("click", ".btn-update-van", function (e) {
+        e.preventDefault();
+        const vanId = $(this).data("van-id");
+        console.log("Van ID:", vanId);
+        fetchVanDetails(vanId);
+    });
+
+    function fetchVanDetails(vanId) {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/Vans/" + vanId,
+            type: "GET",
+            success: function (van) {
+                console.log("van details fetched:", van);
+
+                // Populate form fields with fetched data
+                $("#vanIdUpdate").val(van.vanId);
+                $("#airConditioningUpdatev").val(van.airConditioning);
+                $("#capacityUpdatev").val(van.capacity);
+                $("#modelUpdatev").val(van.model);
+                $("#plateNumberUpdatev").val(van.plateNumber);
+                $("#registrationNumberUpdatev").val(van.registrationNumber);
+                $("#statusUpdatev").val(van.status);
+                $("#wifiUpdatev").val(van.wifi);
+                $("#yearUpdatev").val(van.year);
+                $("#insurancencupdatev").val(van.insurance ? van.insurance.provider : '');
+
+                // Display current image (optional)
+                if (van.image) {
+                    $("#currentvanImage").attr("src", "data:image/png;base64," + van.image);
+                    $("#currentvanImage").show();
+                }
+
+                // Open the modal
+                $("#UpdateVanModel").modal("show");
+            },
+            error: function (xhr, status, error) {
+                alert("Error fetching van details: " + (xhr.responseText || error || status));
+            }
+        });
+    }
 
 });
