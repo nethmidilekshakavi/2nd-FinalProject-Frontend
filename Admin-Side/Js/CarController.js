@@ -91,15 +91,28 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (newCar) {
-                alert("Car added successfully");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Car added successfully', // Provide a success message here
+                    confirmButtonText: 'OK'
+                });
                 loadCars();
                 $("#carForm")[0].reset();
                 closeModal('CarMode');
             },
             error: function (xhr, status, error) {
-                alert("Error adding car: " + (xhr.responseText || error || status));
+                // Use the error response from the server or a fallback message
+                const errorMessage = xhr.responseText || error || status;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error adding car: ' + errorMessage,
+                    confirmButtonText: 'OK'
+                });
             }
         });
+
     });
 
     // Update Car
@@ -131,13 +144,25 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (newCar) {
-                alert("Car Updated successfully");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Car Updated successfully', // Provide a success message here
+                    confirmButtonText: 'OK'
+                });
                 loadCars();
                 $("#UpdateCarForm")[0].reset();
                 closeModal('UpdateCarModel');
             },
             error: function (xhr, status, error) {
-                alert("Error updating car: " + (xhr.responseText || error || status));
+                // Use the error response from the server or a fallback message
+                const errorMessage = xhr.responseText || error || status;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Error updating car: ' + errorMessage,
+                    confirmButtonText: 'OK'
+                });
             }
         });
     });
@@ -228,20 +253,44 @@ $(document).ready(function () {
     //delete cars
     $(document).on("click", ".btn-delete", function () {
         const carId = $(this).data("car-id");
-        if (confirm("Are you sure you want to delete this car?")) {
-            $.ajax({
-                url: `http://localhost:8080/api/c1/cars/${carId}`,
-                type: "DELETE",
-                success: function () {
-                    alert("Car deleted successfully!");
-                    loadCars();
-                },
-                error: function (xhr) {
-                    alert(`Error deleting car: ${xhr.responseText}`);
-                }
-            });
-        }
+
+        // Confirm before deleting
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, proceed with deletion
+                $.ajax({
+                    url: `http://localhost:8080/api/c1/cars/${carId}`,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Car deleted successfully', // Success message
+                            confirmButtonText: 'OK'
+                        });
+                        loadCars(); // Reload car list after deletion
+                    },
+                    error: function (xhr, status, error) {
+                        const errorMessage = xhr.responseText || error || status;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error deleting car: ' + errorMessage, // Error message
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
     });
+
 
     function closeModal(modalId) {
         $(`#${modalId}`).modal('hide'); // Bootstrap modal hide
