@@ -211,6 +211,7 @@ $(document).ready(function () {
         fetchVanDetails(vanId);
     });
 
+    //getAll Vans
     function fetchVanDetails(vanId) {
         $.ajax({
             url: "http://localhost:8080/api/v1/Vans/" + vanId,
@@ -244,5 +245,57 @@ $(document).ready(function () {
             }
         });
     }
+
+
+    //delete vans
+    $(document).on("click", ".btn-delete-van", function () {
+        const vanId = $(this).data("van-id");
+
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/Vans/${vanId}`,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Van deleted successfully',
+                            confirmButtonText: 'OK'
+                        });
+                        loadVans(); //
+                    },
+                    error: function (xhr, status, error) {
+                        const errorMessage = xhr.responseText || error || status;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error deleting van: ' + errorMessage,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+    function closeModal(modalId) {
+        $(`#${modalId}`).modal('hide');
+    }
+
+    $(".close-modal-btn").click(function () {
+        closeModal("VanModel");
+    });
+
 
 });
