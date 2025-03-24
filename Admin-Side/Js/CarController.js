@@ -247,8 +247,12 @@ $(document).ready(function () {
         $(`#${modalId}`).modal('hide'); // Bootstrap modal hide
     }
 
-    //colos model
-    window.closeModal = closeModal;
+// Example: Close modal when clicking the close button
+    $(".close-modal-btn").click(function () {
+        closeModal("CarModal");
+    });
+
+
 
 });
 
