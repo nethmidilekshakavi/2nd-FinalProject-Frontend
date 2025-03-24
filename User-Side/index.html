@@ -44,7 +44,19 @@
                 <a href="#home" class="active">Home</a>
                 <a href="#about">About Us</a>
                 <a href="#service">Services</a>
-                <a href="#test">Our Vehicles</a>
+                <div class="dropdown-container">
+                    <a href="#" class="nav-link" id="vehiclesDropdown">Our Vehicles</a>
+                    <div class="dropdown-menu" id="vehiclesMenu">
+                        <div class="select-container">
+                        </div>
+                        <div class="vehicle-categories">
+                            <a href="Bus.html" class="dropdown-item" data-category="sedan">Buses</a>
+                            <a href="#suv" class="dropdown-item" data-category="suv">Vans</a>
+                            <a href="#truck" class="dropdown-item" data-category="truck">Cars</a>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="#">Blog</a>
                 <a href="#">Contact Us</a>
 
@@ -59,6 +71,7 @@
                     </a>
                 </div>
             </div>
+        </div>
 
             <!-- Mobile Menu Button -->
             <div class="mobile-menu">
@@ -66,7 +79,6 @@
                     <path d="M3 12h18M3 6h18M3 18h18"/>
                 </svg>
             </div>
-        </div>
     </nav>
 </div>
 
@@ -992,6 +1004,12 @@
 
 
 
+<!--Bus Page-->
+
+
+
+
+
 <script>
         document.addEventListener("DOMContentLoaded", function() {
         const sections = document.querySelectorAll("section");
@@ -1109,6 +1127,43 @@
         document.getElementById(`${vehicleType}-content`).classList.add('active');
         document.querySelector(`.tab:nth-child(${vehicleType === 'bus' ? 1 : vehicleType === 'van' ? 2 : 3})`).classList.add('active');
     }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const vehiclesDropdown = document.getElementById('vehiclesDropdown');
+        const vehiclesMenu = document.getElementById('vehiclesMenu');
+        const vehicleTypeSelect = document.getElementById('vehicleType');
+        const vehicleItems = document.querySelectorAll('.dropdown-item[data-category]');
+
+        // Toggle dropdown on click
+        vehiclesDropdown.addEventListener('click', function(e) {
+            e.preventDefault();
+            vehiclesMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!vehiclesDropdown.contains(e.target) && !vehiclesMenu.contains(e.target)) {
+                vehiclesMenu.classList.remove('show');
+            }
+        });
+
+        // Filter dropdown items based on select value
+        vehicleTypeSelect.addEventListener('change', function() {
+            const selectedType = this.value;
+
+            vehicleItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+
+                if (selectedType === '' || selectedType === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

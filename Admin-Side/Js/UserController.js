@@ -1,7 +1,6 @@
 $(document).ready(function () {
     loadUserDetails();
 
-    // Load user details
     function loadUserDetails() {
         $.ajax({
             url: "http://localhost:8080/api/v1/user",
@@ -9,11 +8,6 @@ $(document).ready(function () {
             success: function (data) {
                 let tbody = $("#userTableBody").empty();
                 data.forEach(user => {
-                    let isAdmin = user.isAdmin ? "✅" : "";
-                    let isAdminColor = user.isAdmin ? "red" : "";
-
-                    let isUser = user.user ? "✅" : "";
-                    let isUserColor = user.user ? "red" : "";
 
                     tbody.append(`
                         <tr>
@@ -24,8 +18,11 @@ $(document).ready(function () {
                             <td>${user.address}</td>
                             <td>${user.phone}</td>
                             <td>${user.username}</td>
-                            <td id="isAdminColumn" style="color: ${isAdminColor};">${isAdmin}</td>
-                            <td id="isUserColumn" style="color: ${isUserColor};">${isUser}</td>
+                                                        <td>
+  <span id="role">${user.role}</span>
+  <button class="edit-btn" onclick="openModal()"><i class="fas fa-edit"></i></button>
+</td>
+                   
                             
                             <td>
                                 <img src="data:image/jpeg;base64,${user.image}" 
@@ -48,3 +45,43 @@ $(document).ready(function () {
         });
     }
 });
+
+
+
+document.getElementById("EditeRole").addEventListener("click", function () {
+    saveRole();
+});
+
+function openModal(userId, currentRole) {
+    document.getElementById("roleModal").setAttribute("data-user-id", userId);
+    document.getElementById("roleInput").value = currentRole;
+    document.getElementById("roleModal").style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("roleModal").style.display = "none";
+}
+
+function saveRole() {
+    const roleInput = document.getElementById("roleInput").value;
+    const userId = document.getElementById("roleModal").getAttribute("data-user-id");
+
+    fetch(`/editRole/${userId}`, {
+        method: "PUT",
+        body: JSON.stringify({ editRole: roleInput })
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            closeModal();
+            location.reload();
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+
+
+
+
+
+

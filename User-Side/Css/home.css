@@ -608,3 +608,64 @@ header {
         grid-template-columns: 1fr;
     }
 }
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 220px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    z-index: 100;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.select-container {
+    margin-bottom: 10px;
+}
+
+.select-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.custom-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.vehicle-categories {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-item {
+    padding: 8px 0;
+    color: #555;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    color: #000;
+    background-color: #f9f9f9;
+}

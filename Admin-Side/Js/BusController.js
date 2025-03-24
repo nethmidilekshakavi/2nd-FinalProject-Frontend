@@ -136,7 +136,7 @@ $(document).ready(function () {
         bus.append("image", imageFile);
 
         $.ajax({
-            url: "http://localhost:8080/api/v1/Buses/" + $("#carIdUpdate").val(),
+            url: "http://localhost:8080/api/v1/Buses/" + $("#busIdUpdate").val(),
             type: "PUT",
             data: bus,
             contentType: false,
@@ -274,6 +274,8 @@ $(document).ready(function () {
                             confirmButtonText: 'OK'
                         });
                         loadBuses(); //
+                        $("#UpdateBusForm")[0].reset();
+                        closeModal('UpdateBusModel');
                     },
                     error: function (xhr, status, error) {
                         const errorMessage = xhr.responseText || error || status;
