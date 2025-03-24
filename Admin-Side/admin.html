@@ -8,6 +8,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
     <link rel="stylesheet" href="Css/AdminDashBoard.css">
@@ -552,11 +555,11 @@
                 </div>
                 <div class="form-group">
                     <label for="yearc">Year:</label>
-                    <input type="number" id="yearc" name="yearc" required>
+                    <input type="text" id="yearc" name="yearc" required>
                 </div>
                 <div class="form-group">
                     <label for="capacityc">Capacity:</label>
-                    <input type="number" id="capacityc" name="capacityc" required>
+                    <input type="text" id="capacityc" name="capacityc" required>
                 </div>
                 <div class="form-group">
                     <label for="airConditioning">Air Conditioning</label>
@@ -751,63 +754,85 @@
 </div>
 <div id="UpdateCarModel" class="modal">
         <div class="modal-content">
-            <div class="modal-title" id="vehicleModalTitleUpdateCar">Edit Car Model</div>
-            <form id="UpdateCarForm">
-                <input type="hidden" id="carIdUpdate">
+            <div class="modal-header">
+                <div class="modal-title" id="vehicleModalTitleUpdateCar">Edit Car</div>
+                <button class="close-btn" onclick="closeModal('UpdateCarModel')">×</button>
+            </div>
+            <form id="UpdateCarForm" enctype="multipart/form-data">
+                <label for="carIdUpdate">CAR ID:</label>
+                <input type="text" id="carIdUpdate" name="carIdUpdate" readonly>
+
                 <div class="form-group">
                     <label for="registrationNumberUpdatec">Registration Number:</label>
                     <input type="text" id="registrationNumberUpdatec" name="registrationNumberUpdatec" required>
                 </div>
+
                 <div class="form-group">
                     <label for="modelUpdatec">Model:</label>
                     <input type="text" id="modelUpdatec" name="modelUpdatec" required>
                 </div>
+
                 <div class="form-group">
                     <label for="plateNumberUpdatec">Plate Number:</label>
                     <input type="text" id="plateNumberUpdatec" name="plateNumberUpdatec" required>
                 </div>
+
                 <div class="form-group">
                     <label for="yearUpdatec">Year:</label>
                     <input type="number" id="yearUpdatec" name="yearUpdatec" required>
                 </div>
+
                 <div class="form-group">
                     <label for="capacityUpdatec">Capacity:</label>
                     <input type="number" id="capacityUpdatec" name="capacityUpdatec" required>
                 </div>
+
                 <div class="form-group">
                     <label for="airConditioningUpdatec">Air Conditioning:</label>
                     <select id="airConditioningUpdatec" name="airConditioningUpdatec" required>
-                        <option value="true">Available</option>
-                        <option value="false">Not Available</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="wifiUpdatec">WiFi:</label>
                     <select id="wifiUpdatec" name="wifiUpdatec" required>
-                        <option value="true">Available</option>
-                        <option value="false">Not Available</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="statusUpdatec">Status:</label>
                     <select id="statusUpdatec" name="statusUpdatec" required>
-                        <option value="AVAILABLE">Available</option>
-                        <option value="NOT_AVAILABLE">Not Available</option>
-                        <option value="UNDER_MAINTENANCE">Under Maintenance</option>
+                        <option value="AVAILABLE" class="badge badge-success">AVAILABLE</option>
+                        <option value="NOT_AVAILABLE" class="badge badge-warning">NOT AVAILABLE</option>
+                        <option value="UNDER_MAINTENANCE" class="badge badge-primary">UNDER MAINTENANCE</option>
+                        <option value="BOOKED" class="badge badge-danger">BOOKED</option>
                     </select>
                 </div>
+
                 <div class="form-group">
-                    <select id="insurancencupdate">
+                    <label for="insurancencupdate">Insurance:</label>
+                    <select id="insurancencupdate" name="insurancencupdate">
+                        <!-- Insurance options will be dynamically loaded -->
                     </select>
                 </div>
+
+                <img id="currentCarImage" src="" alt="Car Image" style="max-width: 200px; display: none;">
                 <div class="form-group">
                     <label for="imageUpdatec">Image (optional):</label>
                     <input type="file" id="imageUpdatec" name="imageUpdatec" accept="image/*">
                 </div>
-                <button type="submit" class="submit-btn">Update Car</button>
+
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
             </form>
         </div>
     </div>
+
 
 
 <script src="Js/jquery-3.7.1.min.js"></script>

@@ -1,3 +1,4 @@
+/*
 $(document).ready(function () {
    loadDrivers()
 
@@ -188,4 +189,4 @@ $(document).ready(function () {
 
 
 
-});
+});*/

@@ -1,3 +1,4 @@
+/*
 $(document).ready(function () {
     loadVans();
 
@@ -28,7 +29,7 @@ $(document).ready(function () {
     
                                 </div>
                                 <div class="card-actions">
-                                    <button class="btn btn-update" data-van-id="${van.vanId}">Update</button>
+
                                     <button class="btn btn-delete" data-van-id="${van.vanId}">Delete</button>
                                 </div>
                             </div>
@@ -155,7 +156,7 @@ $(document).ready(function () {
         });
     }
 
-    $("#UpdateVanForm").submit(function(event) {
+   /!* $("#UpdateVanForm").submit(function(event) {
         event.preventDefault();
 
         const vanId = $("#vanIdUpdate").val();
@@ -196,6 +197,7 @@ $(document).ready(function () {
                 alert("Error updating van: " + (xhr.responseText || error || status));
             }
         });
-    });
+    });*!/
 
 });
+*/

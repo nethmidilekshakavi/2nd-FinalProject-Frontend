@@ -138,17 +138,16 @@ window.onclick = function(event) {
     }
 }
 
-    function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('show');
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('show'); // Removes 'show' class
+        modal.style.display = 'none'; // Ensures modal is hidden
+    }
 }
 
+    // Function to show the car Update modal=================================================
 
-    // Function to show the Add New Van modal=================================================
-function showUpdateCarModal() {
-    document.getElementById('vehicleModalTitleUpdateCar').textContent = 'Update Car';
-    document.getElementById('UpdateCarModel').querySelector('form').reset();
-    document.getElementById('UpdateCarModel').classList.add('show');
-}
 
     //Driver Section=========================================================================
     function showAddNewDriverModal() {

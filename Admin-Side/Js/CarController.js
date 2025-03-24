@@ -26,7 +26,6 @@ $(document).ready(function () {
         });
     }
 
-    //create card
     function createCarCard(car) {
         return `
             <div class="vehicle-card" data-car-id="${car.carId}">
@@ -44,7 +43,7 @@ $(document).ready(function () {
                         <p><strong>WiFi:</strong> ${car.wifi || "Not Available"}</p>
                     </div>
                     <div class="card-actions">
-                        <button class="btn btn-update" data-car-id="${car.carId}" onclick="showUpdateCarModal()"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-update" data-car-id="${car.carId}"><i class="fas fa-edit"></i></button>
                         <button class="btn btn-delete" data-car-id="${car.carId}"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
@@ -103,12 +102,11 @@ $(document).ready(function () {
         });
     });
 
-    //Update Car
+    // Update Car
     $("#UpdateCarForm").submit(function (event) {
         event.preventDefault();
 
         let car = new FormData();
-        car.append('carId', $("#carIdUpdate").val());
         car.append('air', $("#airConditioningUpdatec").val());
         car.append('capacity', $("#capacityUpdatec").val());
         car.append('model', $("#modelUpdatec").val());
@@ -119,7 +117,7 @@ $(document).ready(function () {
         car.append('year', $("#yearUpdatec").val());
         car.append('insuranceName', $("#insurancencupdate").val());
 
-        const imageFile = $('#imagec')[0].files[0];
+        const imageFile = $('#imageUpdatec')[0].files[0];
         if (!imageFile) {
             alert("Please select an image!");
             return;
@@ -127,22 +125,65 @@ $(document).ready(function () {
         car.append("image", imageFile);
 
         $.ajax({
-            url: "http://localhost:8080/api/c1/cars",
-            type: "POST",
+            url: "http://localhost:8080/api/c1/cars/" + $("#carIdUpdate").val(), // ✅ Correct URL format
+            type: "PUT",
             data: car,
             contentType: false,
             processData: false,
             success: function (newCar) {
-                alert("Car added successfully");
+                alert("Car Updated successfully");
                 loadCars();
-                $("#carForm")[0].reset();
-                closeModal('CarMode');
+                $("#UpdateCarForm")[0].reset();
+                closeModal('UpdateCarModel');
             },
             error: function (xhr, status, error) {
-                alert("Error adding car: " + (xhr.responseText || error || status));
+                alert("Error updating car: " + (xhr.responseText || error || status));
             }
         });
     });
+
+
+    $(document).on("click", ".btn-update", function(e) {
+        e.preventDefault();
+        const carId = $(this).data("car-id");
+        fetchCarDetails(carId);
+    });
+
+
+    function fetchCarDetails(carId) {
+        $.ajax({
+            url: "http://localhost:8080/api/c1/cars/" + carId,
+            type: "GET",
+            success: function (car) {
+                console.log("Car details fetched:", car);
+
+                // Populate form fields with fetched data
+                $("#carIdUpdate").val(car.carId);
+                $("#airConditioningUpdatec").val(car.airConditioning);
+                $("#capacityUpdatec").val(car.capacity);
+                $("#modelUpdatec").val(car.model);
+                $("#plateNumberUpdatec").val(car.plateNumber);
+                $("#registrationNumberUpdatec").val(car.registrationNumber);
+                $("#statusUpdatec").val(car.status);
+                $("#wifiUpdatec").val(car.wifi);
+                $("#yearUpdatec").val(car.year);
+                $("#insurancencupdate").val(car.insurance ? car.insurance.provider : '');
+
+                // Display current image (optional)
+                if (car.image) {
+                    $("#currentCarImage").attr("src", "data:image/png;base64," + car.image);
+                    $("#currentCarImage").show();
+                }
+
+                // Open the modal
+                $("#UpdateCarModel").modal("show");
+            },
+            error: function (xhr, status, error) {
+                alert("Error fetching car details: " + (xhr.responseText || error || status));
+            }
+        });
+    }
+
 
     //Load Insurance Names
     function loadInsuranceNames() {
