@@ -13,14 +13,14 @@ $(document).ready(function () {
                 data.forEach(user => {
 
                     tbody.append(`
-                        <tr>
-                            <td>${user.userId}</td>
-                            <td>${user.firstName}</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.email}</td>
-                            <td>${user.address}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.username}</td>
+                        <tr  style="text-align: center;">
+                            <td  style="text-align: center;">${user.userId}</td>
+                            <td  style="text-align: center;">${user.firstName}</td>
+                            <td  style="text-align: center;">${user.lastName}</td>
+<td  style="text-align: center;">${user.email}</td>
+                            <td  style="text-align: center;">${user.address}</td>
+                            <td style="text-align: center;">${user.phone}</td>
+                           
                                                         <td>
   <span id="role">${user.role}</span>
   <button class="edit-btn" onclick="openModal()"><i class="fas fa-edit"></i></button>

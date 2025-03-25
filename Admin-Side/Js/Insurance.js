@@ -15,11 +15,11 @@ $(document).ready(function () {
                 data.forEach(insurance => {
                     tbody.append(`
                         <tr>
-                            <td>${insurance.id}</td>
-                            <td>${insurance.provider}</td>
-                            <td>${insurance.expiryDate}</td>
-                            <td>${insurance.insuranceCost}</td>
-                             <td>
+                            <td  style="text-align: center;">${insurance.id}</td>
+                            <td  style="text-align: center;">${insurance.provider}</td>
+                            <td  style="text-align: center;">${insurance.expiryDate}</td>
+                            <td  style="text-align: center;">${insurance.insuranceCost}</td>
+                             <td  style="text-align: center;">
                                 <button style="color: #ffa500" class="btn btn-update-insurance" data-insurance-id="${insurance.id}"><i class="fas fa-edit"></i></button>
                                 <button style="color: red" class="btn btn-delete-insurance" data-insurance-id="${insurance.id}"><i class="fas fa-trash"></i></button>
                             </td>

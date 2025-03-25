@@ -180,6 +180,9 @@ $(document).ready(function () {
             url: "http://localhost:8080/api/i1/insurance/insuranceNames",
             type: "GET",
             dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 const container = $("#insurance").empty();
                 const container1 = $("#insuranceupdateb").empty();

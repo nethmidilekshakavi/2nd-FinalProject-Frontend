@@ -14,19 +14,19 @@ $(document).ready(function () {
                 data.forEach(driver => {
                     tbody.append(`
                         <tr>
-                            <td>${driver.id}</td>
-                            <td>${driver.name}</td>
-                            <td>${driver.licenseNumber}</td>
-                            <td class="phone">${driver.phoneNumber}</td>
-                            <td>${driver.licenseExpiry}</td>
-                            <td style="font-weight: bold;">${driver.vehicleType}</td>
-                            <td>${driver.isAvailable ? "✅ Available" : "❌ Not Available"}</td>
-                            <td>
+                            <td  style="text-align: center;">${driver.id}</td>
+                            <td  style="text-align: center;">${driver.name}</td>
+                            <td  style="text-align: center;">${driver.licenseNumber}</td>
+                            <td style="text-align: center;" class="phone">${driver.phoneNumber}</td>
+                            <td style="text-align: center;">${driver.licenseExpiry}</td>
+                            <td style="text-align: center;" style="font-weight: bold;">${driver.vehicleType}</td>
+                            <td style="text-align: center;">${driver.isAvailable ? "✅ Available" : "❌ Not Available"}</td>
+                            <td style="text-align: center;">
                                 <img src="data:image/jpeg;base64,${driver.image}" 
                                     alt="Driver Image" class="crop-image" 
                                     style="width: 50px; height: 50px; border-radius: 50%; cursor: pointer;">
                             </td>
-                            <td>
+                            <td style="text-align: center;">
                                 <button style="color: #ffa500" class="btn btn-update-driver" data-driver-id="${driver.id}"><i class="fas fa-edit"></i></button>
                                 <button style="color: red" class="btn btn-delete-driver" data-driver-id="${driver.id}"><i class="fas fa-trash"></i></button>
                             </td>
