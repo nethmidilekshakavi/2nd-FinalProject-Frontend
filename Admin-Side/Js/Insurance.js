@@ -7,6 +7,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/i1/insurance",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 let tbody = $("#InsuranceTableBody").empty();
                 data.forEach(insurance => {
@@ -52,6 +55,9 @@ $(document).ready(function () {
             $.ajax({
                 url: `http://localhost:8080/api/i1/insurance/${selectedInsuranceId}`,
                 type: "PUT",
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                },
                 contentType: "application/json",
                 data: JSON.stringify(insurance),
 
@@ -80,6 +86,9 @@ $(document).ready(function () {
             $.ajax({
                 url: "http://localhost:8080/api/i1/insurance",
                 type: "POST",
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                },
                 contentType: "application/json",
                 data: JSON.stringify(insurance),
                 success: function () {

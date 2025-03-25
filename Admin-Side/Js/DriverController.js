@@ -5,6 +5,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 console.log(data);
                 let tbody = $("#DriversTableBody").empty();
@@ -60,6 +63,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers",
             type: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: drivers,
             contentType: false,
             processData: false,
@@ -106,6 +112,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers/" + $("#updateid").val(),
             type: "PUT",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: driverUpdate,
             contentType: false,
             processData: false,
@@ -142,6 +151,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers/" + driverId,
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (driver) {
                 $("#updateid").val(driver.id);
                 $("#updatename").val(driver.name);
@@ -181,6 +193,9 @@ $(document).ready(function () {
                 $.ajax({
                     url: `http://localhost:8080/api/d1/drivers/${driverId}`,
                     type: "DELETE",
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
                     success: function () {
                         Swal.fire({
                             icon: 'success',

@@ -53,6 +53,9 @@
     $.ajax({
         url: "http://localhost:8080/api/v1/Buses",
         type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
         success: function(data) {
             const container = $("#busCardContainerUserSide");
             container.empty();

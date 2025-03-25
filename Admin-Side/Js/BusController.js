@@ -7,6 +7,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 const container = $("#busCardContainer").empty();
 
@@ -86,6 +89,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses",
             type: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: bus,
             contentType: false,
             processData: false,
@@ -138,6 +144,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses/" + $("#busIdUpdate").val(),
             type: "PUT",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: bus,
             contentType: false,
             processData: false,
@@ -217,6 +226,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Buses/" + busId,
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (bus) {
                 console.log("Bus details fetched:", bus);
 
@@ -266,6 +278,9 @@ $(document).ready(function () {
                 $.ajax({
                     url: `http://localhost:8080/api/v1/Buses/${busId}`,
                     type: "DELETE",
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
                     success: function () {
                         Swal.fire({
                             icon: 'success',

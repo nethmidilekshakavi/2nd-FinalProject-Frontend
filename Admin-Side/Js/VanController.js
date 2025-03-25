@@ -7,6 +7,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Vans",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 const container = $("#vanCardContainer").empty();
 
@@ -87,6 +90,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Vans",
             type: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: van,
             contentType: false,
             processData: false,
@@ -119,6 +125,9 @@ $(document).ready(function () {
             url: "http://localhost:8080/api/i1/insurance/insuranceNames",
             type: "GET",
             dataType: "json",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 const container = $("#insurancenv").empty();
                 const container1 = $("#insurancencupdatev").empty();
@@ -177,6 +186,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Vans/" + $("#vanIdUpdate").val(),
             type: "PUT",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: van,
             contentType: false,
             processData: false,
@@ -216,6 +228,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/Vans/" + vanId,
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (van) {
                 console.log("van details fetched:", van);
 
@@ -265,6 +280,9 @@ $(document).ready(function () {
                 $.ajax({
                     url: `http://localhost:8080/api/v1/Vans/${vanId}`,
                     type: "DELETE",
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
                     success: function () {
                         Swal.fire({
                             icon: 'success',

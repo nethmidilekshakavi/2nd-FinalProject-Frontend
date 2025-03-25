@@ -7,6 +7,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/c1/cars",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 const container = $("#carCardContainer").empty();
 
@@ -87,6 +90,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/c1/cars",
             type: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: car,
             contentType: false,
             processData: false,
@@ -141,6 +147,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/c1/cars/" + $("#carIdUpdate").val(),
             type: "PUT",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             data: car,
             contentType: false,
             processData: false,
@@ -180,6 +189,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/c1/cars/" + carId,
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (car) {
                 console.log("Car details fetched:", car);
 
@@ -216,6 +228,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/i1/insurance/insuranceNames",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             dataType: "json",
             success: function (data) {
                 const container = $("#insurancenc").empty();
@@ -269,6 +284,9 @@ $(document).ready(function () {
                 $.ajax({
                     url: `http://localhost:8080/api/c1/cars/${carId}`,
                     type: "DELETE",
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
                     success: function () {
                         Swal.fire({
                             icon: 'success',

@@ -5,6 +5,9 @@ $(document).ready(function () {
         $.ajax({
             url: "http://localhost:8080/api/v1/user",
             type: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
             success: function (data) {
                 let tbody = $("#userTableBody").empty();
                 data.forEach(user => {
@@ -68,6 +71,9 @@ function saveRole() {
 
     fetch(`/editRole/${userId}`, {
         method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
         body: JSON.stringify({ editRole: roleInput })
     })
         .then(response => response.json())
