@@ -17,8 +17,8 @@ $(document).ready(function () {
                             <td>${insurance.expiryDate}</td>
                             <td>${insurance.insuranceCost}</td>
                              <td>
-                                <button class="btn btn-update-insurance" data-id="${insurance.id}" data-provider="${insurance.provider}" data-expiryDate="${insurance.expiryDate}" data-insuranceCost="${insurance.insuranceCost}">Update</button>
-                                <button class="btn btn-delete-insurance" data-id="${insurance.id}">Delete</button>
+                                <button style="color: #ffa500" class="btn btn-update-insurance" data-insurance-id="${insurance.id}"><i class="fas fa-edit"></i></button>
+                                <button style="color: red" class="btn btn-delete-insurance" data-insurance-id="${insurance.id}"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `);
@@ -48,22 +48,34 @@ $(document).ready(function () {
         }
 
         if (selectedInsuranceId) {
-            // Update Insurance
+
             $.ajax({
                 url: `http://localhost:8080/api/i1/insurance/${selectedInsuranceId}`,
                 type: "PUT",
                 contentType: "application/json",
                 data: JSON.stringify(insurance),
+
                 success: function () {
-                    alert('Insurance updated successfully!');
-                    closeModal('insuranceModal');
-                    loadInsurance();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Insurance added successfully',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        loadInsurance();
+                        $("#")[0].reset();
+                        closeModal('insuranceModal');
+                    });
                 },
-                error: function () {
-                    alert("Error updating Insurance!");
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error adding insurance: ' + (xhr.responseText || error || status),
+                        confirmButtonText: 'OK'
+                    });
                 }
-            });
-        } else {
+            })
             // Add Insurance
             $.ajax({
                 url: "http://localhost:8080/api/i1/insurance",
@@ -71,28 +83,26 @@ $(document).ready(function () {
                 contentType: "application/json",
                 data: JSON.stringify(insurance),
                 success: function () {
-                    alert("Insurance added successfully!");
-                    closeModal('insuranceModal');
-                    loadInsurance()
-                },
-                error: function () {
-                    alert("Error adding insurance!");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Insurance added successfully',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        loadInsurance();
+                        $("#InsuranceForm")[0].reset();
+                        closeModal('insuranceModal');
+                    });
+                },error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Error adding insurance: ' + (xhr.responseText || error || status),
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
         }
     });
 
-    // Update form fields when Update button is clicked
-    $(document).on("click", ".btn-update", function () {
-        selectedInsuranceId = $(this).data("id");
-        $("#insuranceId").val($(this).data("id"));
-        $("#provider").val($(this).data("provider"));
-        $("#expiryDate").val($(this).data("expiryDate"));
-        $("#insuranceCost").val($(this).data("insuranceCost"));
-    });
-
-    // Modal close function
-    function closeModal(modalId) {
-        $("#" + modalId).modal("hide"); // Bootstrap modal method to hide the modal
-    }
 });
