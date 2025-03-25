@@ -89,27 +89,24 @@ $(document).ready(function () {
     $("#UpdateDriverModel").submit(function (e) {
         e.preventDefault();
 
-        const driverId = $("#updateid").val();
-        if (!driverId) {
-            alert("Driver ID is missing!");
-            return;
-        }
-
+        // Create a FormData object for the driver update
         let driverUpdate = new FormData();
         driverUpdate.append('name', $("#updatename").val());
-        driverUpdate.append('licenseNumber', $("#updatelicenseNumber").val());
+        driverUpdate.append('licenceNumber', $("#updatelicenseNumber").val());
         driverUpdate.append('phoneNumber', $("#updatephoneNumber").val());
-        driverUpdate.append('licenseExpiry', $("#updatelicenseExpiry").val());
-        driverUpdate.append('type', $("#updatevehicleType").val());
+        driverUpdate.append('expiry', $("#updatelicenseExpiry").val());
+        driverUpdate.append('vehicleType', $("#updatevehicleType").val());
         driverUpdate.append('available', $("#updateisAvailable").val());
 
+        // Add image file if present
         let imageFile = $('#updateimagedriver')[0].files[0];
         if (imageFile) {
             driverUpdate.append('image', imageFile);
         }
 
+        // AJAX request to update driver details
         $.ajax({
-            url: `http://localhost:8080/api/d1/drivers/${driverId}`,
+            url: "http://localhost:8080/api/d1/drivers/" + $("#updateid").val(),
             type: "PUT",
             data: driverUpdate,
             contentType: false,
@@ -118,19 +115,19 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success!',
-                    text: 'Driver added successfully',
+                    text: 'Driver updated successfully', // Updated the text for accuracy
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    loadDrivers();
-                    $("#driverFormUpdate")[0].reset();
-                    closeModal('UpdateDriverModel');
+                    loadDrivers(); // Reload the drivers list
+                    $("#driverFormUpdate")[0].reset(); // Reset the form
+                    closeModal('UpdateDriverModel'); // Close the modal
                 });
             },
             error: function (xhr, status, error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
-                    text: 'Error adding driver: ' + (xhr.responseText || error || status),
+                    text: 'Error updating driver: ' + (xhr.responseText || error || status), // Made the message more specific
                     confirmButtonText: 'OK'
                 });
             }
