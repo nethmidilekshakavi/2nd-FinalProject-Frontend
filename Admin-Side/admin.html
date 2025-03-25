@@ -389,7 +389,18 @@
         </div>
     </section>
 
-
+    <div id="roleEditModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3>Edit User Role</h3>
+            <input type="hidden" id="editUserId">
+            <select id="editRole">
+                <option value="ADMIN">ADMIN</option>
+                <option value="USER">USER</option>
+            </select>
+            <button id="saveRoleBtn">Save</button>
+        </div>
+    </div>
 
 
 
