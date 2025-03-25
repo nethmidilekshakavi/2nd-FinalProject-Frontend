@@ -17,8 +17,8 @@ $(document).ready(function () {
                             <td>${insurance.expiryDate}</td>
                             <td>${insurance.insuranceCost}</td>
                              <td>
-                                <button class="btn btn-update" data-id="${insurance.id}" data-provider="${insurance.provider}" data-expiryDate="${insurance.expiryDate}" data-insuranceCost="${insurance.insuranceCost}">Update</button>
-                                <button class="btn btn-delete" data-id="${insurance.id}">Delete</button>
+                                <button class="btn btn-update-insurance" data-id="${insurance.id}" data-provider="${insurance.provider}" data-expiryDate="${insurance.expiryDate}" data-insuranceCost="${insurance.insuranceCost}">Update</button>
+                                <button class="btn btn-delete-insurance" data-id="${insurance.id}">Delete</button>
                             </td>
                         </tr>
                     `);
