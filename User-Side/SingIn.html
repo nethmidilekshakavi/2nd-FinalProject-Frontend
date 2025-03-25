@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Booking System - Login</title>
-    <!-- Using CDN link for Font Awesome that works without issues -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="Css/SingIn.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 </head>
 <body>
@@ -22,18 +23,17 @@
             <img src="image/Screenshot_2025-03-05_132445-removebg-preview.png" alt="Logo" class="logo">
             <h1>Unlock the Journey of Travel Booking</h1>
 
-
             </div>
 
-            <form class="login-form">
+            <form class="login-form" id="signInForm">
                 <div class="input-container">
                     <i class="fas fa-user icon"></i>
-                    <input type="text" class="input-field" placeholder="Username" required>
+                    <input type="text" class="input-field" id="email" name="email" placeholder="Email" required>
                 </div>
 
                 <div class="input-container">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" id="password" class="input-field" placeholder="Password" required>
+                    <input type="password" id="password" name="pw" class="input-field" placeholder="Password" required>
                     <i class="fas fa-eye toggle-password" id="togglePassword"></i>
                 </div>
 
@@ -46,7 +46,7 @@
                     <button type="submit" class="login-button">Sign In</button>
                     <button  type="button" class="signup-button">Sign Up</button>
                 </div>
-
+                <div id="responseMessage" style="display:none;"></div>
             </form>
 
             <div class="or-divider">OR</div>
@@ -91,6 +91,6 @@
         }
     });
 </script>
-
+<script src="Js/SingInPage.js"></script>
 </body>
 </html>
