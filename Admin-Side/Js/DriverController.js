@@ -89,7 +89,6 @@ $(document).ready(function () {
     $("#UpdateDriverModel").submit(function (e) {
         e.preventDefault();
 
-        // Create a FormData object for the driver update
         let driverUpdate = new FormData();
         driverUpdate.append('name', $("#updatename").val());
         driverUpdate.append('licenceNumber', $("#updatelicenseNumber").val());
@@ -98,13 +97,12 @@ $(document).ready(function () {
         driverUpdate.append('vehicleType', $("#updatevehicleType").val());
         driverUpdate.append('available', $("#updateisAvailable").val());
 
-        // Add image file if present
+
         let imageFile = $('#updateimagedriver')[0].files[0];
         if (imageFile) {
             driverUpdate.append('image', imageFile);
         }
 
-        // AJAX request to update driver details
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers/" + $("#updateid").val(),
             type: "PUT",
@@ -165,4 +163,44 @@ $(document).ready(function () {
             }
         });
     }
+
+    $(document).on("click", ".btn-delete-driver", function () {
+        const driverId = $(this).data("driver-id");
+
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: `http://localhost:8080/api/d1/drivers/${driverId}`,
+                    type: "DELETE",
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Driver deleted successfully',
+                            confirmButtonText: 'OK'
+                        });
+                        loadDrivers(); //
+                    },
+                    error: function (xhr, status, error) {
+                        const errorMessage = xhr.responseText || error || status;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Error deleting driver: ' + errorMessage,
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            }
+        });
+    });
 });
