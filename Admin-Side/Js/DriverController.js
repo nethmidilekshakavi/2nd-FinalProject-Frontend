@@ -44,10 +44,10 @@ $(document).ready(function () {
         let drivers = new FormData();
         drivers.append('id', $("#id").val());
         drivers.append('name', $("#name").val());
-        drivers.append('licenseNumber', $("#licenseNumber").val());
+        drivers.append('licenceNumber', $("#licenseNumber").val());
         drivers.append('phoneNumber', $("#phoneNumber").val());
-        drivers.append('licenseExpiry', $("#licenseExpiry").val());
-        drivers.append('type', $("#vehicleType").val());
+        drivers.append('expiry', $("#licenseExpiry").val());
+        drivers.append('vehicleType', $("#vehicleType").val());
         drivers.append('available', $("#isAvailable").val());
 
         const imageFile = $("#imagedriver")[0].files[0];
