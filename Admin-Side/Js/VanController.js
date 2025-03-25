@@ -237,7 +237,7 @@ $(document).ready(function () {
                     $("#currentvanImage").show();
                 }
 
-                // Open the modal
+
                 $("#UpdateVanModel").modal("show");
             },
             error: function (xhr, status, error) {

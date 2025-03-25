@@ -58,9 +58,9 @@ function openModal(userId, currentRole) {
     document.getElementById("roleModal").style.display = "block";
 }
 
-function closeModal() {
+/*function closeModal() {
     document.getElementById("roleModal").style.display = "none";
-}
+}*/
 
 function saveRole() {
     const roleInput = document.getElementById("roleInput").value;

@@ -96,10 +96,11 @@ $(document).ready(function () {
                     title: 'Success!',
                     text: 'Car added successfully',
                     confirmButtonText: 'OK'
+                }).then(() => { // Ensures the modal closes after the user clicks "OK"
+                    loadCars(); // Reload car list
+                    $("#carForm")[0].reset(); // Reset form
+                    closeModal('CarModal'); // Ensure the modal ID is correct
                 });
-                loadCars();
-                $("#carForm")[0].reset();
-                closeModal('CarMode');
             },
             error: function (xhr, status, error) {
 
@@ -218,7 +219,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 const container = $("#insurancenc").empty();
-                const container1 = $("#in").empty();
+                const container1 = $("#insurancencupdate").empty();
                 container.append('<option value="">Select an Insurance</option>');
                 container1.append('<option value="">Select an Insurance</option>');
 
@@ -305,4 +306,22 @@ $(document).ready(function () {
 });
 
 
+//Active Tab
+
+function switchTab(tabId) {
+
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+    const activeTab = document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`);
+    if (activeTab) activeTab.classList.add('active');
+
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+    const activeContent = document.getElementById(tabId);
+    if (activeContent) activeContent.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    switchTab('cars');
+});
 
