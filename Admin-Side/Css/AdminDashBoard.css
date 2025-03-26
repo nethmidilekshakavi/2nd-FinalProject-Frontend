@@ -962,3 +962,44 @@ input:checked + .slider::before {
     transform: translateX(16px); /* Adjusted position for smaller toggle */
 }
 
+.user-avatar img {
+    width: 50px; /* Adjust as per your design */
+    height: 50px; /* Adjust as per your design */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Ensure the image covers the whole container */
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;  /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+    border-radius: 50%; /* For circular avatar */
+    overflow: hidden;
+    margin-right: 10px; /* Space between avatar and user role */
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fits within the div */
+}
+
+.user-profile div {
+    font-size: 14px; /* Adjust text size */
+    color: #333; /* Adjust text color */
+}

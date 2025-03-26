@@ -1,8 +1,4 @@
 
-
-
-
-
 $(document).ready(function () {
     loadUserDetails();
 
@@ -46,7 +42,7 @@ $(document).ready(function () {
                     `);
                 });
 
-                // Attach event listener after loading data
+
                 $(".toggle-role").change(function () {
                     let userId = $(this).data("user-id");
                     let newRole = $(this).is(":checked") ? "ADMIN" : "USER";

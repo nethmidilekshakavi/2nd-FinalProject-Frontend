@@ -171,3 +171,24 @@ function closeModal(modalId) {
         // Filter functionality would go here
         alert('Filter functionality would appear here');
     }
+
+    loadUserName()
+
+function loadUserName() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/user/getUsername",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function (data) {
+            console.log(data)
+            if (data) {
+
+                $('#user-name').text("Welcome: " + data);
+            } else {
+                $('#userRole').text("Role: Unknown");
+            }
+        }
+    })
+}

@@ -179,17 +179,17 @@ body{
 #leftimg {
     right: -50%;
     margin-top: 15%; /* Adjust the top margin */
-    top: 120%;
+    top: 107%;
     width: 600px;
     height: 300px;
 }
 
 #rightimg {
-    left: -60%;
-    width: 600px;
-    margin-top: 18%; /* Adjust the top margin */
+    left: -50%;
+    width: 500px;
+    margin-top:34%; /* Adjust the top margin */
     height: 300px;
-    transform: rotatey(180deg);
+
 }
 
 #center {
