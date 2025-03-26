@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        fetch('http://localhost:8080/api/v1/user', {
+        fetch('http://localhost:8080/api/v1/user/userSave', {
             method: 'POST',
             body: formData
         })

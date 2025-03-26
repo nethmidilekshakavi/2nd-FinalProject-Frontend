@@ -1,4 +1,3 @@
-
 $('#signInForm').on('submit', function (event) {
     event.preventDefault(); // Prevent the form from submitting traditionally
 
@@ -9,6 +8,7 @@ $('#signInForm').on('submit', function (event) {
         email: email,
         password: password
     }
+
     $.ajax({
         url: 'http://localhost:8080/api/Login/auth/signIn',
         type: 'POST',
@@ -18,6 +18,8 @@ $('#signInForm').on('submit', function (event) {
             console.log(response);
             localStorage.setItem('jwtToken', response.tokens);
 
+            $('body').attr('data-user-id', response.userId);
+
             // SweetAlert with animation and icon
             Swal.fire({
                 title: `🎉 Welcome, ${response.userName}!`,
@@ -26,18 +28,13 @@ $('#signInForm').on('submit', function (event) {
                 showConfirmButton: false,
                 timer: 2500,
                 timerProgressBar: true,
-                backdrop: `
-                rgba(0, 0, 0, 0.6)
-                url("https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif")
-                center top
-                no-repeat
-            `
+                backdrop: `rgba(0, 0, 0, 0.6) url("https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif") center top no-repeat`
             }).then(() => {
                 // Redirect based on role
                 if (response.role === 'ADMIN') {
                     window.location.href = "admin.html";
-                } else {
-                    window.location.href = "user.html"; // Update this for non-admin users
+                } else if (response.role === 'USER'){
+                    window.location.href = "index.html";
                 }
             });
         },
@@ -50,14 +47,10 @@ $('#signInForm').on('submit', function (event) {
                 icon: "error",
                 confirmButtonText: "Try Again",
                 confirmButtonColor: "#d33",
-                backdrop: `
-                rgba(255, 0, 0, 0.5)
-                url("https://media.giphy.com/media/3o6ZsZKnL3JrF1efFe/giphy.gif")
-                center top
-                no-repeat
-            `
+                backdrop: `rgba(255, 0, 0, 0.5) url("https://media.giphy.com/media/3o6ZsZKnL3JrF1efFe/giphy.gif") center top no-repeat`
             });
         }
+
     });
 
-})
+});

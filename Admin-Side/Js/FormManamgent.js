@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function navigate() {
         const currentHash = window.location.hash || "#mainForm";
 
-        // Remove 'active' class from all sections and nav links first
         sections.forEach(section => {
             section.classList.remove("active");
         });
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
             link.classList.remove("active");
         });
 
-        // Add 'active' class to the current section and its corresponding nav link
         sections.forEach(section => {
             if ("#" + section.id === currentHash) {
                 section.classList.add("active");
@@ -27,14 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Listen to changes in the hash and trigger navigation
     window.addEventListener("hashchange", navigate);
-    navigate();  // Initial call to set active state based on the initial hash
+    navigate();
 });
 
-// Charts
+
 window.onload = function () {
-    // Booking Statistics Chart
+
     const bookingCtx = document.getElementById('bookingChart').getContext('2d');
     const bookingChart = new Chart(bookingCtx, {
         type: 'line',
@@ -59,7 +56,6 @@ window.onload = function () {
         }
     });
 
-    // Vehicle Type Distribution Chart
     const vehicleCtx = document.getElementById('vehicleChart').getContext('2d');
     const vehicleChart = new Chart(vehicleCtx, {
         type: 'doughnut',
@@ -81,19 +77,19 @@ window.onload = function () {
     });
 };
 
-// Tab Switching
+
 function switchTab(tabId) {
     // Hide all tab contents
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
     });
 
-    // Deactivate all tabs
+
     document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
     });
 
-    // Activate selected tab and content
+
     document.getElementById(tabId).classList.add('active');
     document.querySelector(`.tab:nth-child(${Array.from(document.querySelectorAll('.tab')).findIndex(tab => tab.getAttribute('onclick').includes(tabId)) + 1})`).classList.add('active');
 }
@@ -210,7 +206,6 @@ function loadUserImage() {
         }
     });
 }
-
 
 
 

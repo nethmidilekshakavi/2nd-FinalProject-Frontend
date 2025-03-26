@@ -2,7 +2,6 @@
     $(document).ready(function() {
 
     loadBusesUser();
-
     setupFilters();
 });
 
@@ -129,7 +128,7 @@
                     </div>
                     ${bus.status === 'AVAILABLE' ?
     `<div class="bus-price">Starting from Rs.${calculatePrice(bus)} / day</div>
-                         <a href="booking.html?busId=${bus.busId}" class="btn">Book Now</a>` :
+                         <a href="BusBooking.html?busId=${bus.busId}&busModel=${bus.model}" class="btn">Book Now</a>` :
     `<div class="bus-unavailable">Currently unavailable</div>`
 }
                 </div>
@@ -178,6 +177,4 @@
 };
     return badgeClasses[status] || "status-unknown";
 }
-
-
 

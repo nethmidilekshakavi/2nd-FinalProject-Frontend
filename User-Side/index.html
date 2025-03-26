@@ -1039,7 +1039,6 @@
     });
 </script>
 <script>
-    // JavaScript for enhancing interactivity
     document.addEventListener('DOMContentLoaded1', function () {
         // Add click event to all view detail buttons
         const viewButtons = document.querySelectorAll('.view-button');
@@ -1051,7 +1050,6 @@
             });
         });
 
-        // Optional: Add smooth scrolling for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1133,7 +1131,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const vehiclesDropdown = document.getElementById('vehiclesDropdown');
         const vehiclesMenu = document.getElementById('vehiclesMenu');
-        const vehicleTypeSelect = document.getElementById('vehicleType');
         const vehicleItems = document.querySelectorAll('.dropdown-item[data-category]');
 
         // Toggle dropdown on click
@@ -1149,20 +1146,7 @@
             }
         });
 
-        // Filter dropdown items based on select value
-        vehicleTypeSelect.addEventListener('change', function() {
-            const selectedType = this.value;
 
-            vehicleItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-
-                if (selectedType === '' || selectedType === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
     });
 </script>
 </body>
