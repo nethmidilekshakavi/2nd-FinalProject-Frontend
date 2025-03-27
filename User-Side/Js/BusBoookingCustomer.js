@@ -1,4 +1,4 @@
-let  UserId = 0
+let UserId = 0
 
 function loadUserID() {
     $.ajax({
@@ -61,4 +61,57 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("busModel").value = busModel;
     }
 
+});
+
+
+$("#bookingForm").submit(function(event) {
+    event.preventDefault();
+
+    // Get form data and create a JSON object
+    const formData = {
+        "user": $("#userId").val(),
+        "bus": $("#busId").val(),
+        "name": $("#fullName").val(),
+        "email": $("#email").val(),
+        "phone": $("#mobile").val(),
+        "model": $("#busModel").val(),
+        "pickupDate": $("#pickupDate").val(),
+        "returnDate": $("#returnDate").val(),
+        "pickupLocation": $("#pickupLocation").val(),
+        "returnLocation": $("#dropLocation").val(),
+        "additionalInfo": $("#additionalInfo").val()
+    };
+
+    // Send the form data to the backend using $.ajax
+    $.ajax({
+        url: 'http://localhost:8080/api/b1/busBooking/save',
+        type: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json' // Set content type as JSON
+        },
+        data: JSON.stringify(formData), // Convert the form data object to JSON string
+        success: function(response)
+        {
+
+            console.log(response)
+            Swal.fire({
+                icon: 'success',
+                title: 'Booking Successful!',
+                text: 'Your booking has been completed.',
+                confirmButtonText: 'OK'
+            });
+            // Optionally clear the form or perform other actions
+            $("#bookingForm")[0].reset();
+        },
+        error: function(xhr, status, error) {
+            const errorMessage = xhr.responseText || error || status;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'There was an issue with the booking. ' + errorMessage,
+                confirmButtonText: 'OK'
+            });
+        }
+    });
 });
