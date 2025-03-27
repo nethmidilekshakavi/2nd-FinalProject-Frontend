@@ -1,31 +1,34 @@
-let UserId = 0;
+let  UserId = 0
 
 function loadUserID() {
     $.ajax({
-        url: "http://localhost:8080/api/v1/user/userId",
+        url: "http://localhost:8080/api/v1/user/getuserId",
         type: "GET",
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         },
         success: function (data) {
-            if (data && typeof data === 'object' && 'userId' in data) {
+            console.log("API Response:", data); // Debugging
+
+            // Handle both JSON and string responses
+            if (typeof data === 'object' && 'userId' in data) {
                 UserId = data.userId;
-                console.log("User ID loaded:", UserId);
+            } else if (typeof data === 'string') {
+                UserId = parseInt(data, 10) || 0;
             } else {
                 console.error("Invalid user ID data:", data);
                 UserId = 0;
             }
 
+            // Set value in the input field
             const userIdInput = document.getElementById("userId");
             if (userIdInput) {
                 userIdInput.value = UserId;
             } else {
                 console.error("User ID input field not found");
             }
-
-            loadBusesUser();
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error("Error loading user ID:", error);
             UserId = 0;
 
@@ -37,7 +40,6 @@ function loadUserID() {
     });
 }
 
-// Call the function when page loads
 document.addEventListener("DOMContentLoaded", function () {
     loadUserID();
 });
