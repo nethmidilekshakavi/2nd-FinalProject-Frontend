@@ -51,7 +51,7 @@
             <li><a href="#viewBooking">Bookings</a></li>
             <li><a href="#InsuranceManagement">Insurance</a></li>
             <li><a href="#UserManagement">Users</a></li>
-            <li><a href="#">Reports</a></li>
+            <li><a href="">Reports</a></li>
             <li><a href="#">Settings</a></li>
             <br><br><br><br><br><br><br><br>
             <a href=""><button id="logOut">Log Out</button></a>
@@ -365,7 +365,7 @@
             <div class="table-header">
                 <div class="table-title">Bus Bookings</div>
                 <div class="table-actions">
-                    <button class="btn btn-outline" onclick="viewAllBookings()">View All</button>
+                    <button class="btn btn-outline" onclick="loadBudBookingDetails()">View All</button>
                 </div>
             </div>
             <table>
@@ -374,10 +374,10 @@
                     <th>Booking ID</th>
                     <th>Customer</th>
                     <th>PhoneNo</th>
-                    <th>Vehicle</th>
-                    <th>PickUpLocation</th>
+                    <th>Model</th>
                     <th>PickUpDate</th>
-                    <th>Status</th>
+                    <th>PickUpLocation</th>
+                    <th>DropLocation</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -874,7 +874,7 @@
 <script src="../Admin-Side/Js/AllVehicles.js"></script>
 <script src="../Admin-Side/Js/DriverController.js"></script>
 <script src="../Admin-Side/Js/Insurance.js"></script>
-<script src="../Admin-Side/Js/BusBooking.js"></script>
+<script src="../User-Side/Js/BusBoookingCustomer.js"></script>
 <script src="../Admin-Side/Js/FormManamgent.js"></script>
 <script src="../Admin-Side/Js/UserController.js"></script>
 

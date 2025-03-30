@@ -1003,3 +1003,32 @@ input:checked + .slider::before {
     font-size: 14px; /* Adjust text size */
     color: #333; /* Adjust text color */
 }
+.btn-cancel-busBooking {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-cancel-busBooking:hover {
+    background-color: darkred;
+}
+
+.btn-confirm-busBooking {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirm-busBooking:hover {
+    background-color: darkgreen;
+}

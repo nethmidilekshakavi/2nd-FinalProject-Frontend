@@ -28,7 +28,7 @@ $('#signInForm').on('submit', function (event) {
                 showConfirmButton: false,
                 timer: 2500,
                 timerProgressBar: true,
-                backdrop: `rgba(0, 0, 0, 0.6) url("https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif") center top no-repeat`
+               // backdrop: `rgba(0, 0, 0, 0.6) url("https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif") center top no-repeat`
             }).then(() => {
                 // Redirect based on role
                 if (response.role === 'ADMIN') {

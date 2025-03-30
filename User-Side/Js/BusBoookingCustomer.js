@@ -1,4 +1,5 @@
 let UserId = 0
+let userName = "";
 
 function loadUserID() {
     $.ajax({
@@ -40,8 +41,49 @@ function loadUserID() {
     });
 }
 
+function loadUserName() {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/user/getUsername",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function(data) {
+            console.log("API name Response:", data); // Debugging
+
+            // Check if data is an object with a "username" property or a string
+            if (typeof data === 'object' && 'username' in data) {
+                userName = data.username;
+                console.log(userName)
+            } else if (typeof data === 'string') {
+                userName = data;
+            } else {
+                console.error("Invalid user name data:", data);
+            }
+
+            // Set the username in the UI
+            const userNameElement = document.querySelector(".user-name");
+            if (userNameElement) {
+                userNameElement.textContent = userName;
+            } else {
+                console.error("User name element not found");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error loading user name:", error);
+            const userNameElement = document.querySelector(".user-name");
+            if (userNameElement) {
+                userNameElement.textContent = "Guest";
+            }
+        }
+    });
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     loadUserID();
+    loadUserName()
 });
 
 
@@ -79,7 +121,9 @@ $("#bookingForm").submit(function(event) {
         "returnDate": $("#returnDate").val(),
         "pickupLocation": $("#pickupLocation").val(),
         "returnLocation": $("#dropLocation").val(),
-        "additionalInfo": $("#additionalInfo").val()
+        "additionalInfo": $("#additionalInfo").val(),
+        "pickupTime":$("#pickupTime").val(),
+        "returnTime":$("#returnTime").val()
     };
 
     // Send the form data to the backend using $.ajax
@@ -115,3 +159,87 @@ $("#bookingForm").submit(function(event) {
         }
     });
 });
+
+loadBusBookingDetails()
+function loadBusBookingDetails() {
+    $.ajax({
+        url: "http://localhost:8080/api/b1/busBooking",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function (data) {
+            let tbody = $("#busBookingView").empty();
+            data.forEach(bus => {
+                tbody.append(`
+                    <tr>
+                        <td>${bus.id}</td>
+                        <td>${bus.name}</td>
+                        <td>${bus.phone}</td>
+                        <td>${bus.model}</td>
+                        <td>${bus.pickupDate}</td>
+                        <td style="text-align: center;">${bus.pickupLocation}</td>
+                        <td style="text-align: center;">${bus.returnLocation}</td>
+                        <td style="text-align: center;">
+                            <button class="btn btn-cancel-busBooking" data-bus-id="${bus.id}">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-confirm-busBooking" data-bus-id="${bus.id}" data-user-email="${bus.email}">
+                                <i class="fas fa-check"></i> Confirm
+                            </button>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            // Add event listeners for Confirm button
+            $(".btn-confirm-busBooking").off("click").on("click", function () {
+                let busId = $(this).data("bus-id");
+                let userEmail = $(this).data("user-email");
+                confirmBooking(busId, userEmail);
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error loading Bus Bookings: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+// Function to confirm booking and send email
+function confirmBooking(busId, userEmail) {
+    $.ajax({
+        url: `http://localhost:8080/api/b1/busBooking/confirm/${busId}`,
+        type: "POST",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function () {
+            alert("Booking confirmed! Sending confirmation email...");
+
+            // Send email after confirmation
+            sendConfirmationEmail(userEmail);
+        },
+        error: function (xhr, status, error) {
+            alert("Error confirming booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+// Function to send confirmation email
+function sendConfirmationEmail(userEmail) {
+    $.ajax({
+        url: "http://localhost:8080/api/b1/email/sendConfirmation",
+        type: "POST",
+        contentType: "application/json",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        data: JSON.stringify({ email: userEmail }),
+        success: function () {
+            alert("Confirmation email sent successfully to " + userEmail);
+        },
+        error: function (xhr, status, error) {
+            alert("Error sending email: " + (xhr.responseText || error || status));
+        }
+    });
+}

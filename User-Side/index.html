@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Vehicle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="Css/NavBar.css">
     <link rel="stylesheet" href="Css/home.css">
     <link rel="stylesheet" href="Css/aboutUs.css">
     <link rel="stylesheet" href="Css/Service.css">
+    <link rel="stylesheet" href="Css/UserProfile.css">
 
     <style>
         body{
@@ -51,7 +54,7 @@
                         </div>
                         <div class="vehicle-categories">
                             <a href="Bus.html" class="dropdown-item" data-category="sedan">Buses</a>
-                            <a href="#suv" class="dropdown-item" data-category="suv">Vans</a>
+                            <a href="UserProfile.html" class="dropdown-item" data-category="suv">Vans</a>
                             <a href="#truck" class="dropdown-item" data-category="truck">Cars</a>
                         </div>
                     </div>
@@ -1002,9 +1005,177 @@
 
 </section>
 
+<!--<section id="UserProfile">
+    <div class="container-UserProfile">
+        <div class="header">
+            <div class="header-title">
+                <div class="logo">TS</div>
+                <div class="title-text">
+                    <h1>Transport System</h1>
+                    <p>View your booking details</p>
+                </div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-name">John Doe</div>
+            </div>
+        </div>
 
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">My Bookings</div>
+            </div>
+            <div class="card-body">
+                <div class="booking-filters">
+                    <button class="filter-button active">All Bookings</button>
+                    <button class="filter-button">Upcoming</button>
+                    <button class="filter-button">Completed</button>
+                    <button class="filter-button">Cancelled</button>
+                </div>
 
-<!--Bus Page-->
+                <div class="booking-list">
+                    &lt;!&ndash; Booking Item 1 &ndash;&gt;
+                    <div class="booking-item">
+                        <div class="booking-header">
+                            <div class="booking-id">Booking #TRN-2025-0345</div>
+                            <div class="booking-status status-confirmed">Confirmed</div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <span class="detail-label">Transport Type</span>
+                                <span class="detail-value">Express Bus</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Date</span>
+                                <span class="detail-value">March 31, 2025</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Passengers</span>
+                                <span class="detail-value">1 Adult</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Amount Paid</span>
+                                <span class="detail-value">$45.00</span>
+                            </div>
+                        </div>
+                        <div class="booking-route">
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">New York</div>
+                                <div class="point-time">08:30 AM</div>
+                            </div>
+                            <div class="route-line"></div>
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">Washington DC</div>
+                                <div class="point-time">11:45 AM</div>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">View E-Ticket</button>
+                            <button class="btn btn-primary">Track Journey</button>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; Booking Item 2 &ndash;&gt;
+                    <div class="booking-item">
+                        <div class="booking-header">
+                            <div class="booking-id">Booking #TRN-2025-0289</div>
+                            <div class="booking-status status-pending">Pending</div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <span class="detail-label">Transport Type</span>
+                                <span class="detail-value">Train</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Date</span>
+                                <span class="detail-value">April 5, 2025</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Passengers</span>
+                                <span class="detail-value">2 Adults, 1 Child</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Amount Paid</span>
+                                <span class="detail-value">$120.50</span>
+                            </div>
+                        </div>
+                        <div class="booking-route">
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">Boston</div>
+                                <div class="point-time">09:15 AM</div>
+                            </div>
+                            <div class="route-line"></div>
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">New York</div>
+                                <div class="point-time">12:30 PM</div>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">Payment Details</button>
+                            <button class="btn btn-primary">Complete Payment</button>
+                        </div>
+                    </div>
+
+                    &lt;!&ndash; Booking Item 3 &ndash;&gt;
+                    <div class="booking-item">
+                        <div class="booking-header">
+                            <div class="booking-id">Booking #TRN-2025-0156</div>
+                            <div class="booking-status status-cancelled">Cancelled</div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="booking-detail">
+                                <span class="detail-label">Transport Type</span>
+                                <span class="detail-value">Flight</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Date</span>
+                                <span class="detail-value">March 15, 2025</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Passengers</span>
+                                <span class="detail-value">1 Adult</span>
+                            </div>
+                            <div class="booking-detail">
+                                <span class="detail-label">Amount Refunded</span>
+                                <span class="detail-value">$210.00</span>
+                            </div>
+                        </div>
+                        <div class="booking-route">
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">New York</div>
+                                <div class="point-time">06:45 AM</div>
+                            </div>
+                            <div class="route-line"></div>
+                            <div class="route-point">
+                                <div class="point-marker"></div>
+                                <div class="point-name">Miami</div>
+                                <div class="point-time">09:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn btn-outline">View Details</button>
+                            <button class="btn btn-primary">Rebook</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <div class="page-item">←</div>
+                    <div class="page-item active">1</div>
+                    <div class="page-item">2</div>
+                    <div class="page-item">3</div>
+                    <div class="page-item">→</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>-->
 
 
 
@@ -1149,5 +1320,123 @@
 
     });
 </script>
+<script>
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Filter logic would go here in a real application
+            const filterType = this.textContent.trim().toLowerCase();
+
+            // For demo purposes, we'll just show/hide items
+            const bookingItems = document.querySelectorAll('.booking-item');
+
+            if (filterType === 'all bookings') {
+                bookingItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+            } else if (filterType === 'upcoming') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'confirmed' || status === 'pending') ? 'block' : 'none';
+                });
+            } else if (filterType === 'completed') {
+                bookingItems.forEach(item => {
+                    const date = item.querySelector('.detail-value').textContent;
+                    const bookingDate = new Date(date);
+                    const today = new Date();
+                    item.style.display = (bookingDate < today &&
+                        !item.querySelector('.status-cancelled')) ? 'block' : 'none';
+                });
+            } else if (filterType === 'cancelled') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'cancelled') ? 'block' : 'none';
+                });
+            }
+        });
+    });
+
+    // Pagination functionality
+    document.querySelectorAll('.page-item').forEach(page => {
+        page.addEventListener('click', function() {
+            if (this.textContent === '←' || this.textContent === '→') return;
+
+            document.querySelectorAll('.page-item').forEach(p => {
+                p.classList.remove('active');
+            });
+
+            this.classList.add('active');
+        });
+    });
+</script>
+<script>
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Filter logic would go here in a real application
+            const filterType = this.textContent.trim().toLowerCase();
+
+            // For demo purposes, we'll just show/hide items
+            const bookingItems = document.querySelectorAll('.booking-item');
+
+            if (filterType === 'all bookings') {
+                bookingItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+            } else if (filterType === 'upcoming') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'confirmed' || status === 'pending') ? 'block' : 'none';
+                });
+            } else if (filterType === 'completed') {
+                bookingItems.forEach(item => {
+                    const date = item.querySelector('.detail-value').textContent;
+                    const bookingDate = new Date(date);
+                    const today = new Date();
+                    item.style.display = (bookingDate < today &&
+                        !item.querySelector('.status-cancelled')) ? 'block' : 'none';
+                });
+            } else if (filterType === 'cancelled') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'cancelled') ? 'block' : 'none';
+                });
+            }
+        });
+    });
+
+    // Pagination functionality
+    document.querySelectorAll('.page-item').forEach(page => {
+        page.addEventListener('click', function() {
+            if (this.textContent === '←' || this.textContent === '→') return;
+
+            document.querySelectorAll('.page-item').forEach(p => {
+                p.classList.remove('active');
+            });
+
+            this.classList.add('active');
+        });
+    });
+</script>
+<script src="Js/BusBoookingCustomer.js"></script>
+<script src="Js/UserProfile.js"></script>
+<script src="Js/BusPage.js"></script>
+<script src="Js/SingInPage.js"></script>
 </body>
 </html>

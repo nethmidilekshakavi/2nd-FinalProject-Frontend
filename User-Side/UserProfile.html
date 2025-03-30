@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport System - User Bookings</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #FFD700;
+            --primary-light: #FFEB99;
+            --primary-dark: #E6C200;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            --background: #FFFDF5;
+            --success: #28a745;
+            --pending: #ffc107;
+            --cancelled: #dc3545;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+        }
+
+        .container-UserProfile {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--primary);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .title-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .title-text p {
+            font-size: 14px;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            background-color: var(--primary-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .booking-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 8px 15px;
+            background-color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .booking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .booking-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .booking-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .booking-id {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .booking-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-confirmed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--pending);
+        }
+
+        .status-cancelled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--cancelled);
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .booking-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .booking-route {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: var(--background);
+            border-radius: 8px;
+        }
+
+        .route-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .point-marker {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            margin-bottom: 8px;
+            z-index: 2;
+        }
+
+        .point-name {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .point-time {
+            font-size: 10px;
+            color: var(--text-light);
+        }
+
+        .route-line {
+            height: 2px;
+            background-color: var(--primary);
+            flex: 1;
+            margin-top: -23px;
+            z-index: 1;
+        }
+
+        .booking-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--text-dark);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .page-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .page-item:hover, .page-item.active {
+            background-color: var(--primary);
+            color: var(--text-dark);
+        }
+
+        .no-bookings {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .no-bookings p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-title {
+                margin-bottom: 15px;
+                flex-direction: column;
+            }
+
+            .logo {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .booking-route {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .route-point {
+                flex-direction: row;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .route-line {
+                width: 2px;
+                height: 20px;
+                margin-top: 0;
+                margin-left: 7px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container-UserProfile">
+    <div class="header">
+        <div class="header-title">
+            <div class="logo">TS</div>
+            <div class="title-text">
+                <h1>Transport System</h1>
+                <p>View your booking details</p>
+            </div>
+        </div>
+        <div class="user-info">
+            <div class="user-avatar">JD</div>
+            <div class="user-name">John Doe</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">My Bookings</div>
+        </div>
+        <div class="card-body">
+            <div class="booking-filters">
+                <button class="filter-button active">All Bookings</button>
+                <button class="filter-button">Upcoming</button>
+                <button class="filter-button">Completed</button>
+                <button class="filter-button">Cancelled</button>
+            </div>
+
+            <div class="booking-list">
+                <!-- Booking Item 1 -->
+                <div class="booking-item">
+                    <div class="booking-header">
+                        <div class="booking-id"></div>
+                        <div class="booking-status status-confirmed">Confirmed</div>
+                    </div>
+                    <div class="booking-details">
+                        <div class="booking-detail">
+                            <span class="detail-label">Transport Type</span>
+                            <span class="detail-value">Express Bus</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="detail-label">Booking Date</span>
+                            <span class="detail-value">March 31, 2025</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="detail-label">PickUpTime</span>
+                            <span class="detail-value">1 Adult</span>
+                        </div>
+                        <div class="booking-detail">
+                            <span class="detail-label">Amount Paid</span>
+                            <span class="detail-value">$45.00</span>
+                        </div>
+                    </div>
+                    <div class="booking-route">
+                        <div class="route-point">
+                            <div class="point-marker"></div>
+                            <div class="point-name">New York</div>
+                            <div class="point-time">08:30 AM</div>
+                        </div>
+                        <div class="route-line"></div>
+                        <div class="route-point">
+                            <div class="point-marker"></div>
+                            <div class="point-name">Washington DC</div>
+                            <div class="point-time">11:45 AM</div>
+                        </div>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn btn-outline">View E-Ticket</button>
+                        <button class="btn btn-primary">Track Journey</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pagination">
+                <div class="page-item">←</div>
+                <div class="page-item active">1</div>
+                <div class="page-item">2</div>
+                <div class="page-item">3</div>
+                <div class="page-item">→</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Filter buttons functionality
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Filter logic would go here in a real application
+            const filterType = this.textContent.trim().toLowerCase();
+
+            // For demo purposes, we'll just show/hide items
+            const bookingItems = document.querySelectorAll('.booking-item');
+
+            if (filterType === 'all bookings') {
+                bookingItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+            } else if (filterType === 'upcoming') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'confirmed' || status === 'pending') ? 'block' : 'none';
+                });
+            } else if (filterType === 'completed') {
+                bookingItems.forEach(item => {
+                    const date = item.querySelector('.detail-value').textContent;
+                    const bookingDate = new Date(date);
+                    const today = new Date();
+                    item.style.display = (bookingDate < today &&
+                        !item.querySelector('.status-cancelled')) ? 'block' : 'none';
+                });
+            } else if (filterType === 'cancelled') {
+                bookingItems.forEach(item => {
+                    const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
+                    item.style.display = (status === 'cancelled') ? 'block' : 'none';
+                });
+            }
+        });
+    });
+
+    // Pagination functionality
+    document.querySelectorAll('.page-item').forEach(page => {
+        page.addEventListener('click', function() {
+            if (this.textContent === '←' || this.textContent === '→') return;
+
+            document.querySelectorAll('.page-item').forEach(p => {
+                p.classList.remove('active');
+            });
+
+            this.classList.add('active');
+        });
+    });
+</script>
+<script src="Js/BusBoookingCustomer.js"></script>
+<script src="Js/BusPage.js"></script>
+<script src="Js/SingInPage.js"></script>
+<script src="Js/UserProfile.js"></script>
+</body>
+</html>
