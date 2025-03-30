@@ -16,7 +16,7 @@ function createBookingCard(booking) {
         }
     }
 
-    // Format date to readable format
+  /*  // Format date to readable format
     function formatDate(dateString) {
         if (!dateString) return '';
 
@@ -44,7 +44,7 @@ function createBookingCard(booking) {
             console.error("Error formatting date:", e);
             return dateString;
         }
-    }
+    }*/
 
     // Format time to 12-hour format
     function formatTime(timeString) {
@@ -123,7 +123,7 @@ function createBookingCard(booking) {
 
     // Format passenger information
     function formatPassengers(booking) {
-        const adults = booking.adultCount || booking.adults || 1; // Default to 1 adult
+        const adults = booking.adultCount || booking.adults || 1;
         const children = booking.childCount || booking.children || 0;
 
         let passengerText = '';
@@ -142,7 +142,7 @@ function createBookingCard(booking) {
 
 
     const bookingId = booking.id;
-    const status = booking.status || 'confirmed';
+    const status = booking.status || 'pending';
     const transportType = booking.model;
     const pick = booking.pickupTime;
     const journeyDate = booking.date
@@ -325,6 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function makePayment() {
     alert("Redirecting to Payment Gateway...");
-    // Here you can redirect to the payment page
     window.location.href = "/payment";
 }
+

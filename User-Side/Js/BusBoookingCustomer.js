@@ -178,8 +178,10 @@ function loadBusBookingDetails() {
                         <td>${bus.phone}</td>
                         <td>${bus.model}</td>
                         <td>${bus.pickupDate}</td>
+                        <td style="text-align: center;">${bus.pickupTime}</td>
                         <td style="text-align: center;">${bus.pickupLocation}</td>
                         <td style="text-align: center;">${bus.returnLocation}</td>
+                        
                         <td style="text-align: center;">
                             <button class="btn btn-cancel-busBooking" data-bus-id="${bus.id}">
                                 <i class="fas fa-times"></i> Cancel
