@@ -79,11 +79,12 @@ function loadUserName() {
     });
 }
 
-
+loadBusBookingDetails()
 
 document.addEventListener("DOMContentLoaded", function () {
     loadUserID();
     loadUserName()
+
 });
 
 
@@ -161,5 +162,146 @@ $("#bookingForm").submit(function(event) {
 });
 
 
+function loadBusBookingDetails() {
+    $.ajax({
+        url: "http://localhost:8080/api/b1/busBooking",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function (data) {
+            let tbody = $("#busBookingView").empty();
 
+            // Function to get badge class based on status
+            function getBadgeClass(status) {
+                const badgeClasses = {
+                    "CONFIRMED": "status-confirmed",  // Green
+                    "CANCELLED": "status-cancelled",  // Red
+                    "PENDING": "status-pending"       // Yellow
+                };
+                return badgeClasses[status.toUpperCase()] || "status-unknown";  // Handle case sensitivity
+            }
 
+            data.forEach(bus => {
+                tbody.append(`
+                    <tr>
+                        <td>${bus.id}</td>
+                        <td>${bus.name}</td>
+                        <td>${bus.model}</td>
+                        <td>${bus.pickupDate}</td>
+                        <td style="text-align: center;">${bus.pickupTime}</td>
+                        <td style="text-align: center;">${bus.pickupLocation}</td>
+                        <td style="text-align: center;">${bus.returnLocation}</td>
+                        
+                        <!-- Status with dynamic badge class -->
+                        <td id="status-${bus.id}" class="status-badge ${getBadgeClass(bus.status)}" style="text-align: center;">
+                            ${bus.status}
+                        </td>
+
+                        <td style="text-align: center;">
+                            <button class="btn btn-cancel-busBooking" data-bus-id="${bus.id}" data-user-email="${bus.email}">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-confirm-busBooking" data-bus-id="${bus.id}" data-user-email="${bus.email}">
+                                <i class="fas fa-check"></i> Confirm
+                            </button>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            // Add event listeners for Confirm button
+            $(".btn-confirm-busBooking").off("click").on("click", function () {
+                let busId = $(this).data("bus-id");
+                let userEmail = $(this).data("user-email");
+                confirmBooking(busId, userEmail, $(this));
+            });
+
+            // Add event listeners for Cancel button
+            $(".btn-cancel-busBooking").off("click").on("click", function () {
+                let busId = $(this).data("bus-id");
+                let userEmail = $(this).data("user-email");
+                cancelBooking(busId, userEmail, $(this));
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error loading Bus Bookings: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+function confirmBooking(busId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/b1/busBooking/confirm/${busId}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Booking confirmed successfully!");
+            sendConfirmationEmail(userEmail);
+
+            // Disable button and update text
+            button.prop("disabled", true).text("Confirmed")
+                .removeClass("btn-confirm-busBooking btn-warning")
+                .addClass("btn-success");
+
+            // Update status in table
+            $(`#status-${busId}`).text("CONFIRMED")
+                .removeClass("status-pending status-cancelled")
+                .addClass("status-confirmed");
+        },
+        error: function (xhr, status, error) {
+            alert("Error confirming booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+function cancelBooking(busId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/b1/busBooking/cancel/${busId}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Booking cancelled successfully!");
+
+            // Disable button and update text
+            button.prop("disabled", true).text("Cancelled")
+                .removeClass("btn-cancel-busBooking btn-warning")
+                .addClass("btn-danger");
+
+            // Update status in table
+            $(`#status-${busId}`).text("CANCELLED")
+                .removeClass("status-confirmed status-pending")
+                .addClass("status-cancelled");
+        },
+        error: function (xhr, status, error) {
+            alert("Error cancelling booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+// Function to send confirmation email
+function sendConfirmationEmail(userEmail) {
+    $.ajax({
+        url: "http://localhost:8080/api/b1/email/sendConfirmation",
+        type: "POST",
+        contentType: "application/json",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Confirmation email sent successfully to " + userEmail);
+        },
+        error: function (xhr, status, error) {
+            alert("Error sending email: " + (xhr.responseText || error || status));
+        }
+    });
+}
