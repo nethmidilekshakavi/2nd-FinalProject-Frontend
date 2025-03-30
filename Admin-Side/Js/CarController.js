@@ -69,7 +69,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         let car = new FormData();
-        car.append('carId', $("#carId").val());
+
         car.append('air', $("#airConditioningc").val());
         car.append('capacity', $("#capacityc").val());
         car.append('model', $("#modelc").val());

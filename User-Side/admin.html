@@ -181,10 +181,10 @@
                 <button class="close-btn" onclick="closeModal('addDriverForm')">&times;</button>
             </div>
             <form id="driverForm">
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="id">Id:</label>
                     <input type="text" id="id" name="id" placeholder="Enter driver's ID" required>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" placeholder="Enter driver's name" required>
@@ -315,8 +315,8 @@
             <span class="close" onclick="closeModal('insuranceModal')">&times;</span>
             <form id="InsuranceForm">
                 <h2 id="modalTitle">Add Insurance</h2>
-                <label>Insurance ID:</label>
-                <input type="text" id="insuranceId">
+               <!-- <label>Insurance ID:</label>
+                <input type="text" id="insuranceId">-->
                 <label>Provider:</label>
                 <input type="text" id="provider" required>
                 <label>Expiry Date:</label>
@@ -411,10 +411,10 @@
                 <button class="close-btn" onclick="closeModal('BusModel')">&times;</button>
             </div>
             <form id="busForm" enctype="multipart/form-data">
-                <div class="form-group">
+              <!--  <div class="form-group">
                     <label for="busId">Bus ID</label>
                     <input type="number" id="busId" name="busId" required>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="registrationNumber">Registration Number</label>
                     <input type="text" id="registrationNumber" name="registrationNumber" required>
@@ -482,11 +482,11 @@
             <button class="close-btn" onclick="closeModal('VanMode')">&times;</button>
         </div>
         <form id="vanForm" method="POST" enctype="multipart/form-data" class="form-grid">
-            <div class="form-group">
+           <!-- <div class="form-group">
                 <label for="vanId">Van ID</label>
                 <input type="number" id="vanId" name="vanId" required>
             </div>
-
+-->
             <div class="form-group">
                 <label for="registrationNumber">Registration Number</label>
                 <input type="text" id="registrationNumberv" name="registrationNumberv" required>
@@ -561,10 +561,10 @@
                 <button class="close-btn" onclick="closeModal('CarMode')">×</button>
             </div>
             <form id="carForm" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
+               <!-- <div class="form-group">
                     <label for="carId">Car ID:</label>
                     <input type="text" id="carId" name="carId" required>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="registrationNumberc">Registration Number:</label>
                     <input type="text" id="registrationNumberc" name="registrationNumberc" required>
@@ -635,7 +635,7 @@
         </div>
         <form id="UpdateBusForm" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="busId">Bus ID</label>
+                <label for="busIdUpdate">Bus ID</label>
                 <input type="number" id="busIdUpdate" name="busId" required>
             </div>
 

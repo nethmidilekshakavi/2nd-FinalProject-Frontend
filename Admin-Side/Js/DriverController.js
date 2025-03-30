@@ -45,7 +45,6 @@ $(document).ready(function () {
         e.preventDefault();
 
         let drivers = new FormData();
-        drivers.append('id', $("#id").val());
         drivers.append('name', $("#name").val());
         drivers.append('licenceNumber', $("#licenseNumber").val());
         drivers.append('phoneNumber', $("#phoneNumber").val());

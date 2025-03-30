@@ -68,7 +68,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         let bus= new FormData();
-        bus.append('busId', $("#busId").val());
+        /*bus.append('busId', $("#busId").val());*/
         bus.append('air', $("#airConditioning").val());
         bus.append('capacity', $("#capacity").val());
         bus.append('model', $("#model").val());
@@ -236,7 +236,7 @@ $(document).ready(function () {
                 console.log("Bus details fetched:", bus);
 
                 // Populate form fields with fetched data
-                $("#busIdUpdate").val(bus.busId);
+                $("#busIdUpdate").val(busId);
                 $("#airConditioningUpdate").val(bus.airConditioning);
                 $("#capacityUpdate").val(bus.capacity);
                 $("#modelUpdate").val(bus.model);

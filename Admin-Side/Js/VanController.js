@@ -69,7 +69,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         let van = new FormData();
-        van.append('vanId', $("#vanId").val());
+
         van.append('air', $("#airConditioningv").val());
         van.append('capacity', $("#capacityv").val());
         van.append('model', $("#modelv").val());
@@ -235,7 +235,7 @@ $(document).ready(function () {
                 console.log("van details fetched:", van);
 
                 // Populate form fields with fetched data
-                $("#vanIdUpdate").val(van.vanId);
+                $("#vanIdUpdate").val(vanId);
                 $("#airConditioningUpdatev").val(van.airConditioning);
                 $("#capacityUpdatev").val(van.capacity);
                 $("#modelUpdatev").val(van.model);

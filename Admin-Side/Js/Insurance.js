@@ -38,14 +38,14 @@ $(document).ready(function () {
         event.preventDefault();
 
         const insurance = {
-            id: $("#insuranceId").val().trim(),
+           /* id: $("#insuranceId").val().trim(),*/
             provider: $("#provider").val().trim(),
             expiryDate: $("#expiryDate").val().trim(),
             insuranceCost: $("#insuranceCost").val().trim()
         }
 
         // Validate fields
-        if (!insurance.id || !insurance.provider || !insurance.expiryDate || !insurance.insuranceCost) {
+        if (!insurance.provider || !insurance.expiryDate || !insurance.insuranceCost) {
             alert("Please fill in all fields!");
             return;
         }
