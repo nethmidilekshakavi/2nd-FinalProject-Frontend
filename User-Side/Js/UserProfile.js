@@ -123,7 +123,7 @@ function createBookingCard(booking) {
 
     // Format passenger information
     function formatPassengers(booking) {
-        const adults = booking.adultCount || booking.adults || 1;
+        const adults = booking.adultCount || booking.adults || 1; // Default to 1 adult
         const children = booking.childCount || booking.children || 0;
 
         let passengerText = '';

@@ -73,6 +73,7 @@ $(document).ready(function () {
         });
     }
 
+    loadBusBookingDetails()
     function loadBusBookingDetails() {
         $.ajax({
             url: "http://localhost:8080/api/b1/busBooking",
@@ -82,35 +83,57 @@ $(document).ready(function () {
             },
             success: function (data) {
                 let tbody = $("#busBookingView").empty();
+
+                // Function to get badge class based on status
+                function getBadgeClass(status) {
+                    const badgeClasses = {
+                        "confirmed": "status-confirmed",    // Green for confirmed
+                        "Cancelled": "status-cancelled",    // Red for cancelled
+                        "pending": "status-pending"         // Yellow for pending
+                    };
+                    return badgeClasses[status] || "status-unknown";  // Default to "unknown" if status is not found
+                }
+
                 data.forEach(bus => {
                     tbody.append(`
-                        <tr>
-                            <td>${bus.id}</td>
-                            <td>${bus.name}</td>
-                            <td>${bus.phone}</td>
-                            <td>${bus.model}</td>
-                            <td>${bus.pickupDate}</td>
-                            <td style="text-align: center;">${bus.pickupTime}</td>
-                            <td style="text-align: center;">${bus.pickupLocation}</td>
-                            <td style="text-align: center;">${bus.returnLocation}</td>
-                            
-                            <td style="text-align: center;">
-                                <button class="btn btn-cancel-busBooking" data-bus-id="${bus.id}">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                                <button class="btn btn-confirm-busBooking" data-bus-id="${bus.id}" data-user-email="${bus.email}">
-                                    <i class="fas fa-check"></i> Confirm
-                                </button>
-                            </td>
-                        </tr>
-                    `);
+                    <tr>
+                        <td>${bus.id}</td>
+                        <td>${bus.name}</td>
+                       
+                        <td>${bus.model}</td>
+                        <td>${bus.pickupDate}</td>
+                        <td style="text-align: center;">${bus.pickupTime}</td>
+                        <td style="text-align: center;">${bus.pickupLocation}</td>
+                        <td style="text-align: center;">${bus.returnLocation}</td>
+                     
+                        <!-- Status with dynamic badge class -->
+                        <td class="status-badge ${getBadgeClass(bus.status)}">
+                            ${bus.status}
+                        </td>
+
+                        <td style="text-align: center;">
+                            <button class="btn btn-cancel-busBooking" data-bus-id="${bus.id}">
+                                <i class="fas fa-times"></i> Cancel
+                            </button>
+                            <button class="btn btn-confirm-busBooking" data-bus-id="${bus.id}" data-user-email="${bus.email}">
+                                <i class="fas fa-check"></i> Confirm
+                            </button>
+                        </td>
+                    </tr>
+                `);
                 });
 
-                // Confirm button event listener
+                // Add event listeners for Confirm button
                 $(".btn-confirm-busBooking").off("click").on("click", function () {
                     let busId = $(this).data("bus-id");
                     let userEmail = $(this).data("user-email");
                     confirmBooking(busId, userEmail);
+                });
+
+                // Add event listeners for Cancel button
+                $(".btn-cancel-busBooking").off("click").on("click", function () {
+                    let busId = $(this).data("bus-id");
+                    cancelBooking(busId);
                 });
             },
             error: function (xhr, status, error) {
@@ -119,9 +142,48 @@ $(document).ready(function () {
         });
     }
 
+// Function to send confirmation email
+    function sendConfirmationEmail(userEmail) {
+        $.ajax({
+            url: "http://localhost:8080/api/b1/email/sendConfirmation",
+            type: "POST",
+            contentType: "application/json",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
+            data: JSON.stringify({ email: userEmail }),
+            success: function () {
+                alert("Confirmation email sent successfully to " + userEmail);
+            },
+            error: function (xhr, status, error) {
+                alert("Error sending email: " + (xhr.responseText || error || status));
+            }
+        });
+    }
+
+// Function to confirm booking and send email
     function confirmBooking(busId, userEmail) {
         $.ajax({
             url: `http://localhost:8080/api/b1/busBooking/confirm/${busId}`,
+            type: "POST",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+            },
+            success: function () {
+                alert("Booking confirmed! Sending confirmation email...");
+
+                // Send email after confirmation
+                sendConfirmationEmail(userEmail);
+            },
+            error: function (xhr, status, error) {
+                alert("Error confirming booking: " + (xhr.responseText || error || status));
+            }
+        });
+    }
+
+    function cancelBooking(busId, userEmail, button) {
+        $.ajax({
+            url: `http://localhost:8080/api/b1/busBooking/cancel/${busId}`,
             type: "PUT",
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
@@ -129,13 +191,21 @@ $(document).ready(function () {
             },
             data: JSON.stringify({ email: userEmail }),
             success: function () {
-                alert("Booking confirmed successfully!");
-                loadBusBookingDetails();
+                alert("Booking cancelled successfully!");
+
+                // Button update
+                button.prop("disabled", true).text("Cancelled")
+                    .removeClass("btn-cancel-booking btn-warning")
+                    .addClass("btn-danger");
+
+                // Update status in table
+                $(`#status-${busId}`).text("Cancelled").removeClass("text-success").addClass("text-danger");
             },
             error: function (xhr, status, error) {
-                alert("Error confirming booking: " + (xhr.responseText || error || status));
+                alert("Error cancelling booking: " + (xhr.responseText || error || status));
             }
         });
     }
+
 
 });

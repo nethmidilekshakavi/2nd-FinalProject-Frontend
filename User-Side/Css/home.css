@@ -669,3 +669,32 @@ header {
     color: #000;
     background-color: #f9f9f9;
 }
+
+
+.status-confirmed {
+    background-color: #d4edda; /* Light Green */
+    color: #155724;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.status-cancelled {
+    background-color: #f8d7da; /* Light Red */
+    color: #721c24;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.status-pending {
+    background-color: #fff3cd; /* Light Yellow */
+    color: #856404;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.status-unknown {
+    background-color: #e2e3e5; /* Light Gray for unknown */
+    color: #6c757d;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
