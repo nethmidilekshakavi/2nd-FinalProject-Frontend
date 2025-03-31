@@ -92,13 +92,13 @@ body {
     color: white;
 }
 
-.van-grid {
+.car-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 10px;
 }
 
-.van-card {
+.car-card {
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
@@ -106,38 +106,38 @@ body {
     transition: transform 0.3s ease;
 }
 
-.van-card:hover {
+.car-card:hover {
     transform: translateY(-5px);
 }
 
-.van-image {
+.car-image {
     height: 250px;
     background-color: #eee;
     overflow: hidden;
 }
 
-.van-image img {
+.car-image img {
     width: 150%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.van-card:hover .bus-image img {
+.car-card:hover .bus-image img {
     transform: scale(1.05);
 }
 
-.van-details {
+.car-details {
     padding: 20px;
 }
 
-.van-title {
+.car-title {
     font-size: 1.4rem;
     margin-bottom: 10px;
     color: #222;
 }
 
-.van-features {
+.car-features {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -284,7 +284,7 @@ body {
         font-size: 2.5rem;
     }
 
-    .van-grid {
+    .car-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 }
