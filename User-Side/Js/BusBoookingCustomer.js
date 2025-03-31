@@ -64,7 +64,7 @@ function loadUserName() {
             // Set the username in the UI
             const userNameElement = document.querySelector(".user-name");
             if (userNameElement) {
-                userNameElement.textContent = userName;
+                userNameElement.textContent = "Welcome  "+userName;
             } else {
                 console.error("User name element not found");
             }

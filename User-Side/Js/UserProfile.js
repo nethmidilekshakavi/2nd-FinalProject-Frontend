@@ -16,37 +16,7 @@ function createBookingCard(booking) {
         }
     }
 
-  /*  // Format date to readable format
-    function formatDate(dateString) {
-        if (!dateString) return '';
 
-        try {
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) {
-                // Handle numeric timestamps (if needed)
-                const timestamp = parseInt(dateString);
-                if (!isNaN(timestamp)) {
-                    return new Date(timestamp).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                }
-                return dateString; // Return as-is if we can't parse it
-            }
-
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-        } catch (e) {
-            console.error("Error formatting date:", e);
-            return dateString;
-        }
-    }*/
-
-    // Format time to 12-hour format
     function formatTime(timeString) {
         if (!timeString) return '';
 
@@ -153,6 +123,9 @@ function createBookingCard(booking) {
     const arrivalTime = formatTime(booking.returnTime)
     const passengers = formatPassengers(booking);
     const statusClass = getStatusClass(status);
+
+
+
 
     // Create and return the booking card HTML
     return `
@@ -327,4 +300,5 @@ function makePayment() {
     alert("Redirecting to Payment Gateway...");
     window.location.href = "/payment";
 }
+
 

@@ -7,7 +7,8 @@ body{
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 10px 0;
     position: fixed;
-    width: 80%;
+
+    width: 90%;
     top: 10px;
     z-index: 1000;
 }
@@ -23,6 +24,7 @@ body{
     display: flex;
     align-items: center;
     text-decoration: none;
+    margin-left: 100px;
 }
 
 .logo-text {
@@ -671,30 +673,3 @@ header {
 }
 
 
-.status-confirmed {
-    background-color: #d4edda; /* Light Green */
-    color: #155724;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.status-cancelled {
-    background-color: #f8d7da; /* Light Red */
-    color: #721c24;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.status-pending {
-    background-color: #fff3cd; /* Light Yellow */
-    color: #856404;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.status-unknown {
-    background-color: #e2e3e5; /* Light Gray for unknown */
-    color: #6c757d;
-    padding: 5px 10px;
-    border-radius: 5px;
-}

@@ -33,9 +33,13 @@ $('#signInForm').on('submit', function (event) {
                 // Redirect based on role
                 if (response.role === 'ADMIN') {
                     window.location.href = "admin.html";
-                } else if (response.role === 'USER'){
+                } else if (response.role === 'USER') {
                     window.location.href = "index.html";
+                } else  {
+                    window.location.href = "admin.html";
+                    
                 }
+
             });
         },
         error: function (xhr) {

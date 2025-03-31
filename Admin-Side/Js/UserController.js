@@ -1,6 +1,6 @@
 $(document).ready(function () {
     loadUserDetails();
-    loadBusBookingDetails(); // Ensure this is also called on page load
+    loadBusBookingDetails();
 
     function loadUserDetails() {
         $.ajax({
@@ -49,7 +49,7 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr, status, error) {
-                alert("Error loading Users: " + (xhr.responseText || error || status));
+                alert("You haven't access Users Management: " + (xhr.responseText || error || status));
             }
         });
     }
