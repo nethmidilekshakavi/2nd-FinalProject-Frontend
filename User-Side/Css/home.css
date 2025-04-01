@@ -673,3 +673,43 @@ header {
 }
 
 
+/* Light Green for Confirmed */
+.status-confirmed {
+    background-color: #d4edda; /* Light Green */
+    color: #155724; /* Dark Green */
+    border: 1px solid #c3e6cb;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Light Red for Cancelled */
+.status-cancelled {
+    background-color: #f8d7da; /* Light Red */
+    color: #721c24; /* Dark Red */
+    border: 1px solid #f5c6cb;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Light Yellow for Pending */
+.status-pending {
+    background-color: #fff3cd; /* Light Yellow */
+    color: #856404; /* Dark Yellow */
+    border: 1px solid #ffeeba;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Light Gray for Unknown Status */
+.status-unknown {
+    background-color: #e2e3e5; /* Light Gray */
+    color: #6c757d; /* Dark Gray */
+    border: 1px solid #d6d8db;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+

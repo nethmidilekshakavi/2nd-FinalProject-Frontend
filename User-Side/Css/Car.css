@@ -288,3 +288,47 @@ body {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 }
+
+/* Cancel Button */
+.btn-cancel-carBooking {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-cancel-carBooking i {
+    margin-right: 5px;
+}
+
+.btn-cancel-carBooking:hover {
+    background-color: darkred;
+}
+
+/* Confirm Button */
+.btn-confirm-carBooking {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-confirm-carBooking i {
+    margin-right: 5px;
+}
+
+.btn-confirm-carBooking:hover {
+    background-color: darkgreen;
+}

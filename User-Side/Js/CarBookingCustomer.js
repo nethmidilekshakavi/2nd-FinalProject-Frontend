@@ -165,7 +165,7 @@ function loadCarBookingDetails() {
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         },
         success: function (data) {
-            let tbody = $("#busBookingView").empty();
+            let tbody = $("#carBookingView").empty();
 
             // Function to get badge class based on status
             function getBadgeClass(status) {
@@ -177,50 +177,143 @@ function loadCarBookingDetails() {
                 return badgeClasses[status.toUpperCase()] || "status-unknown";  // Handle case sensitivity
             }
 
-            data.forEach(van => {
+            data.forEach(car => {  // Change 'van' to 'car'
                 tbody.append(`
-                    <tr>
-                        <td>${van.id}</td>
-                        <td>${van.name}</td>
-                        <td>${van.model}</td>
-                        <td>${van.pickupDate}</td>
-                        <td style="text-align: center;">${van.pickupTime}</td>
-                        <td style="text-align: center;">${van.pickupLocation}</td>
-                        <td style="text-align: center;">${van.returnLocation}</td>
-                        
-                        <!-- Status with dynamic badge class -->
-                        <td id="status-${van.id}" class="status-badge ${getBadgeClass(van.status)}" style="text-align: center;">
-                            ${van.status}
-                        </td>
+        <tr>
+            <td>${car.id}</td>
+            <td>${car.name}</td>
+            <td>${car.model}</td>
+            <td>${car.pickupDate}</td>
+            <td style="text-align: center;">${car.pickupTime}</td>
+            <td style="text-align: center;">${car.pickupLocation}</td>
+            <td style="text-align: center;">${car.returnLocation}</td>
+            
+            <!-- Status with dynamic badge class -->
+            <td id="status-${car.carId}" class="status-badge ${getBadgeClass(car.status)}" style="text-align: center;">
+                ${car.status}
+            </td>
 
-                        <td style="text-align: center;">
-                            <button class="btn btn-cancel-vanBooking" data-van-id="${van.id}" data-user-email="${van.email}">
-                                <i class="fas fa-times"></i> Cancel
-                            </button>
-                            <button class="btn btn-confirm-vanBooking" data-van-id="${van.id}" data-user-email="${van.email}">
-                                <i class="fas fa-check"></i> Confirm
-                            </button>
-                        </td>
-                    </tr>
-                `);
+            <td style="text-align: center;">
+               
+<button class="btn btn-confirm-carBooking" data-car-id="${car.id}" data-user-email="${car.email}">
+    <i class="fas fa-check"></i> Confirm
+</button>
+<button class="btn btn-cancel-carBooking" data-car-id="${car.id}" data-user-email="${car.email}">
+    <i class="fas fa-times"></i> Cancel
+</button>
+
+
+            </td>
+        </tr>
+    `);
             });
 
+
             // Add event listeners for Confirm button
-            $(".btn-confirm-vanBooking").off("click").on("click", function () {
-                let vanId = $(this).data("van-id");
+            $(".btn-confirm-carBooking").off("click").on("click", function () {
+                let carId = $(this).data("car-id");
                 let userEmail = $(this).data("user-email");
-                confirmBooking(vanId, userEmail, $(this));
+                confirmBookingCar(carId, userEmail, $(this));
             });
 
             // Add event listeners for Cancel button
-            $(".btn-cancel-vanBooking").off("click").on("click", function () {
-                let vanId = $(this).data("van-id");
+            $(".btn-cancel-carBooking").off("click").on("click", function () {
+                let carId = $(this).data("car-id");
                 let userEmail = $(this).data("user-email");
-                cancelBooking(vanId, userEmail, $(this));
+                cancelBookingCar(carId, userEmail, $(this));
             });
         },
         error: function (xhr, status, error) {
-            alert("Error loading van Bookings: " + (xhr.responseText || error || status));
+            alert("Error loading car Bookings: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+function confirmBookingCar(carId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/c1/carBooking/confirm/car/${carId}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Booking confirmed successfully!");
+            sendConfirmationEmailCar(userEmail);
+
+            // Disable button and update text
+            button.prop("disabled", true).text("Confirmed")
+                .removeClass("btn-confirm-carBooking btn-warning")
+                .addClass("btn-success");
+
+            // Update status in table
+            $(`#status-${carId}`).text("CONFIRMED")
+                .removeClass("status-pending status-cancelled")
+                .addClass("status-confirmed");
+        },
+        error: function (xhr, status, error) {
+            alert("Error confirming booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+$(document).ready(function () {
+    // Attach click event listener to the Cancel button
+    $(".btn-cancel-carBooking").click(function () {
+        var carId = $(this).data("car-id");
+        var userEmail = $(this).data("user-email");
+        var button = $(this);
+
+        // Call the cancelBookingCar function
+        cancelBookingCar(carId, userEmail, button);
+    });
+});
+
+function cancelBookingCar(carId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/c1/carBooking/cancel/car/${carId}?userEmail=${encodeURIComponent(userEmail)}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        success: function () {
+            alert("Booking cancelled successfully!");
+
+            // Disable the button and update the text
+            button.prop("disabled", true).text("Cancelled")
+                .removeClass("btn-cancel-carBooking btn-warning")
+                .addClass("btn-danger");
+
+            // Update status in the table
+            $(`#status-${carId}`).text("CANCELLED")
+                .removeClass("status-confirmed status-pending")
+                .addClass("status-cancelled");
+        },
+        error: function (xhr, status, error) {
+            alert("Error cancelling booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+
+
+// Function to send confirmation email
+function sendConfirmationEmailCar(userEmail) {
+    $.ajax({
+        url: "http://localhost:8080/api/c1/carBooking/sendConfirmation/car",
+        type: "POST",
+        contentType: "application/json",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Confirmation email sent successfully to " + userEmail);
+        },
+        error: function (xhr, status, error) {
+            alert("Error sending email: " + (xhr.responseText || error || status));
         }
     });
 }
