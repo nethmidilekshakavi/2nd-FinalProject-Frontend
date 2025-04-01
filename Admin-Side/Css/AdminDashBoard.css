@@ -1067,3 +1067,38 @@ Car*/
 }
 
 
+/*
+Van*/
+
+.btn-cancel-vanBooking {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-cancel-vanBooking:hover {
+    background-color: darkred;
+}
+
+.btn-confirm-vanBooking {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-confirm-vanBooking:hover {
+    background-color: darkgreen;
+}
+
+
+

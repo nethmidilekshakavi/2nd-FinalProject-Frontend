@@ -164,7 +164,7 @@ function loadVanBookingDetails() {
             'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
         },
         success: function (data) {
-            let tbody = $("#busBookingView").empty();
+            let tbody = $("#vanBookingView").empty();
 
             // Function to get badge class based on status
             function getBadgeClass(status) {
@@ -208,18 +208,105 @@ function loadVanBookingDetails() {
             $(".btn-confirm-vanBooking").off("click").on("click", function () {
                 let vanId = $(this).data("van-id");
                 let userEmail = $(this).data("user-email");
-                confirmBooking(vanId, userEmail, $(this));
+                confirmBookingVan(vanId, userEmail, $(this));
             });
 
             // Add event listeners for Cancel button
             $(".btn-cancel-vanBooking").off("click").on("click", function () {
                 let vanId = $(this).data("van-id");
                 let userEmail = $(this).data("user-email");
-                cancelBooking(vanId, userEmail, $(this));
+                cancelBookingVan(vanId, userEmail, $(this));
             });
         },
         error: function (xhr, status, error) {
             alert("Error loading van Bookings: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+
+function confirmBookingVan(vanId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/v1/vanBooking/confirm/van/${vanId}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Booking confirmed successfully!");
+            sendConfirmationEmailVan(userEmail);
+
+            // Disable button and update text
+            button.prop("disabled", true).text("Confirmed")
+                .removeClass("btn-confirm-vanBooking btn-warning")
+                .addClass("btn-success");
+
+            // Update status in table
+            $(`#status-${carId}`).text("CONFIRMED")
+                .removeClass("status-pending status-cancelled")
+                .addClass("status-confirmed");
+        },
+        error: function (xhr, status, error) {
+            alert("Error confirming booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+$(document).ready(function () {
+    // Attach click event listener to the Cancel button
+    $(".btn-cancel-vanBooking").click(function () {
+        var vanId = $(this).data("van-id");
+        var userEmail = $(this).data("user-email");
+        var button = $(this);
+
+        // Call the cancelBookingCar function
+        cancelBookingVan(vanId, userEmail, button);
+    });
+});
+
+function cancelBookingVan(userId, userEmail, button) {
+    $.ajax({
+        url: `http://localhost:8080/api/v1/vanBooking/cancel${userId}?userEmail=${encodeURIComponent(userEmail)}`,
+        type: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'),
+            'Content-Type': 'application/json'
+        },
+        success: function () {
+            alert("Booking cancelled successfully!");
+
+            // Disable the button and update the text
+            button.prop("disabled", true).text("Cancelled")
+                .removeClass("btn-cancel-vanBooking btn-warning")
+                .addClass("btn-danger");
+
+            // Update status in the table
+            $(`#status-${carId}`).text("CANCELLED")
+                .removeClass("status-confirmed status-pending")
+                .addClass("status-cancelled");
+        },
+        error: function (xhr, status, error) {
+            alert("Error cancelling booking: " + (xhr.responseText || error || status));
+        }
+    });
+}
+
+function sendConfirmationEmailVan(userEmail) {
+    $.ajax({
+        url: "http://localhost:8080/api/v1/vanBooking/sendConfirmation/van",
+        type: "POST",
+        contentType: "application/json",
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        data: JSON.stringify({email: userEmail}),
+        success: function () {
+            alert("Confirmation email sent successfully to " + userEmail);
+        },
+        error: function (xhr, status, error) {
+            alert("Error sending email: " + (xhr.responseText || error || status));
         }
     });
 }
