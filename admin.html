@@ -360,35 +360,109 @@
     </section>
 
 
-    <section id="viewBooking">
-        <!-- Recent Bookings -->
-        <div class="table-container">
-            <div class="table-header">
-                <div class="table-title">Bus Bookings</div>
-                <div class="table-actions">
-                    <button class="btn btn-outline" onclick="loadBudBookingDetails()">View All</button>
-                </div>
-            </div>
-            <table>
-                <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>Customer</th>
 
-                    <th>Model</th>
-                    <th>PickUpDate</th>
-                    <th>PickUpTime</th>
-                    <th>PickUpLocation</th>
-                    <th>DropLocation</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody id="busBookingView">
-                </tbody>
-            </table>
+    <section id="viewBooking">
+        <div class="table-container">
+        <div class="table-header">
+            <div class="table-title">Booking Management</div>
+            <div class="table-actions">
+            </div>
+        </div>
+        <div class="tabs">
+            <div class="tab active" onclick="switchBookingTab('carBooking')">Car Booking</div>
+            <div class="tab" onclick="switchBookingTab('vanBooking')">Van Booking</div>
+            <div class="tab" onclick="switchBookingTab('busBooking')">Bus Booking</div>
+        </div>
+
+        <!-- Car Bookings -->
+        <div id="carBooking" class="tab-content">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">Car Bookings</div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" onclick="loadCarBookingDetails()">View All</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Model</th>
+                        <th>Pick-Up Date</th>
+                        <th>Pick-Up Time</th>
+                        <th>Pick-Up Location</th>
+                        <th>Drop Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="carBookingView">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Van Bookings -->
+        <div id="vanBooking" class="tab-content" style="display: none;">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">Van Bookings</div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" onclick="loadVanBookingDetails()">View All</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Model</th>
+                        <th>Pick-Up Date</th>
+                        <th>Pick-Up Time</th>
+                        <th>Pick-Up Location</th>
+                        <th>Drop Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="vanBookingView">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bus Bookings -->
+        <div id="busBooking" class="tab-content" style="display: none;">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">Bus Bookings</div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" onclick="loadBusBookingDetails()">View All</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Model</th>
+                        <th>Pick-Up Date</th>
+                        <th>Pick-Up Time</th>
+                        <th>Pick-Up Location</th>
+                        <th>Drop Location</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="busBookingView">
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </div>
     </section>
+
 
     <div id="roleEditModal" class="modal" style="display: none;">
         <div class="modal-content">

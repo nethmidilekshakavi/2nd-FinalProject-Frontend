@@ -209,3 +209,24 @@ function loadUserImage() {
 
 
 
+function switchBookingTab(tabName) {
+    // Hide all booking tables
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+    });
+
+    // Show the selected booking table
+    document.getElementById(tabName).style.display = 'block';
+
+    // Update active tab styles
+    document.querySelectorAll('.tabs .tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    document.querySelector(`.tab[onclick="switchBookingTab('${tabName}')"]`).classList.add('active');
+}
+
+// Initialize: Show Car Bookings by Default
+document.addEventListener('DOMContentLoaded', function () {
+    switchBookingTab('carBooking');
+});

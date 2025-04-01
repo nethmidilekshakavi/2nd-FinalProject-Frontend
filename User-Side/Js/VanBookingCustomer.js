@@ -154,8 +154,9 @@ $("#bookingFormVan").submit(function(event) {
     });
 });
 
+loadVanBookingDetails()
 
-function loadBusBookingDetails() {
+function loadVanBookingDetails() {
     $.ajax({
         url: "http://localhost:8080/api/v1/vanBooking",
         type: "GET",
