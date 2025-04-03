@@ -225,7 +225,7 @@ function loadBusBookingDetails() {
             });
         },
         error: function (xhr, status, error) {
-            alert("Error loading Bus Bookings: " + (xhr.responseText || error || status));
+
         }
     });
 }
@@ -282,7 +282,7 @@ function cancelBooking(busId, userEmail, button) {
                 .addClass("status-cancelled");
         },
         error: function (xhr, status, error) {
-            alert("Error cancelling booking: " + (xhr.responseText || error || status));
+
         }
     });
 }

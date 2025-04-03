@@ -3,385 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway</title>
+    <title>Travel Booking Payment Gateway</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --dark-color: #202124;
+            --light-color: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
         }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 600px;
-            margin: 20px auto;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+        }
+
+        .card {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
-        h1 {
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 30px;
-            color: #2d3748;
+            position: relative;
         }
 
-        .payment-form label {
+        .card-header h2 {
+            margin: 0;
+            font-weight: 500;
+            font-size: 22px;
+        }
+
+        .card-body {
+            padding: 30px 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #4a5568;
+            font-size: 14px;
+            color: #555;
+            font-weight: 500;
         }
 
-        .payment-form input, .payment-form select {
+        .input-group input,
+        .input-group select {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
         }
 
-        .payment-form input:focus, .payment-form select:focus {
+        .input-group input:focus,
+        .input-group select:focus {
             outline: none;
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
         }
 
-        .card-details {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+        .inline-inputs {
+            display: flex;
             gap: 15px;
         }
 
-        .card-number {
-            grid-column: 1 / -1;
+        .inline-inputs .input-group {
+            flex: 1;
         }
 
-        .submit-btn {
-            background-color: #4299e1;
+        button {
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 15px;
             border-radius: 5px;
+            padding: 14px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
             transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
-        .submit-btn:hover {
-            background-color: #3182ce;
+        button:hover {
+            background-color: #3367d6;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background-color: #e8f0fe;
+            text-align: left;
+            display: none;
+        }
+
+        #result.success {
+            background-color: #e6f4ea;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        #result.error {
+            background-color: #fce8e6;
+            border-left: 4px solid #ea4335;
         }
 
         .card-icon {
-            position: absolute;
-            right: 10px;
-            top: 12px;
-            color: #a0aec0;
-        }
-
-        .input-wrapper {
-            position: relative;
+            margin-bottom: 10px;
+            font-size: 30px;
         }
 
         .secure-badge {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
             margin-top: 20px;
-            color: #718096;
-            font-size: 14px;
+            color: #666;
+            font-size: 13px;
         }
 
-        .secure-badge i {
-            color: #48bb78;
+        .secure-badge svg {
+            margin-right: 8px;
+            height: 16px;
+            width: 16px;
         }
 
-        .error {
-            color: #e53e3e;
-            font-size: 14px;
-            margin-top: -15px;
-            margin-bottom: 15px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
             display: none;
-        }
-
-        .currency-symbol {
-            position: absolute;
-            left: 10px;
-            top: 12px;
-            color: #4a5568;
-        }
-
-        .amount-input {
-            padding-left: 30px !important;
-        }
-
-        .card-types {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        .card-type {
-            padding: 8px 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 5px;
-            opacity: 0.5;
-            transition: all 0.3s;
-        }
-
-        .card-type.active {
-            border-color: #4299e1;
-            opacity: 1;
-            box-shadow: 0 2px 5px rgba(66, 153, 225, 0.2);
-        }
-
-        @media (max-width: 600px) {
-            .card-details {
-                grid-template-columns: 1fr;
-            }
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>Payment Details</h1>
-    <form class="payment-form" id="paymentForm">
-        <div>
-            <label for="name">Cardholder Name</label>
-            <input type="text" id="name" placeholder="John Smith" required>
-            <div class="error" id="nameError">Please enter a valid name</div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-icon">💳</div>
+            <h2>Secure Payment</h2>
         </div>
-
-        <div>
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="john@example.com" required>
-            <div class="error" id="emailError">Please enter a valid email</div>
-        </div>
-
-        <div>
-            <label for="amount">Amount (LKR)</label>
-            <div class="input-wrapper">
-                <span class="currency-symbol">Rs.</span>
-                <input type="number" id="amount" class="amount-input" placeholder="0.00" min="1" step="0.01" required>
-            </div>
-            <div class="error" id="amountError">Please enter a valid amount</div>
-        </div>
-
-        <div class="card-details">
-            <div class="card-number">
-                <label for="cardNumber">Card Number</label>
-                <div class="input-wrapper">
-                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
-                    <span class="card-icon" id="cardIcon">💳</span>
+        <div class="card-body">
+            <form id="paymentForm">
+                <div class="input-group">
+                    <label for="userId">Cardholder Name</label>
+                    <input type="text" id="userId" placeholder="User Id" required>
                 </div>
-                <div class="error" id="cardError">Please enter a valid card number</div>
-
-                <div class="card-types">
-                    <div class="card-type" id="visa">VISA</div>
-                    <div class="card-type" id="mastercard">MASTERCARD</div>
+                <div class="input-group">
+                    <label for="cardName">Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="John Doe" required>
                 </div>
-            </div>
 
-            <div>
-                <label for="expiry">Expiry Date</label>
-                <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" required>
-                <div class="error" id="expiryError">Please enter a valid date</div>
-            </div>
+                <div class="input-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
 
-            <div>
-                <label for="cvv">CVV</label>
-                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
-                <div class="error" id="cvvError">Please enter a valid CVV</div>
+                <div class="inline-inputs">
+                    <div class="input-group">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" required>
+                    </div>
+                </div>
+
+                <div class="inline-inputs">
+                    <div class="input-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" placeholder="0.00" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="currency">Currency</label>
+                        <select id="currency">
+                            <option value="LKR">LKR</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="payButton">
+                    Complete Payment
+                    <span class="spinner" id="paymentSpinner"></span>
+                </button>
+            </form>
+
+            <div class="secure-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Secure encrypted payment
             </div>
         </div>
+    </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">Pay Now (LKR)</button>
-
-        <div class="secure-badge">
-            <span>🔒</span>
-            <span>Your payment information is secure</span>
-        </div>
-    </form>
+    <div id="result"></div>
 </div>
 
 <script>
-    const paymentForm = document.getElementById('paymentForm');
-    const cardNumberInput = document.getElementById('cardNumber');
-    const expiryInput = document.getElementById('expiry');
-    const submitBtn = document.getElementById('submitBtn');
-    const visaType = document.getElementById('visa');
-    const mastercardType = document.getElementById('mastercard');
+    document.getElementById("paymentForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        // Show spinner
+        const spinner = document.getElementById("paymentSpinner");
+        const payButton = document.getElementById("payButton");
+        spinner.style.display = "inline-block";
+        payButton.disabled = true;
+        payButton.textContent = "Processing...";
+        spinner.style.display = "inline-block";
+
+        let paymentData = {
+            cardName: document.getElementById("cardName").value,
+            cardNumber: document.getElementById("cardNumber").value,
+            expiryDate: document.getElementById("expiryDate").value,
+            cvv: document.getElementById("cvv").value,
+            amount: parseFloat(document.getElementById("amount").value),
+            currency: document.getElementById("currency").value,
+            paymentMethod: "CARD"  // Mock payment method
+        };
+
+        fetch("http://localhost:8080/api/payments/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(paymentData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                const resultElement = document.getElementById("result");
+                resultElement.style.display = "block";
+
+                // Add appropriate class based on status
+                resultElement.className = data.status === "SUCCESS" ? "success" : "error";
+
+                resultElement.innerHTML = `
+                    <p><strong>Transaction ID:</strong> ${data.transactionId}</p>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
+                `;
+
+                // Reset button
+                spinner.style.display = "none";
+                payButton.disabled = false;
+                payButton.textContent = "Complete Payment";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                const resultElement = document.getElementById("result");
+                resultElement.style.display = "block";
+                resultElement.className = "error";
+                resultElement.innerHTML = `
+                    <p><strong>Error:</strong> Unable to process payment</p>
+                    <p>Please try again later or contact support.</p>
+                `;
+
+                // Reset button
+                spinner.style.display = "none";
+                payButton.disabled = false;
+                payButton.textContent = "Complete Payment";
+            });
+    });
 
     // Format card number with spaces
-    cardNumberInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\s+/g, '');
-        let formattedValue = '';
-
+    document.getElementById("cardNumber").addEventListener("input", function(e) {
+        let value = e.target.value;
+        value = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+        let formattedValue = "";
         for (let i = 0; i < value.length; i++) {
             if (i > 0 && i % 4 === 0) {
-                formattedValue += ' ';
+                formattedValue += " ";
             }
             formattedValue += value[i];
         }
-
         e.target.value = formattedValue;
-
-        // Detect card type
-        detectCardType(value);
     });
-
-    // Detect card type based on first digits
-    function detectCardType(cardNumber) {
-        // Reset card types
-        visaType.classList.remove('active');
-        mastercardType.classList.remove('active');
-
-        // Visa starts with 4
-        if (cardNumber.startsWith('4')) {
-            visaType.classList.add('active');
-            return 'visa';
-        }
-
-        // Mastercard starts with 51-55 or 2221-2720
-        if ((cardNumber.startsWith('5') && ['1', '2', '3', '4', '5'].includes(cardNumber.charAt(1))) ||
-            (cardNumber.startsWith('2') &&
-                (parseInt(cardNumber.substring(0, 4)) >= 2221 && parseInt(cardNumber.substring(0, 4)) <= 2720))) {
-            mastercardType.classList.add('active');
-            return 'mastercard';
-        }
-
-        return 'unknown';
-    }
 
     // Format expiry date
-    expiryInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-
+    document.getElementById("expiryDate").addEventListener("input", function(e) {
+        let value = e.target.value;
+        value = value.replace(/\D/g, "");
         if (value.length > 2) {
-            e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
-        } else {
-            e.target.value = value;
+            value = value.substring(0, 2) + "/" + value.substring(2, 4);
         }
+        e.target.value = value;
     });
 
-    // Update button text with current amount
-    document.getElementById('amount').addEventListener('input', function(e) {
-        const amount = e.target.value;
-        if (amount && !isNaN(amount)) {
-            submitBtn.textContent = `Pay Now (LKR ${parseFloat(amount).toLocaleString()})`;
-        } else {
-            submitBtn.textContent = 'Pay Now (LKR)';
-        }
-    });
-
-    // Validate the form on submit
-    paymentForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        let isValid = true;
-
-        // Reset errors
-        document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
-
-        // Validate name
-        const name = document.getElementById('name').value;
-        if (name.length < 3) {
-            document.getElementById('nameError').style.display = 'block';
-            isValid = false;
-        }
-
-        // Validate email
-        const email = document.getElementById('email').value;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            document.getElementById('emailError').style.display = 'block';
-            isValid = false;
-        }
-
-        // Validate amount
-        const amount = document.getElementById('amount').value;
-        if (amount <= 0) {
-            document.getElementById('amountError').style.display = 'block';
-            isValid = false;
-        }
-
-        // Validate card number (simple check for demo)
-        const cardNumber = cardNumberInput.value.replace(/\s+/g, '');
-        if (cardNumber.length < 16 || isNaN(cardNumber)) {
-            document.getElementById('cardError').style.display = 'block';
-            isValid = false;
-        }
-
-        // Check if card type is supported
-        const cardType = detectCardType(cardNumber);
-        if (cardType === 'unknown') {
-            document.getElementById('cardError').textContent = 'Only Visa and Mastercard are accepted';
-            document.getElementById('cardError').style.display = 'block';
-            isValid = false;
-        }
-
-        // Validate expiry date
-        const expiry = expiryInput.value;
-        const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-        if (!expiryRegex.test(expiry)) {
-            document.getElementById('expiryError').style.display = 'block';
-            isValid = false;
-        } else {
-            // Check if the card is expired
-            const parts = expiry.split('/');
-            const month = parseInt(parts[0]);
-            const year = parseInt('20' + parts[1]);
-
-            const now = new Date();
-            const currentMonth = now.getMonth() + 1;
-            const currentYear = now.getFullYear();
-
-            if (year < currentYear || (year === currentYear && month < currentMonth)) {
-                document.getElementById('expiryError').textContent = 'Card is expired';
-                document.getElementById('expiryError').style.display = 'block';
-                isValid = false;
-            }
-        }
-
-        // Validate CVV
-        const cvv = document.getElementById('cvv').value;
-        if (cvv.length < 3 || isNaN(cvv)) {
-            document.getElementById('cvvError').style.display = 'block';
-            isValid = false;
-        }
-
-        if (isValid) {
-            // Normally you would send the data to a server here
-            // This is just a demonstration
-            const formattedAmount = parseFloat(amount).toLocaleString();
-            submitBtn.textContent = `Processing LKR ${formattedAmount}...`;
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                alert(`Payment of LKR ${formattedAmount} processed successfully!`);
-                paymentForm.reset();
-                submitBtn.textContent = 'Pay Now (LKR)';
-                submitBtn.disabled = false;
-
-                // Reset card types
-                visaType.classList.remove('active');
-                mastercardType.classList.remove('active');
-            }, 1500);
-        }
+    // Limit CVV to 3-4 digits
+    document.getElementById("cvv").addEventListener("input", function(e) {
+        let value = e.target.value;
+        e.target.value = value.replace(/\D/g, "").substring(0, 4);
     });
 </script>
+
 </body>
 </html>

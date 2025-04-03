@@ -487,11 +487,12 @@
                 bookingItems.forEach(item => {
                     item.style.display = 'block';
                 });
-            } else if (filterType === 'upcoming') {
+            } else if (filterType === 'cancelled') {
                 bookingItems.forEach(item => {
                     const status = item.querySelector('.booking-status').textContent.trim().toLowerCase();
-                    item.style.display = (status === 'confirmed' || status === 'pending') ? 'block' : 'none';
+                    item.style.display = (status === 'cancelled') ? 'block' : 'none';
                 });
+
             } else if (filterType === 'completed') {
                 bookingItems.forEach(item => {
                     const date = item.querySelector('.detail-value').textContent;

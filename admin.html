@@ -50,11 +50,11 @@
         </div>
         <ul class="sidebar-menu">
             <li><a href="#mainForm" class="active">Dashboard</a></li>
-            <li><a href="#vehicleManagement">Vehicles</a></li>
-            <li><a href="#DriversManagement">Drivers</a></li>
             <li><a href="#viewBooking">Bookings</a></li>
-            <li><a href="#InsuranceManagement">Insurance</a></li>
+            <li><a href="#vehicleManagement">Vehicles</a></li>
             <li><a href="#UserManagement">Users</a></li>
+            <li><a href="#DriversManagement">Drivers</a></li>
+            <li><a href="#InsuranceManagement">Insurance</a></li>
             <li><a href="">Reports</a></li>
             <li><a href="#">Settings</a></li>
             <br><br><br><br><br><br><br><br>
@@ -74,24 +74,23 @@
         <!-- Stats Cards -->
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-card-title">Total Vehicles</div>
+                <div class="stat-card-title">Total Vehicles 🚌</div>
                 <div class="stat-card-value">48</div>
-                <div class="stat-card-info positive">+15% from last month</div>
+
             </div>
             <div class="stat-card">
-                <div class="stat-card-title">Active Bookings</div>
+                <div class="stat-card-title">Active Bookings 📕</div>
                 <div class="stat-card-value">32</div>
-                <div class="stat-card-info positive">+8% from last month</div>
+
             </div>
             <div class="stat-card">
-                <div class="stat-card-title">Total Users</div>
+                <div class="stat-card-title">Total Users 👤</div>
                 <div class="stat-card-value">256</div>
-                <div class="stat-card-info positive">+23% from last month</div>
             </div>
             <div class="stat-card">
                 <div class="stat-card-title">Revenue</div>
                 <div class="stat-card-value">$12,450</div>
-                <div class="stat-card-info positive">+12% from last month</div>
+
             </div>
         </div>
 
@@ -112,36 +111,34 @@
         <div class="table-container">
             <div class="table-header">
                 <div class="table-title">Vehicle Management</div>
-                <div class="table-actions">
-                </div>
+                <div class="table-actions"></div>
             </div>
 
-            <div class="tabs ">
-                <div class="tab active " onclick="switchTab('cars')">Cars</div>
-                <div class="tab" onclick="switchTab('vans')">Vans</div>
-                <div class="tab" onclick="switchTab('buses')">Buses</div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchBookingTab('cars')">Cars</div>
+                <div class="tab" onclick="switchBookingTab('vans')">Vans</div>
+                <div class="tab" onclick="switchBookingTab('buses')">Buses</div>
             </div>
-            <div id="cars" class="tab-content" >
-                <button class="add-btn" onclick="showAddNewCarModal()">Add New Car</button>
+
+            <div id="cars" class="tab-content">
+                <button class="add-btn"  onclick="showAddNewCarModal()">Add New Car</button>
                 <br><br>
-                <div id="carCardContainer" class="card-container">
-
-                </div>
+                <div id="carCardContainer" class="card-container"></div>
             </div>
+
             <div id="vans" class="tab-content">
                 <button class="add-btn" onclick="showAddNewVanModal()">Add New Van</button>
                 <br><br>
-                <div id="vanCardContainer" class="card-container">
-                    <!-- Van cards will be dynamically inserted here -->
-                </div>
+                <div id="vanCardContainer" class="card-container"></div>
             </div>
+
             <div id="buses" class="tab-content">
                 <button class="add-btn" onclick="showAddNewBusModal()">Add New Bus</button>
                 <br><br>
-                <div id="busCardContainer" class="card-container">
-                </div>
+                <div id="busCardContainer" class="card-container"></div>
             </div>
         </div>
+
     </section>
 
 
@@ -361,9 +358,6 @@
 
         </div>
     </section>
-
-
-
     <section id="viewBooking">
         <div class="table-container">
         <div class="table-header">

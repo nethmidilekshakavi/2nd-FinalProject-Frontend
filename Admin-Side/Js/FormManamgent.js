@@ -78,21 +78,7 @@ window.onload = function () {
 };
 
 
-function switchTab(tabId) {
-    // Hide all tab contents
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
 
-
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-
-    document.getElementById(tabId).classList.add('active');
-    document.querySelector(`.tab:nth-child(${Array.from(document.querySelectorAll('.tab')).findIndex(tab => tab.getAttribute('onclick').includes(tabId)) + 1})`).classList.add('active');
-}
 
 
 // Function to show the Add New Bus modal==============================================
@@ -207,8 +193,6 @@ function loadUserImage() {
     });
 }
 
-
-
 function switchBookingTab(tabName) {
     // Hide all booking tables
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -229,4 +213,7 @@ function switchBookingTab(tabName) {
 // Initialize: Show Car Bookings by Default
 document.addEventListener('DOMContentLoaded', function () {
     switchBookingTab('carBooking');
+
 });
+
+

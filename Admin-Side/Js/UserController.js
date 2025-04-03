@@ -49,7 +49,7 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr, status, error) {
-                alert("You haven't access Users Management: " + (xhr.responseText || error || status));
+
             }
         });
     }

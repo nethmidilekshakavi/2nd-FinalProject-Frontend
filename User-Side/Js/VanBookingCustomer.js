@@ -219,7 +219,7 @@ function loadVanBookingDetails() {
             });
         },
         error: function (xhr, status, error) {
-            alert("Error loading van Bookings: " + (xhr.responseText || error || status));
+
         }
     });
 }

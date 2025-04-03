@@ -224,7 +224,7 @@ function loadCarBookingDetails() {
             });
         },
         error: function (xhr, status, error) {
-            alert("Error loading car Bookings: " + (xhr.responseText || error || status));
+
         }
     });
 }
