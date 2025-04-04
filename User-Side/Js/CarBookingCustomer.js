@@ -118,7 +118,8 @@ $("#bookingFormCar").submit(function(event) {
         "returnLocation": $("#dropLocation").val(),
         "additionalInfo": $("#additionalInfo").val(),
         "pickupTime":$("#pickupTime").val(),
-        "returnTime":$("#returnTime").val()
+        "returnTime":$("#returnTime").val(),
+        "price":$("#price").val()
     };
 
     // Send the form data to the backend using $.ajax
