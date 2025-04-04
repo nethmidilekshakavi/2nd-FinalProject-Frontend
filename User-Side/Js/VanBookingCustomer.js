@@ -310,3 +310,69 @@ function sendConfirmationEmailVan(userEmail) {
         }
     });
 }
+
+
+function calculateDistanceAndPriceVan(pickupLocation, dropLocation) {
+    const service = new google.maps.DistanceMatrixService();
+
+    service.getDistanceMatrix(
+        {
+            origins: [pickupLocation],
+            destinations: [dropLocation],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        },
+        function (response, status) {
+            if (status === 'OK') {
+                const distanceText = response.rows[0].elements[0].distance.text;
+                const distanceValue = response.rows[0].elements[0].distance.value; // in meters
+                const distanceInKm = distanceValue / 1000;
+
+                const price = Math.round(distanceInKm * 100); // 1km = 100LKR
+                document.getElementById("price").value = price + "";
+            } else {
+                console.error('Error fetching distance matrix:', status);
+                document.getElementById("price").value = "Distance error";
+            }
+        }
+    );
+}
+pickupAutocomplete.addListener("place_changed", function () {
+    const place = pickupAutocomplete.getPlace();
+    if (!place.geometry) {
+        alert("No details available for input: '" + place.name + "'");
+        return;
+    }
+
+    pickupLocationLatLng = place.geometry.location;
+    pickupMarker.setPosition(pickupLocationLatLng);
+    map.setCenter(pickupLocationLatLng);
+    map.setZoom(12);
+
+    const infoWindow = new google.maps.InfoWindow({
+        content: `<strong>Pickup Location:</strong> ${place.formatted_address}`
+    });
+    infoWindow.open(map, pickupMarker);
+});
+dropAutocomplete.addListener("place_changed", function () {
+    const place = dropAutocomplete.getPlace();
+    if (!place.geometry) {
+        alert("No details available for input: '" + place.name + "'");
+        return;
+    }
+
+    dropLocationLatLng = place.geometry.location;
+    dropMarker.setPosition(dropLocationLatLng);
+    map.setCenter(dropLocationLatLng);
+    map.setZoom(12);
+
+    const infoWindow = new google.maps.InfoWindow({
+        content: `<strong>Drop-off Location:</strong> ${place.formatted_address}`
+    });
+    infoWindow.open(map, dropMarker);
+
+    // Distance calculation and price set
+    if (pickupLocationLatLng && dropLocationLatLng) {
+        calculateDistanceAndPriceVan(pickupLocationLatLng, dropLocationLatLng);
+    }
+});

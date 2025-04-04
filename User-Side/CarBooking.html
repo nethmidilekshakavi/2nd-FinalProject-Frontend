@@ -212,6 +212,20 @@
                             required
                     />
                 </div>
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Amount Paid</label>
+                    <input
+                            type="text"
+                            id="price"
+                            name="price"
+                            required
+                            class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none input-with-icon"
+                            readonly
+                    >
+                    <svg class="input-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                    </svg>
+                </div>
             </div>
 
             <div>
@@ -237,86 +251,117 @@
 <script>
 
     let map;
+    let pickupLocationLatLng = null;
+    let dropLocationLatLng = null;
 
     function initMap() {
         console.log('Initializing map...');
 
-        // Default location set to the center of Sri Lanka
         const defaultLocation = { lat: 7.8731, lng: 80.7718 };
 
-        // Create a new Google Map instance
         map = new google.maps.Map(document.getElementById("map"), {
             center: defaultLocation,
-            zoom: 8, // Initial zoom level
+            zoom: 8,
         });
 
-        // Get input elements for pickup and drop locations
         const pickupInput = document.getElementById("pickupLocation");
         const dropInput = document.getElementById("dropLocation");
 
-        // Create Autocomplete instances for pickup and drop locations
         const pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput);
         const dropAutocomplete = new google.maps.places.Autocomplete(dropInput);
 
-        // Create marker objects for pickup and drop locations
         const pickupMarker = new google.maps.Marker({
             map: map,
             icon: {
-                url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' // Green marker for pickup
+                url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
             }
         });
+
         const dropMarker = new google.maps.Marker({
             map: map,
             icon: {
-                url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // Red marker for drop-off
+                url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             }
         });
 
-        // Event listener for pickup location selection
+        // Pickup Location Listener
         pickupAutocomplete.addListener("place_changed", function () {
             const place = pickupAutocomplete.getPlace();
             if (!place.geometry) {
-                window.alert("No details available for input: '" + place.name + "'");
+                alert("No details available for input: '" + place.name + "'");
                 return;
             }
 
-            // Set marker position and update map
-            pickupMarker.setPosition(place.geometry.location);
-            map.setCenter(place.geometry.location);
-            map.setZoom(12); // Zoom in when a location is selected
+            pickupLocationLatLng = place.geometry.location;
+            pickupMarker.setPosition(pickupLocationLatLng);
+            map.setCenter(pickupLocationLatLng);
+            map.setZoom(12);
 
-            // Optional: Add an info window
             const infoWindow = new google.maps.InfoWindow({
                 content: `<strong>Pickup Location:</strong> ${place.formatted_address}`
             });
             infoWindow.open(map, pickupMarker);
+
+            // Recalculate price if both locations selected
+            if (pickupLocationLatLng && dropLocationLatLng) {
+                calculateDistanceAndPrice(pickupLocationLatLng, dropLocationLatLng);
+            }
         });
 
-        // Event listener for drop location selection
+        // Drop Location Listener
         dropAutocomplete.addListener("place_changed", function () {
             const place = dropAutocomplete.getPlace();
             if (!place.geometry) {
-                window.alert("No details available for input: '" + place.name + "'");
+                alert("No details available for input: '" + place.name + "'");
                 return;
             }
 
-            // Set marker position and update map
-            dropMarker.setPosition(place.geometry.location);
-            map.setCenter(place.geometry.location);
-            map.setZoom(12); // Zoom in when a location is selected
+            dropLocationLatLng = place.geometry.location;
+            dropMarker.setPosition(dropLocationLatLng);
+            map.setCenter(dropLocationLatLng);
+            map.setZoom(12);
 
-            // Optional: Add an info window
             const infoWindow = new google.maps.InfoWindow({
                 content: `<strong>Drop-off Location:</strong> ${place.formatted_address}`
             });
             infoWindow.open(map, dropMarker);
+
+            // Recalculate price if both locations selected
+            if (pickupLocationLatLng && dropLocationLatLng) {
+                calculateDistanceAndPrice(pickupLocationLatLng, dropLocationLatLng);
+            }
         });
 
         console.log('Map initialized successfully');
     }
 
-    // Error handling for Google Maps
-    window.gm_authFailure = function() {
+    function calculateDistanceAndPrice(pickupLocation, dropLocation) {
+        const service = new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix(
+            {
+                origins: [pickupLocation],
+                destinations: [dropLocation],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC
+            },
+            function (response, status) {
+                console.log("response" +response)
+                if (status === 'OK') {
+                    const distanceValue = response.rows[0].elements[0].distance.value; // in meters
+                    const distanceInKm = distanceValue / 1000;
+                    const price = Math.round(distanceInKm * 100); // 100 LKR per km
+                    document.getElementById("price").value = price + " ";
+                } else {
+                    console.error('Error fetching distance:', status);
+                    document.getElementById("price").value = "Distance error";
+                }
+            }
+        );
+    }
+
+    // Google Maps API Error Handlers
+    window.gm_authFailure = function () {
         console.error('Google Maps authentication failed');
         document.getElementById('map').innerHTML = '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">Failed to load Google Maps. Please check your API key.</div>';
     };
