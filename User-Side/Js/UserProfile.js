@@ -1,4 +1,13 @@
+let pickUpLocation = ""
+let pickUpTime = ""
+let DropLocation = ""
+let DropTime = ""
+let Amount =  0;
+
+
+
 function createBookingCard(booking) {
+    console.log("==========================="+booking)
     function getStatusClass(status) {
         switch (status.toLowerCase()) {
             case 'confirmed':
@@ -47,7 +56,7 @@ function createBookingCard(booking) {
             case 'pending':
                 return '<button class="btn btn-outline">Payment Details</button><button class="btn btn-primary">Pending</button>';
             case 'cancelled':
-                return '<button class="btn btn-outline">View Details</button><button class="btn btn-primary">Rebook</button>';
+                return '<button class="btn btn-outline">View Details</button><a href=""><button class="btn btn-primary">Rebook</button></a>';
             case 'completed':
                 return '<button class="btn btn-outline">View Receipt</button><button class="btn btn-primary">Book Again</button>';
             default:
@@ -57,27 +66,58 @@ function createBookingCard(booking) {
 
 
     const bookingId = booking.id;
+    pickUpLocation = booking.pickupLocation;
+    pickUpTime = booking.pickupTime
+    DropLocation = booking.returnLocation
+    DropTime = booking.returnTime
     const status = booking.status || 'pending';
     const departureTime = formatTime(booking.pickupTime);
-    const arrivalTime = formatTime(booking.returnTime);
-    const amount = parseFloat(booking.totalAmount || 0).toFixed(2);
+    const arrivalTime = formatTime(booking.returnLocation);
+    const dueAmount = booking.price
+
+    Amount = booking.price
+
+
+
+    sessionStorage.setItem("selectedBooking", JSON.stringify(booking));
+
+
+
 
     return `
-        <div class="booking-item">
-            <div class="booking-header">
-                <div class="booking-id">${bookingId ? `Booking #${bookingId}` : ''}</div>
-                <div class="booking-status ${getStatusClass(status)}">${status}</div>
-            </div>
-            <div class="booking-details">
-                <div class="booking-detail"><span class="detail-label">Transport Type</span><span class="detail-value">${booking.model}</span></div>
-                <div class="booking-detail"><span class="detail-label">Booking Date</span><span class="detail-value">${booking.date}</span></div>
-                <div class="booking-detail"><span class="detail-label">PickUp Time</span><span class="detail-value">${departureTime}</span></div>
-                <div class="booking-detail"><span class="detail-label">${status.toLowerCase() === 'cancelled' ? 'Amount Refunded' : 'Amount Paid'}</span><span class="detail-value">$${amount}</span></div>
-            </div>
-            <div class="booking-actions">${getActionButtons(status)}</div>
+    <div class="booking-item">
+        <div class="booking-header">
+            <div class="booking-id">${bookingId ? `Booking #${bookingId}` : ''}</div>
+            <div class="booking-status ${getStatusClass(status)}">${status}</div>
         </div>
-    `;
+
+        <div class="booking-details">
+            <div class="booking-detail"><span class="detail-label">Transport Type</span><span class="detail-value">${booking.model}</span></div>
+            <div class="booking-detail"><span class="detail-label">Booking Date</span><span class="detail-value">${booking.date}</span></div>
+            <div class="booking-detail"><span class="detail-label">PickUp Time</span><span class="detail-value">${departureTime}</span></div>
+            <div class="booking-detail"><span class="detail-label">Due Amount</span><span class="detail-value">${dueAmount}</span></div>
+        </div>
+
+        <div class="booking-route">
+            <div class="route-point">
+                <div class="point-marker"></div>
+                <div class="point-name">${booking.pickupLocation}</div>
+                <div class="point-time">${departureTime}</div>
+            </div>
+            <div class="route-line"></div>
+            <div class="route-point">
+                <div class="point-marker"></div>
+                <div class="point-name">${booking.returnLocation}</div>
+                <div class="point-time">${arrivalTime}</div>
+            </div>
+        </div>
+
+        <div class="booking-actions">${getActionButtons(status)}</div>
+    </div>
+`;
+
 }
+
 
 function renderBookings(bookings) {
     const bookingListContainer = document.querySelector('.booking-list');
@@ -139,4 +179,7 @@ function setupFilterButtons() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchAndDisplayBookings();
     setupFilterButtons();
+
 });
+
+

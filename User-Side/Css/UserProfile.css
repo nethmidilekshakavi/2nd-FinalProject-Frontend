@@ -1,7 +1,34 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary: #FFD700;
+    --primary-light: #FFEB99;
+    --primary-dark: #E6C200;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --white: #FFFFFF;
+    --background: #FFFDF5;
+    --success: #28a745;
+    --pending: #ffc107;
+    --cancelled: #dc3545;
+    --border-color: #e0e0e0;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-dark);
+}
+
 .container-UserProfile {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 100px;
+    padding: 20px;
 }
 
 .header {
@@ -9,7 +36,7 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +50,6 @@
 .logo {
     width: 50px;
     height: 50px;
-    background-color: var(--primary-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -336,5 +362,8 @@
         margin-left: 7px;
     }
 }
-
-
+.user-avatar img {
+    width: 100px; /* Adjust size */
+    height: 100px; /* Adjust size */
+    border-radius: 50%; /* Makes it circular */
+}

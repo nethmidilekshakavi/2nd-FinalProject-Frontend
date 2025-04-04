@@ -45,20 +45,17 @@ function loadUserIDD() {
 
 document.addEventListener("DOMContentLoaded", loadUserIDD);
 
-
-
-let selectedBookingId = sessionStorage.getItem("selectedBookingId");
-console.log("Selected Booking ID:", selectedBookingId);
-
-
+//Amount ekaBooking id ekai gatta
 document.addEventListener("DOMContentLoaded", function () {
-    const bookingId = sessionStorage.getItem("selectedBookingId");
-    console.log("Booking ID from session:", bookingId); // For debugging
+    const bookingJson = sessionStorage.getItem("selectedBooking");
 
-    if (bookingId) {
-        document.getElementById("paymentBookingId").value = bookingId;
+    if (bookingJson) {
+        const booking = JSON.parse(bookingJson);
+        console.log("Loaded booking:", booking);
+
+        document.getElementById("paymentBookingId").value = booking.id;
+        document.getElementById("amount").value = booking.price;
     } else {
-        console.error("No booking ID found in sessionStorage!");
+        console.error("No booking data found in sessionStorage!");
     }
 });
-
