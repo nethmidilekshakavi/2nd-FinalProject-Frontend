@@ -1,11 +1,16 @@
 function createBookingCard(booking) {
     function getStatusClass(status) {
         switch (status.toLowerCase()) {
-            case 'confirmed': return 'status-confirmed';
-            case 'pending': return 'status-pending';
-            case 'cancelled': return 'status-cancelled';
-            case 'completed': return 'status-completed';
-            default: return '';
+            case 'confirmed':
+                return 'status-confirmed';
+            case 'pending':
+                return 'status-pending';
+            case 'cancelled':
+                return 'status-cancelled';
+            case 'completed':
+                return 'status-completed';
+            default:
+                return '';
         }
     }
 
@@ -34,13 +39,22 @@ function createBookingCard(booking) {
     function getActionButtons(status) {
         status = status.toLowerCase();
         switch (status) {
-            case 'confirmed': return '<button class="btn btn-outline">View E-Ticket</button><button class="btn btn-primary" onclick="makePayment()">Make Payment</button>';
-            case 'pending': return '<button class="btn btn-outline">Payment Details</button><button class="btn btn-primary">Pending</button>';
-            case 'cancelled': return '<button class="btn btn-outline">View Details</button><button class="btn btn-primary">Rebook</button>';
-            case 'completed': return '<button class="btn btn-outline">View Receipt</button><button class="btn btn-primary">Book Again</button>';
-            default: return '<button class="btn btn-outline">View Details</button><button class="btn btn-primary">Manage Booking</button>';
+            case 'confirmed':
+                return `
+      <button class="btn btn-outline">View E-Ticket</button>
+      <button class="btn btn-primary" onclick="makePayment('${booking.id}')">Make Payment</button>
+    `;
+            case 'pending':
+                return '<button class="btn btn-outline">Payment Details</button><button class="btn btn-primary">Pending</button>';
+            case 'cancelled':
+                return '<button class="btn btn-outline">View Details</button><button class="btn btn-primary">Rebook</button>';
+            case 'completed':
+                return '<button class="btn btn-outline">View Receipt</button><button class="btn btn-primary">Book Again</button>';
+            default:
+                return '<button class="btn btn-outline">View Details</button><button class="btn btn-primary">Manage Booking</button>';
         }
     }
+
 
     const bookingId = booking.id;
     const status = booking.status || 'pending';
@@ -71,9 +85,10 @@ function renderBookings(bookings) {
 }
 
 function fetchBookings(url) {
-    return fetch(url, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') } })
+    return fetch(url, {headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')}})
         .then(response => response.ok ? response.json() : Promise.reject('Failed to fetch bookings'));
 }
+
 function fetchAndDisplayBookings() {
     document.querySelector('.booking-list').innerHTML = '<div class="loading-message">Loading your bookings...</div>';
 
@@ -107,10 +122,19 @@ function setupFilterButtons() {
     });
 }
 
-function makePayment() {
-    alert("Redirecting to Payment Gateway...");
-    window.location.href = "/payment";
+
+    function makePayment(bookingId) {
+    console.log("Booking ID:", bookingId);
+    if (bookingId && bookingId.trim() !== "") {
+    sessionStorage.setItem("selectedBookingId", bookingId);
+    window.location.href = "payment.html";
+} else {
+    console.error("Error: Booking ID is invalid or not found!");
+    alert("Error: Booking ID not found!");
 }
+}
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchAndDisplayBookings();
