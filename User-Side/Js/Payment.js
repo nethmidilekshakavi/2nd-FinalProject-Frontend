@@ -1,109 +1,66 @@
-let PaymentUser = "";
+/*
 
-function loadUserIDD() {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-        console.error("JWT token not found");
-        return;
-    }
 
-    $.ajax({
-        url: "http://localhost:8080/api/v1/user/getuserId",
-        type: "GET",
-        headers: { 'Authorization': 'Bearer ' + token },
-        success: function (data) {
-            if (data && typeof data === 'object' && 'userId' in data) {
-                PaymentUser = data.userId;
-            } else {
-                console.error("Invalid user ID:", data);
-                PaymentUser = 0;
-            }
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const PORT = 3000;
 
-            const userIdInput = document.getElementById("PaymentUserId");
-            if (userIdInput) {
-                userIdInput.value = PaymentUser;
-            } else {
-                console.error("User ID input field not found");
-            }
-        },
-        error: function () {
-            console.error("Error loading user ID");
-            PaymentUser = 0;
-        }
-    });
-}
+app.use(express.json());
 
-document.addEventListener("DOMContentLoaded", loadUserIDD);
-
-document.addEventListener("DOMContentLoaded", function () {
-    const bookingJson = sessionStorage.getItem("selectedBooking");
-
-    if (bookingJson) {
-        const booking = JSON.parse(bookingJson);
-        document.getElementById("paymentBookingId").value = booking.id || "";
-        document.getElementById("amount").value = booking.price || "";
-    } else {
-        console.error("Booking data not found!");
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const paymentForm = document.getElementById("paymentForm");
-
-    paymentForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const booking = JSON.parse(sessionStorage.getItem("selectedBooking"));
-        if (!booking) {
-            console.error("No booking selected!");
-            return;
-        }
-
-        const vehicleId = booking.id;
-        const userId = PaymentUser;
-
-        let paymentData = {
-            user: { id: userId },
-            amount: parseFloat(document.getElementById("amount").value),
-            currency: document.getElementById("currency").value,
-            paymentMethod: "CARD",
-            cardName: document.getElementById("cardName").value,
-            cardNumber: document.getElementById("cardNumber").value,
-            expiryDate: document.getElementById("expiryDate").value,
-            cvv: document.getElementById("cvv").value,
-            busBooking: vehicleId.startsWith('B') ? { id: booking.id } : null,
-            carBooking: vehicleId.startsWith('C') ? { id: booking.id } : null,
-            vanBooking: vehicleId.startsWith('V') ? { id: booking.id } : null
+app.post('/payhere-payment', async (req, res) => {
+    try {
+        const paymentData = {
+            merchant_id: "1229897",
+            merchant_secret: "MjM5Mjk5NzMxMTI5NTA3MTk0MDI0MDMxODUwMjY3MTMxNDY2ODc5NQ==", // Keep this secret and safe!
+            order_id: req.body.order_id,
+            amount: req.body.amount,
+            currency: req.body.currency
         };
 
-        document.getElementById("paymentSpinner").style.display = "inline-block";
+        // Simulating secure processing (PayHere direct post is not recommended here)
+        console.log("Received payment data:", paymentData);
 
-        fetch("http://localhost:8080/api/payment/save", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(paymentData)
-        })
-            .then(res => res.ok ? res.json() : Promise.reject("Payment save failed"))
-            .then(() => {
-                document.getElementById("paymentSpinner").style.display = "none";
-                Swal.fire({
-                    title: 'Payment Completed!',
-                    text: 'Your payment has been processed successfully.',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    window.location.href = '/receipt-page';
-                });
-            })
-            .catch(err => {
-                console.error("Error saving payment:", err);
-                document.getElementById("paymentSpinner").style.display = "none";
-                Swal.fire({
-                    title: 'Payment Failed!',
-                    text: 'There was an error processing your payment. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
-    });
+        res.json({status: "received", data: paymentData});
+
+    } catch (error) {
+        console.error("Payment Error:", error);
+        res.status(500).json({message: "Payment processing failed"});
+    }
 });
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+window.onload = function () {
+    const bookingId = sessionStorage.getItem("selectedBookingId");
+    if (bookingId) {
+        console.log("Received Booking ID:", bookingId);
+
+        fetch(`http://localhost:8080/bookings/${bookingId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Booking not found");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Booking Details:", data);
+                document.getElementById("booking-details").innerHTML = `
+                        <p><strong>Booking ID:</strong> ${data.id}</p>
+                        <p><strong>Customer Name:</strong> ${data.customerName}</p>
+                        <p><strong>Amount:</strong> $${data.amount}</p>
+                        <!-- තවත් details display කරන්න -->
+                    `;
+            })
+            .catch(error => {
+                console.error("Error fetching booking:", error);
+                alert("Error loading booking details.");
+            });
+    } else {
+        alert("No booking ID found in session!");
+        window.location.href = "bookings.html"; // fallback
+    }
+}
+
+*/

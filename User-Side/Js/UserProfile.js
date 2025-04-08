@@ -1,13 +1,12 @@
-let pickUpLocation = ""
-let pickUpTime = ""
-let DropLocation = ""
-let DropTime = ""
-let Amount =  0;
-
-
+let pickUpLocation = "";
+let pickUpTime = "";
+let DropLocation = "";
+let DropTime = "";
+let Amount = 0;
 
 function createBookingCard(booking) {
-    console.log("==========================="+booking)
+    console.log("===========================" + booking);
+
     function getStatusClass(status) {
         switch (status.toLowerCase()) {
             case 'confirmed':
@@ -25,34 +24,21 @@ function createBookingCard(booking) {
 
     function formatTime(timeString) {
         if (!timeString) return '';
-        try {
-            if (timeString.includes('T')) {
-                return new Date(timeString).toLocaleTimeString('en-US', {
-                    hour: '2-digit', minute: '2-digit', hour12: true
-                });
-            }
-            if (timeString.includes(':')) {
-                const [hours, minutes] = timeString.split(':');
-                const hourNum = parseInt(hours);
-                const ampm = hourNum >= 12 ? 'PM' : 'AM';
-                const displayHour = hourNum % 12 || 12;
-                return `${displayHour}:${minutes} ${ampm}`;
-            }
-            return timeString;
-        } catch (e) {
-            console.error("Error formatting time:", e);
-            return timeString;
-        }
+        const date = new Date(`1970-01-01T${timeString}`);
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit', minute: '2-digit', hour12: true
+        });
     }
 
     function getActionButtons(status) {
+        console.log(booking.id);
         status = status.toLowerCase();
         switch (status) {
             case 'confirmed':
-                return `
-      <button class="btn btn-outline">View E-Ticket</button>
-      <button class="btn btn-primary" onclick="makePayment('${booking.id}')">Make Payment</button>
-    `;
+                return ` 
+                    <button class="btn btn-outline">View E-Ticket</button>
+                    <button class="btn btn-primary" onclick="makePayment('${booking.id}')">Make Payment</button>
+                `;
             case 'pending':
                 return '<button class="btn btn-outline">Payment Details</button><button class="btn btn-primary">Pending</button>';
             case 'cancelled':
@@ -64,64 +50,62 @@ function createBookingCard(booking) {
         }
     }
 
-
     const bookingId = booking.id;
     pickUpLocation = booking.pickupLocation;
-    pickUpTime = booking.pickupTime
-    DropLocation = booking.returnLocation
-    DropTime = booking.returnTime
+    pickUpTime = booking.pickupTime;
+    DropLocation = booking.returnLocation;
+    DropTime = booking.returnTime;
     const status = booking.status || 'pending';
     const departureTime = formatTime(booking.pickupTime);
-    const arrivalTime = formatTime(booking.returnLocation);
-    const dueAmount = booking.price
+    const arrivalTime = formatTime(booking.returnTime); // Fixed here
+    const dueAmount = booking.price;
 
-    Amount = booking.price
-
-
+    Amount = booking.price;
 
     sessionStorage.setItem("selectedBooking", JSON.stringify(booking));
 
-
-
-
     return `
-    <div class="booking-item">
-        <div class="booking-header">
-            <div class="booking-id">${bookingId ? `Booking #${bookingId}` : ''}</div>
-            <div class="booking-status ${getStatusClass(status)}">${status}</div>
-        </div>
-
-        <div class="booking-details">
-            <div class="booking-detail"><span class="detail-label">Transport Type</span><span class="detail-value">${booking.model}</span></div>
-            <div class="booking-detail"><span class="detail-label">Booking Date</span><span class="detail-value">${booking.date}</span></div>
-            <div class="booking-detail"><span class="detail-label">PickUp Time</span><span class="detail-value">${departureTime}</span></div>
-            <div class="booking-detail"><span class="detail-label">Due Amount</span><span class="detail-value">${dueAmount}</span></div>
-        </div>
-
-        <div class="booking-route">
-            <div class="route-point">
-                <div class="point-marker"></div>
-                <div class="point-name">${booking.pickupLocation}</div>
-                <div class="point-time">${departureTime}</div>
+        <div class="booking-item">
+            <div class="booking-header">
+                <div class="booking-id">${bookingId ? `Booking #${bookingId}` : ''}</div>
+                <div class="booking-status ${getStatusClass(status)}">${status}</div>
             </div>
-            <div class="route-line"></div>
-            <div class="route-point">
-                <div class="point-marker"></div>
-                <div class="point-name">${booking.returnLocation}</div>
-                <div class="point-time">${arrivalTime}</div>
+
+            <div class="booking-details">
+                <div class="booking-detail"><span class="detail-label">Transport Type</span><span class="detail-value">${booking.model}</span></div>
+                <div class="booking-detail"><span class="detail-label">Booking Date</span><span class="detail-value">${booking.date}</span></div>
+                <div class="booking-detail"><span class="detail-label">PickUp Time</span><span class="detail-value">${departureTime}</span></div>
+                <div class="booking-detail"><span class="detail-label">Due Amount</span><span class="detail-value">${dueAmount}</span></div>
             </div>
+
+            <div class="booking-route">
+                <div class="route-point">
+                    <div class="point-marker"></div>
+                    <div class="point-name">${booking.pickupLocation}</div>
+                    <div class="point-time">${departureTime}</div>
+                </div>
+                <div class="route-line"></div>
+                <div class="route-point">
+                    <div class="point-marker"></div>
+                    <div class="point-name">${booking.returnLocation}</div>
+                    <div class="point-time">${arrivalTime}</div>
+                </div>
+            </div>
+
+            <div class="booking-actions">${getActionButtons(status)}</div>
         </div>
-
-        <div class="booking-actions">${getActionButtons(status)}</div>
-    </div>
-`;
-
+    `;
 }
-
 
 function renderBookings(bookings) {
     const bookingListContainer = document.querySelector('.booking-list');
-    bookingListContainer.innerHTML = bookings.length ? bookings.map(createBookingCard).join('') : '<div class="no-bookings-message">You don\'t have any bookings yet.</div>';
+
+    // Ensure bookingListContainer exists before trying to update it
+    if (bookingListContainer) {
+        bookingListContainer.innerHTML = bookings.length ? bookings.map(createBookingCard).join('') : '<div class="no-bookings-message">You don\'t have any bookings yet.</div>';
+    } else {
+        console.error("Booking list container not found!");
+    }
 }
 
 function fetchBookings(url) {
@@ -130,19 +114,24 @@ function fetchBookings(url) {
 }
 
 function fetchAndDisplayBookings() {
-    document.querySelector('.booking-list').innerHTML = '<div class="loading-message">Loading your bookings...</div>';
+    const bookingListContainer = document.querySelector('.booking-list');
 
-    Promise.all([
-        fetchBookings('http://localhost:8080/api/b1/busBooking/getOnlyUserBooking'),
-        fetchBookings('http://localhost:8080/api/v1/vanBooking/getOnlyUserBooking/van'),
-        fetchBookings('http://localhost:8080/api/c1/carBooking/car/getOnlyUserBooking')
-    ])
-        .then(([busBookings, vanBookings, carBookings]) =>
-            renderBookings([...busBookings, ...vanBookings, ...carBookings])
-        )
-        .catch(() =>
-            document.querySelector('.booking-list').innerHTML = '<div class="error-message">Failed to load your bookings. Please try again later.</div>'
-        );
+    // Check if the container exists before attempting to manipulate it
+    if (bookingListContainer) {
+        bookingListContainer.innerHTML = '<div class="loading-message">Loading your bookings...</div>';
+
+        Promise.all([
+            fetchBookings('http://localhost:8080/api/b1/busBooking/getOnlyUserBooking'),
+            fetchBookings('http://localhost:8080/api/v1/vanBooking/getOnlyUserBooking/van'),
+            fetchBookings('http://localhost:8080/api/c1/carBooking/car/getOnlyUserBooking')
+        ])
+            .then(([busBookings, vanBookings, carBookings]) => {
+                const allBookings = [...busBookings, ...vanBookings, ...carBookings];
+                sessionStorage.setItem("allUserBookings", JSON.stringify(allBookings)); // Store globally
+                renderBookings(allBookings);
+            });
+
+    }
 }
 
 function setupFilterButtons() {
@@ -162,24 +151,21 @@ function setupFilterButtons() {
     });
 }
 
+function makePayment(bookingId) {
+    const allBookings = JSON.parse(sessionStorage.getItem("allUserBookings") || "[]");
 
-    function makePayment(bookingId) {
-    console.log("Booking ID:", bookingId);
-    if (bookingId && bookingId.trim() !== "") {
-    sessionStorage.setItem("selectedBookingId", bookingId);
-    window.location.href = "payment.html";
-} else {
-    console.error("Error: Booking ID is invalid or not found!");
-    alert("Error: Booking ID not found!");
+    const selectedBooking = allBookings.find(b => b.id === bookingId);
+    if (selectedBooking) {
+        sessionStorage.setItem("selectedBooking", JSON.stringify(selectedBooking));
+        sessionStorage.setItem("selectedBookingId", bookingId);
+        window.location.href = "paymentSave.html";
+    } else {
+        console.error("Selected booking not found in sessionStorage!");
+    }
 }
-}
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchAndDisplayBookings();
     setupFilterButtons();
-
 });
-
-

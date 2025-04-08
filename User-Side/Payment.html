@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,392 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Travel Booking Payment Gateway</title>
-    <style>
-        :root {
-            --primary-color: #2761B3;
-            --secondary-color: #0d9e5f;
-            --accent-color: #FF9800;
-            --dark-color: #333333;
-            --light-color: #f8f9fa;
-            --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            --border-radius: 10px;
-        }
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 20px;
-            color: var(--dark-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
-            padding: 10px;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #2761B3 0%, #204e8f 100%);
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .card-header h2 {
-            margin: 0;
-            font-weight: 600;
-            font-size: 24px;
-            letter-spacing: 0.5px;
-        }
-
-        .card-header p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .card-body {
-            padding: 30px 25px;
-        }
-
-        .input-group {
-            margin-bottom: 22px;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            padding: 13px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: all 0.3s;
-            box-sizing: border-box;
-            background-color: #fafafa;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(39, 97, 179, 0.1);
-            background-color: #fff;
-        }
-
-        .inline-inputs {
-            display: flex;
-            gap: 15px;
-        }
-
-        .inline-inputs .input-group {
-            flex: 1;
-        }
-
-        button {
-            background: linear-gradient(135deg, #2761B3 0%, #204e8f 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        button:hover {
-            background: linear-gradient(135deg, #204e8f 0%, #1c4580 100%);
-            box-shadow: 0 5px 15px rgba(32, 78, 143, 0.3);
-            transform: translateY(-2px);
-        }
-
-        #result {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            background-color: #e8f0fe;
-            text-align: left;
-            display: none;
-            box-shadow: var(--shadow);
-            font-size: 14px;
-        }
-
-        #result.success {
-            background-color: #e6f4ea;
-            border-left: 4px solid var(--secondary-color);
-        }
-
-        #result.error {
-            background-color: #fce8e6;
-            border-left: 4px solid #ea4335;
-        }
-
-        .card-icon {
-            margin-bottom: 15px;
-            font-size: 40px;
-        }
-
-        .secure-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 25px;
-            color: #666;
-            font-size: 14px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        .secure-badge svg {
-            margin-right: 10px;
-            height: 18px;
-            width: 18px;
-        }
-
-        .payment-methods {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 15px;
-        }
-
-        .payment-methods .method {
-            width: 50px;
-            height: 30px;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            color: #666;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
-    </style>
+    <title>PayHere Sandbox Test</title>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            <div class="card-icon">💳</div>
-            <h2>PayHere Checkout</h2>
-            <p>Complete your transaction securely</p>
-        </div>
-        <div class="card-body">
-            <form id="paymentForm">
-                <div class="input-group">
-                    <label for="PaymentUserId">User ID</label>
-                    <input type="text" id="PaymentUserId" name="PaymentUserId" placeholder="Enter your user ID" required readonly>
-                </div>
-                <div class="input-group">
-                <label for="paymentBookingId">Booking ID:</label>
-                <input type="text" id="paymentBookingId" readonly>
-                </div>
-                <div class="input-group">
-                    <label for="cardName">Cardholder Name</label>
-                    <input type="text" id="cardName" placeholder="As it appears on your card" required>
-                </div>
+<button id="payhere-btn">Pay with PayHere</button>
 
-                <div class="input-group">
-                    <label for="cardNumber">Card Number</label>
-                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
-                </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        payhere.sandbox = true;
 
-                <div class="inline-inputs">
-                    <div class="input-group">
-                        <label for="expiryDate">Expiry Date</label>
-                        <input type="text" id="expiryDate" placeholder="MM/YY" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="cvv">Security Code</label>
-                        <input type="text" id="cvv" placeholder="CVV" required>
-                    </div>
-                </div>
-
-                <div class="inline-inputs">
-                    <div class="input-group">
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount" placeholder="0.00" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="currency">Currency</label>
-                        <select id="currency">
-                            <option value="LKR">LKR</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" id="payButton">
-                    Pay Now
-                    <span class="spinner" id="paymentSpinner"></span>
-                </button>
-            </form>
-
-            <div class="payment-methods">
-                <div class="method">VISA</div>
-                <div class="method">MC</div>
-                <div class="method">AMEX</div>
-                <div class="method">JCB</div>
-            </div>
-
-            <div class="secure-badge">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-                Secured by PayHere | 256-bit encryption
-            </div>
-        </div>
-    </div>
-
-    <div id="result"></div>
-</div>
-
-<!--<script>
-    document.getElementById("paymentForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        // Show spinner
-        const spinner = document.getElementById("paymentSpinner");
-        const payButton = document.getElementById("payButton");
-        spinner.style.display = "inline-block";
-        payButton.disabled = true;
-        payButton.textContent = "Processing...";
-        spinner.style.display = "inline-block";
-
-        let paymentData = {
-            cardName: document.getElementById("cardName").value,
-            cardNumber: document.getElementById("cardNumber").value,
-            expiryDate: document.getElementById("expiryDate").value,
-            cvv: document.getElementById("cvv").value,
-            amount: parseFloat(document.getElementById("amount").value),
-            currency: document.getElementById("currency").value,
-            paymentMethod: "CARD"  // Mock payment method
+        const payment = {
+            merchant_id: "1229897",
+            return_url: "http://localhost:5500/success.html",
+            cancel_url: "http://localhost:5500/cancel.html",
+            notify_url: "http://localhost:8080/notify",
+            order_id: "ORDER123",
+            items: "Test Product",
+            amount: 1000,
+            currency: "LKR",
+            first_name: "Nimal",
+            last_name: "Perera",
+            email: "nimal@gmail.com",
+            phone: "0771234567",
+            address: "No.1, Galle Road",
+            city: "Colombo",
+            country: "Sri Lanka"
         };
 
-        fetch("http://localhost:8080/api/payments/save", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(paymentData)
-        })
-            .then(response => response.json())
-            .then(data => {
-                const resultElement = document.getElementById("result");
-                resultElement.style.display = "block";
+        document.getElementById('payhere-btn').addEventListener('click', function () {
+            payhere.startPayment(payment);
 
-                // Add appropriate class based on status
-                resultElement.className = data.status === "SUCCESS" ? "success" : "error";
-
-                resultElement.innerHTML = `
-                    <p><strong>Transaction ID:</strong> ${data.transactionId}</p>
-                    <p><strong>Status:</strong> ${data.status}</p>
-                    <p><strong>Message:</strong> ${data.message}</p>
-                `;
-
-                // Reset button
-                spinner.style.display = "none";
-                payButton.disabled = false;
-                payButton.textContent = "Pay Now";
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                const resultElement = document.getElementById("result");
-                resultElement.style.display = "block";
-                resultElement.className = "error";
-                resultElement.innerHTML = `
-                    <p><strong>Error:</strong> Unable to process payment</p>
-                    <p>Please try again later or contact support.</p>
-                `;
-
-                // Reset button
-                spinner.style.display = "none";
-                payButton.disabled = false;
-                payButton.textContent = "Pay Now";
-            });
+            //payhere eka cut wela auto form eka open weno
+            setTimeout(function () {
+                window.location.href = "paymentSave.html";
+            }, 2000);
+        });
     });
 
-    // Format card number with spaces
-    document.getElementById("cardNumber").addEventListener("input", function(e) {
-        let value = e.target.value;
-        value = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-        let formattedValue = "";
-        for (let i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formattedValue += " ";
-            }
-            formattedValue += value[i];
-        }
-        e.target.value = formattedValue;
-    });
 
-    // Format expiry date
-    document.getElementById("expiryDate").addEventListener("input", function(e) {
-        let value = e.target.value;
-        value = value.replace(/\D/g, "");
-        if (value.length > 2) {
-            value = value.substring(0, 2) + "/" + value.substring(2, 4);
-        }
-        e.target.value = value;
-    });
+    payhere.onDismissed = function () {
+        console.log("Payment dismissed");
+    };
 
-    // Limit CVV to 3-4 digits
-    document.getElementById("cvv").addEventListener("input", function(e) {
-        let value = e.target.value;
-        e.target.value = value.replace(/\D/g, "").substring(0, 4);
-    });
-</script>-->
-<script src="Js/Payment.js"></script>
+    payhere.onCompleted = function (orderId) {
+        console.log("Payment completed. OrderID:", orderId);
+    };
+
+    payhere.onError = function (error) {
+        console.log("Error occurred:", error);
+    };
+</script>
+
 </body>
 </html>
+-->

@@ -104,21 +104,16 @@
 </div>
 
 <script>
-    // Filter buttons functionality
     document.querySelectorAll('.filter-button').forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all filter buttons
             document.querySelectorAll('.filter-button').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Add active class to clicked button
             this.classList.add('active');
 
-            // Filter logic would go here in a real application
             const filterType = this.textContent.trim().toLowerCase();
 
-            // For demo purposes, we'll just show/hide items
             const bookingItems = document.querySelectorAll('.booking-item');
 
             if (filterType === 'all bookings') {
