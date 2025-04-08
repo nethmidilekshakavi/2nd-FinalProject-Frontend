@@ -158,7 +158,7 @@ function makePayment(bookingId) {
     if (selectedBooking) {
         sessionStorage.setItem("selectedBooking", JSON.stringify(selectedBooking));
         sessionStorage.setItem("selectedBookingId", bookingId);
-        window.location.href = "paymentSave.html";
+        window.location.href = "payment.html";
     } else {
         console.error("Selected booking not found in sessionStorage!");
     }

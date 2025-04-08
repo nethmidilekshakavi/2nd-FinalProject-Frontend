@@ -1,4 +1,3 @@
-/*
 
 
 const express = require('express');
@@ -63,4 +62,3 @@ window.onload = function () {
     }
 }
 
-*/
