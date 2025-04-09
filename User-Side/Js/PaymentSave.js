@@ -1,5 +1,7 @@
 
 let PaymentUser = "";
+let Amount = 0;
+let BookingIdd = 0;
 
 function loadUserIDD() {
     const token = localStorage.getItem('jwtToken');
@@ -45,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const booking = JSON.parse(bookingJson);
         document.getElementById("paymentBookingId").value = booking.id || "";
         document.getElementById("amount").value = booking.price || "";
+        Amount = booking.price
+        BookingIdd = booking.id
     } else {
         console.error("Booking data not found!");
         alert("Booking data not found! Please try again.");
@@ -63,66 +67,50 @@ if (bookingId && bookingJson) {
     console.error("No booking data found!");
 }
 
-/*
+let bookingData = JSON.parse(sessionStorage.getItem('bookingData'));
 
-document.addEventListener("DOMContentLoaded", function () {
-    const paymentForm = document.getElementById("paymentForm");
 
-    paymentForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+$("#paymentForm").on("submit", function (e) {
+    e.preventDefault();
+    $("#payButton").prop("disabled", true);
+    $("#paymentSpinner").show();
 
-        const booking = JSON.parse(sessionStorage.getItem("selectedBooking"));
-        if (!booking) {
-            console.error("No booking selected!");
-            return;
+    const paymentData = {
+        bookingId: BookingIdd,
+        user: PaymentUser,
+        paymentMethod: $("input[name='paymentMethod']:checked").val(),
+        cardName: $("#cardName").val(),
+        cardNumber: $("#cardNumber").val(),
+        expiryDate: $("#expiryDate").val(),
+        cvv: $("#cvv").val(),
+        amount: Amount,
+        currency: $("#currency").val()
+    };
+
+    $.ajax({
+        url: "http://localhost:8080/api/payment/save",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(paymentData),
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+        },
+        success: function (response) {
+            console.error("hiiiii"+paymentData)
+            Swal.fire("Payment Successful!", "Your transaction was completed.", "success");
+            $("#paymentForm")[0].reset();
+            $("#paymentSpinner").hide();
+            $("#payButton").prop("disabled", false);
+
+            // Optionally clear session data if payment is complete
+            sessionStorage.removeItem("bookingId");
+            sessionStorage.removeItem("bookingData");
+        },
+        error: function (xhr, status, error) {
+            Swal.fire("Payment Failed", "Something went wrong. Try again.", "error");
+            console.error("Error response:", xhr.responseText);
+            $("#paymentSpinner").hide();
+            $("#payButton").prop("disabled", false);
         }
-
-        const vehicleId = booking.id;
-        const userId = PaymentUser;
-
-        let paymentData = {
-            user: { id: userId },
-            amount: parseFloat(document.getElementById("amount").value),
-            currency: document.getElementById("currency").value,
-            paymentMethod: "CARD",
-            cardName: document.getElementById("cardName").value,
-            cardNumber: document.getElementById("cardNumber").value,
-            expiryDate: document.getElementById("expiryDate").value,
-            cvv: document.getElementById("cvv").value,
-            busBooking: vehicleId.startsWith('B') ? { id: booking.id } : null,
-            carBooking: vehicleId.startsWith('C') ? { id: booking.id } : null,
-            vanBooking: vehicleId.startsWith('V') ? { id: booking.id } : null
-        };
-
-        document.getElementById("paymentSpinner").style.display = "inline-block";
-
-        fetch("http://localhost:8080/api/payment/save", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(paymentData)
-        })
-            .then(res => res.ok ? res.json() : Promise.reject("Payment save failed"))
-            .then(() => {
-                document.getElementById("paymentSpinner").style.display = "none";
-                Swal.fire({
-                    title: 'Payment Completed!',
-                    text: 'Your payment has been processed successfully.',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    window.location.href = '/receipt-page';
-                });
-            })
-            .catch(err => {
-                console.error("Error saving payment:", err);
-                document.getElementById("paymentSpinner").style.display = "none";
-                Swal.fire({
-                    title: 'Payment Failed!',
-                    text: 'There was an error processing your payment. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
     });
 });
-*/
