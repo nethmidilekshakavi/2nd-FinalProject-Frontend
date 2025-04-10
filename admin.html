@@ -14,10 +14,6 @@
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-
-
-
     <link rel="stylesheet" href="Admin-Side/Css/AdminDashBoard.css">
     <style>
 
@@ -51,11 +47,11 @@
         <ul class="sidebar-menu">
             <li><a href="#mainForm" class="active">Dashboard</a></li>
             <li><a href="#viewBooking">Bookings</a></li>
+            <li><a href="#PaymentView">Payments</a></li>
             <li><a href="#vehicleManagement">Vehicles</a></li>
             <li><a href="#UserManagement">Users</a></li>
             <li><a href="#DriversManagement">Drivers</a></li>
             <li><a href="#InsuranceManagement">Insurance</a></li>
-            <li><a href="">Reports</a></li>
             <li><a href="#">Settings</a></li>
             <br><br><br><br><br><br><br><br>
             <a href=""><button id="logOut">Log Out</button></a>
@@ -460,7 +456,29 @@
         </div>
     </section>
 
+    <section id="PaymentView">
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Payment Management</h2>
+            </div>
 
+            <table>
+                <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>User ID</th>
+                    <th>Booking Id</th>
+                    <th>Price</th>
+                    <th>Payment Method</th>
+                    <th>Date</th>
+                    <th>Option</th>
+                </tr>
+                </thead>
+                <tbody id="paymentViewTable">
+                </tbody>
+            </table>
+        </div>
+    </section>
     <div id="roleEditModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -939,6 +957,24 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div id="assignDriverModal" class="modal" style="display: none;">
+        <div class="modal-content" style="padding: 20px; background: #fff; border-radius: 8px; width: 400px; margin: 100px auto; position: relative;">
+            <span class="close-btn" onclick="closeModal()" style="position: absolute; right: 10px; top: 5px; cursor: pointer;">&times;</span>
+            <h3>Assign Driver</h3>
+            <form id="assignDriverForm">
+                <input type="text" id="paymentId">
+                <input type="text" id="userId">
+
+                <label for="driverSelect">Select Driver:</label>
+                <select id="driverSelect" required style="width: 100%; padding: 8px; margin-bottom: 15px;">
+                    <option value="">Select Driver</option>
+                </select>
+
+                <button type="submit" style="padding: 8px 15px;">Assign</button>
+            </form>
+        </div>
+    </div>
 
 
 <script src="Admin-Side/Js/jquery-3.7.1.min.js"></script>
@@ -953,6 +989,7 @@
 <script src="Admin-Side/Js/UserController.js"></script>
 <script src="User-Side/Js/CarBookingCustomer.js"></script>
 <script src="User-Side/Js/VanBookingCustomer.js"></script>
+<script src="User-Side/Js/Paymentview.js"></script>
 
 
 </div>

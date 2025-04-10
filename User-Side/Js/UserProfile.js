@@ -36,9 +36,9 @@ function createBookingCard(booking) {
         switch (status) {
             case 'confirmed':
                 return ` 
-                    <button class="btn btn-outline">View E-Ticket</button>
-                    <button class="btn btn-primary" onclick="makePayment('${booking.id}')">Make Payment</button>
-                `;
+        <button class="btn btn-outline" id="viewTicketBtn-${booking.id}">View E-Ticket</button>
+        <button class="btn btn-primary" id="payButton-${booking.id}" onclick="makePayment('${booking.id}')">Make Payment</button>
+    `;
             case 'pending':
                 return '<button class="btn btn-outline">Payment Details</button><button class="btn btn-primary">Pending</button>';
             case 'cancelled':
