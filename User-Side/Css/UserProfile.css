@@ -367,3 +367,27 @@ body {
     height: 100px; /* Adjust size */
     border-radius: 50%; /* Makes it circular */
 }
+
+a#editProfileLink {
+    text-decoration: none;
+}
+
+#editProfile {
+    padding: 10px 20px;
+    background-color: #10b981; /* green tone */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#editProfile:hover {
+    background-color: #059669; /* darker green on hover */
+    transform: scale(1.05);
+}
+
+#editProfile:active {
+    transform: scale(0.98);
+}

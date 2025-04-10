@@ -119,14 +119,15 @@ body::before {
 .logo {
     height: 60px;
     width: auto;
+    display: none;
 }
 
 .welcome-text {
     position: absolute;
-    top: 10%;
+    top: 25%;
     left: 40%;
     transform: translateX(-50%);
-    color: white;
+    color: whitesmoke;
     z-index: 2;
     max-width: 500px;
 }
@@ -139,6 +140,7 @@ body::before {
     color: white;
     z-index: 2;
     max-width: 900px;
+
 }
 
 .welcome-text h1 {

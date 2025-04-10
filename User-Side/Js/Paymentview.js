@@ -1,7 +1,6 @@
 $(document).ready(function () {
-    loadPayments(); // Load payments when the page is ready
+    loadPayments();
 
-    // Function to load payment data
     function loadPayments() {
         $.ajax({
             url: "http://localhost:8080/api/payment",
@@ -10,10 +9,10 @@ $(document).ready(function () {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
             },
             success: function (data) {
-                let tbody = $("#paymentViewTable").empty(); // Clear previous data
+                let tbody = $("#paymentViewTable").empty();
                 data.forEach(payment => {
-                    let isCompleted = payment.status === "COMPLETED";  // Check if payment is completed
-                    let buttonText = isCompleted ? "Completed Payment" : "Assign Driver";
+                    let isCompleted = payment.status === "COMPLETED";
+                    let buttonText = payment.status === "COMPLETED" ? "Completed Payment" : "Assign Driver";
                     let buttonStyle = isCompleted
                         ? "background-color: #28a745; cursor: default;"
                         : "background-color: #007bff; cursor: pointer;";
@@ -40,7 +39,6 @@ $(document).ready(function () {
                     `);
                 });
 
-                // Add click handler for the payment button
                 $(".btn-payment").click(function () {
                     let paymentId = $(this).data("payment-id");
                     let userId = $(this).data("user-id");
@@ -48,18 +46,17 @@ $(document).ready(function () {
                     $("#paymentId").val(paymentId);
                     $("#userId").val(userId);
 
-                    loadDriverList(); // Load driver list for assignment
-                    openModal(); // Show the modal
+                    loadDriverList();
+                    openModal();
                 });
             },
             error: function (xhr, status, error) {
                 console.error("Error loading payments:", xhr.responseText || error || status);
-                alert("Error loading payments!");
+                Swal.fire("Error", "Error loading payments!", "error");
             }
         });
     }
 
-    // Function to load driver list
     function loadDriverList() {
         $.ajax({
             url: "http://localhost:8080/api/d1/drivers",
@@ -74,26 +71,22 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr) {
-                alert("Error loading drivers");
+                Swal.fire("Error", "Error loading drivers", "error");
             }
         });
     }
 
-    // Function to open the modal
     function openModal() {
         $("#assignDriverModal").show();
     }
 
-    // Close the modal
     window.closeModal = function () {
         $("#assignDriverModal").hide();
     };
 
-    // Handle form submission for assigning driver
     $("#assignDriverForm").submit(function (e) {
         e.preventDefault();
 
-        // Collect data from modal fields
         const assignedDriverData = {
             payment: $("#paymentId").val(),
             user: $("#userId").val(),
@@ -110,26 +103,35 @@ $(document).ready(function () {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
             },
             success: function () {
-                alert("Driver assigned successfully!");
+                Swal.fire("Success", "Driver assigned successfully!", "success");
                 closeModal();
 
-                // Find the button that triggered the modal (using paymentId)
                 let paymentId = $("#paymentId").val();
 
-                // Find the button with that paymentId
-                const btn = $(`.btn-payment[data-payment-id="${paymentId}"]`);
-
-                // Update the button text, color and disable it
-                btn.text("Completed Payment")
-                    .css({
-                        "background-color": "#28a745",
-                        "cursor": "default"
-                    })
-                    .prop("disabled", true); // Disable the button after success
+                $.ajax({
+                    url: `http://localhost:8080/api/payment/${paymentId}/updateStatus`,
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify({ status: "COMPLETED" }),
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
+                    success: function () {
+                        const btn = $(`.btn-payment[data-payment-id="${paymentId}"]`);
+                        btn.text("Completed Payment")
+                            .css({
+                                "background-color": "#28a745",
+                                "cursor": "default"
+                            })
+                            .prop("disabled", true);
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
             },
             error: function (xhr, status, error) {
                 console.error("Error assigning driver:", xhr.responseText || error || status);
-                alert("Error assigning driver!");
+                Swal.fire("Error", "Error assigning driver!", "error");
             }
         });
     });
