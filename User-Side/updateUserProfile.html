@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>User Profile Update</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,6 +70,7 @@
     <button type="button" id="searchButton">Search</button>
 
     <input type="text" id="username" placeholder="Username" />
+    <input type="text" id="emaill" placeholder="email" />
     <input type="password" id="password" placeholder="Password" />
     <input type="text" id="firstName" placeholder="First Name" />
     <input type="text" id="lastName" placeholder="Last Name" />
@@ -84,131 +87,98 @@
     <button type="submit" id="saveButton">Save</button>
 </form>
 
-<script>$(document).ready(function() {
-    // Search user by email
-    $('#searchButton').click(function() {
-        const email = $('#email').val();
+<script>
+    $(document).ready(function() {
+        // Search user by email
+        $('#searchButton').click(function() {
+            const email = $('#email').val();
 
-        $.ajax({
-            url: `http://localhost:8080/api/v1/user/getUserByEmail?email=${encodeURIComponent(email)}`,
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
-            },
-            success: function(user) {
-                console.log(user);
+            $.ajax({
+                url: `http://localhost:8080/api/v1/user/getUserByEmail?email=${encodeURIComponent(email)}`,
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                },
+                success: function(user) {
+                    console.log(user);
 
-                // Fill the form fields with user data
-                $('#username').val(user.username || "");
-                $('#password').val(""); // password field is intentionally empty for security
-                $('#firstName').val(user.firstName || "");
-                $('#lastName').val(user.lastName || "");
-                $('#phone').val(user.phone || "");
-                $('#address').val(user.address || "");
+                    // Fill the form fields with user data
+                    $('#username').val(user.username || "");
+                    $('#emaill').val(user.email || "");
+                    $('#password').val(""); // password field is intentionally empty for security
+                    $('#firstName').val(user.firstName || "");
+                    $('#lastName').val(user.lastName || "");
+                    $('#phone').val(user.phone || "");
+                    $('#address').val(user.address || "");
 
-                // Handle profile image
-                if (user.image) {
-                    // If the image is available, set the profile image
-                    $('#currentProfileImage').attr('src', `data:image/jpeg;base64,${user.image}`).show();
-                } else {
-                    // If no image, hide the image element
-                    $('#currentProfileImage').hide();
-                }
-            },
-            error: function() {
-                // Handle errors (e.g., user not found or server error)
-                alert("User not found or error occurred.");
-            }
-        });
-    });
-
-    // Save user details
-    $('#userForm').submit(function(event) {
-        event.preventDefault();
-
-        const fileInput = $('#imageUpdatepro')[0];
-        let base64Image = "";
-
-        // Check if an image was selected for update
-        if (fileInput.files.length > 0) {
-            // Wait for the base64 conversion to finish before submitting the form
-            toBase64(fileInput.files[0]).then(base64ImageData => {
-                base64Image = base64ImageData;
-
-                // Prepare user data to be sent
-                const user = {
-                    email: $('#email').val(),
-                    username: $('#username').val(),
-                    password: $('#password').val(),
-                    firstName: $('#firstName').val(),
-                    lastName: $('#lastName').val(),
-                    phone: $('#phone').val(),
-                    address: $('#address').val(),
-                    image: base64Image // Send the Base64 image string
-                };
-
-                // Send the data via AJAX request
-                $.ajax({
-                    url: "http://localhost:8080/api/v1/user/update",
-                    method: 'PUT',
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
-                    },
-                    data: JSON.stringify(user),
-                    success: function() {
-                        alert("User updated successfully!");
-                    },
-                    error: function() {
-                        alert("Error updating user.");
+                    // Handle profile image
+                    if (user.image) {
+                        $('#currentProfileImage').attr('src', `data:image/jpeg;base64,${user.image}`).show();
+                    } else {
+                        $('#currentProfileImage').hide();
                     }
-                });
-            }).catch(error => {
-                console.error("Error converting image to Base64:", error);
-                alert("Error with image conversion.");
+                },
+                error: function() {
+                    // Use SweetAlert to show an error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'User not found',
+                        text: 'An error occurred while fetching the user data.',
+                    });
+                }
             });
-        } else {
-            // If no image is selected, proceed without image
-            const user = {
-                email: $('#email').val(),
-                username: $('#username').val(),
-                password: $('#password').val(),
-                firstName: $('#firstName').val(),
-                lastName: $('#lastName').val(),
-                phone: $('#phone').val(),
-                address: $('#address').val(),
-                image: "" // No image selected
-            };
+        });
 
-            // Send the data via AJAX request
+        $('#userForm').submit(function(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+
+            formData.append('fn', $('#firstName').val());
+            formData.append('ln', $('#lastName').val());
+            formData.append('address', $('#address').val());
+            formData.append('number', $('#phone').val());
+            formData.append('email', $('#email').val());
+            formData.append('pw', $('#password').val());
+            formData.append('un', $('#username').val());
+
+            // Check if an image is selected for update
+            const fileInput = $('#imageUpdatepro')[0];
+            if (fileInput.files.length > 0) {
+                formData.append('image', fileInput.files[0]);
+            } else {
+                formData.append('image', '');
+            }
+
+            // Send the form data via AJAX request
             $.ajax({
                 url: "http://localhost:8080/api/v1/user/update",
                 method: 'PUT',
                 headers: {
-                    "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
                 },
-                data: JSON.stringify(user),
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function() {
-                    alert("User updated successfully!");
+                    // Show success message with SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User updated successfully!',
+                        text: 'The user profile has been updated.',
+                    });
                 },
                 error: function() {
-                    alert("Error updating user.");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User updated successfully!',
+                        text: 'The user profile has been updated.',
+                    });
                 }
             });
-        }
-    });
-
-    // Convert file to Base64
-    function toBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]); // Only get the Base64 string
-            reader.onerror = error => reject(error);
         });
-    }
-});
+
+    });
 </script>
 
 </body>
