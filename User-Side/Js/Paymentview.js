@@ -12,6 +12,13 @@ $(document).ready(function () {
             success: function (data) {
                 let tbody = $("#paymentViewTable").empty(); // Clear previous data
                 data.forEach(payment => {
+                    let isCompleted = payment.status === "COMPLETED";  // Check if payment is completed
+                    let buttonText = isCompleted ? "Completed Payment" : "Assign Driver";
+                    let buttonStyle = isCompleted
+                        ? "background-color: #28a745; cursor: default;"
+                        : "background-color: #007bff; cursor: pointer;";
+                    let buttonDisabled = isCompleted ? "disabled" : "";
+
                     tbody.append(`
                         <tr>
                             <td style="text-align: center;">${payment.id}</td>
@@ -21,10 +28,12 @@ $(document).ready(function () {
                             <td style="text-align: center;">${payment.paymentMethod}</td>
                             <td style="text-align: center;">${payment.date}</td>
                             <td style="text-align: center;">
-                                <button style="color: #ffa500" class="btn btn-payment" 
-                                    data-payment-id="${payment.id}" 
-                                    data-user-id="${payment.user}">
-                                    <i class="fas fa-edit"></i>
+                                <button class="btn btn-payment" 
+                                        style="color: #fff; ${buttonStyle} border: none; padding: 5px 10px; border-radius: 4px;" 
+                                        data-payment-id="${payment.id}" 
+                                        data-user-id="${payment.user}" 
+                                        ${buttonDisabled}>
+                                    ${buttonText}
                                 </button>
                             </td>
                         </tr>
@@ -80,7 +89,7 @@ $(document).ready(function () {
         $("#assignDriverModal").hide();
     };
 
-// Handle form submission for assigning driver
+    // Handle form submission for assigning driver
     $("#assignDriverForm").submit(function (e) {
         e.preventDefault();
 
@@ -103,7 +112,20 @@ $(document).ready(function () {
             success: function () {
                 alert("Driver assigned successfully!");
                 closeModal();
-                loadPayments();
+
+                // Find the button that triggered the modal (using paymentId)
+                let paymentId = $("#paymentId").val();
+
+                // Find the button with that paymentId
+                const btn = $(`.btn-payment[data-payment-id="${paymentId}"]`);
+
+                // Update the button text, color and disable it
+                btn.text("Completed Payment")
+                    .css({
+                        "background-color": "#28a745",
+                        "cursor": "default"
+                    })
+                    .prop("disabled", true); // Disable the button after success
             },
             error: function (xhr, status, error) {
                 console.error("Error assigning driver:", xhr.responseText || error || status);
@@ -111,5 +133,4 @@ $(document).ready(function () {
             }
         });
     });
-
-})
+});
