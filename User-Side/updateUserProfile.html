@@ -4,91 +4,303 @@
     <meta charset="UTF-8">
     <title>User Profile Update</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Include SweetAlert library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        #userForm {
+        .container {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            width: 320px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 40px 30px;
+            width: 35%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
         }
 
-        #userForm input {
-            padding: 10px;
-            border: 1px solid #ccc;
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        #currentProfileImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            color: #c3c3c3;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: #3b82f6;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #2563eb;
+        }
+
+        .profile-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .profile-description {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .search-container {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        #email {
+            flex: 1;
+        }
+
+        #userForm .form-group {
+            margin-bottom: 20px;
+        }
+
+        #userForm .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #4b5563;
+        }
+
+        #userForm input[type="text"],
+        #userForm input[type="email"],
+        #userForm input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
             font-size: 14px;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         #userForm input:focus {
             outline: none;
             border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
 
-        #userForm button {
-            padding: 10px;
+        #userForm input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 12px 20px;
             background-color: #3b82f6;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 15px;
-            transition: background-color 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        #userForm button:hover {
+        button:hover {
             background-color: #2563eb;
+            transform: translateY(-2px);
         }
 
-        #currentProfileImage {
-            max-width: 200px;
-            height: auto;
+        #searchButton {
+            background-color: #6366f1;
+        }
+
+        #searchButton:hover {
+            background-color: #4f46e5;
+        }
+
+        #saveButton {
+            width: 100%;
             margin-top: 10px;
-            display: none;
+            background-color: #10b981;
+        }
+
+        #saveButton:hover {
+            background-color: #059669;
+        }
+
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 30px 20px;
+            }
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
 <body>
 
-<form id="userForm" enctype="multipart/form-data">
-    <input type="email" id="email" placeholder="Enter email" required />
-    <button type="button" id="searchButton">Search</button>
-
-    <input type="text" id="username" placeholder="Username" />
-    <input type="text" id="emaill" placeholder="email" />
-    <input type="password" id="password" placeholder="Password" />
-    <input type="text" id="firstName" placeholder="First Name" />
-    <input type="text" id="lastName" placeholder="Last Name" />
-    <input type="text" id="phone" placeholder="Phone" />
-    <input type="text" id="address" placeholder="Address" />
-
-    <img id="currentProfileImage" src="" alt="Profile Image" style="max-width: 200px; display: none;">
-
-    <div class="form-group">
-        <label for="imageUpdatepro">Image</label>
-        <input type="file" id="imageUpdatepro" name="image" accept="image/*" />
+<div class="container">
+    <div class="sidebar">
+        <div class="profile-image-container">
+            <img id="currentProfileImage" src="" alt="Profile" style="display: none;">
+            <div class="image-placeholder" id="imagePlaceholder">
+                <i class="fas fa-user"></i>
+            </div>
+            <label class="upload-btn" for="imageUpdatepro">
+                <i class="fas fa-camera" style="color: black;"></i>
+                <input type="file" id="imageUpdatepro" name="image" accept="image/*" />
+            </label>
+        </div>
+        <h2 class="profile-title">Profile Update</h2>
+        <p class="profile-description">Update your personal information and profile picture</p>
     </div>
 
-    <button type="submit" id="saveButton">Save</button>
-</form>
+    <div class="main-content">
+        <form id="userForm" enctype="multipart/form-data">
+            <div class="search-container">
+                <input type="email" id="email" placeholder="Enter email to search" required />
+                <button type="button" id="searchButton">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" placeholder="First Name" />
+                </div>
+                <div class="col form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Last Name" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Username" />
+                </div>
+                <div class="col form-group">
+                    <label for="emaill">Email</label>
+                    <input type="text" id="emaill" placeholder="Email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Leave blank to keep current password" />
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" placeholder="Phone Number" />
+                </div>
+                <div class="col form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" placeholder="Address" />
+                </div>
+            </div>
+
+            <button type="submit" id="saveButton">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
+        </form>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
+        // Preview image when selected
+        $('#imageUpdatepro').change(function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#currentProfileImage').attr('src', e.target.result).show();
+                    $('#imagePlaceholder').hide();
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
         // Search user by email
         $('#searchButton').click(function() {
             const email = $('#email').val();
@@ -114,8 +326,10 @@
                     // Handle profile image
                     if (user.image) {
                         $('#currentProfileImage').attr('src', `data:image/jpeg;base64,${user.image}`).show();
+                        $('#imagePlaceholder').hide();
                     } else {
                         $('#currentProfileImage').hide();
+                        $('#imagePlaceholder').show();
                     }
                 },
                 error: function() {
@@ -177,7 +391,6 @@
                 }
             });
         });
-
     });
 </script>
 

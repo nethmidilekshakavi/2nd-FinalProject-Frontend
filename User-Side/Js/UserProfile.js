@@ -1,7 +1,7 @@
 let pickUpLocation = "";
 let pickUpTime = "";
 let DropLocation = "";
-let DropTime = "";
+let Dropime = "";
 let Amount = 0;
 
 function createBookingCard(booking) {
